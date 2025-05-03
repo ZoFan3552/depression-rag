@@ -49,12 +49,12 @@ const WARN_PERFORMANCE = [
 ];
 
 const LLM_DEFAULT = {
-  name: "System Default",
+  name: "系统默认",
   value: "none",
   logo: AnythingLLMIcon,
   options: () => <React.Fragment />,
   description:
-    "Agents will use the workspace or system LLM unless otherwise specified.",
+    "代理机器人会默认使用系统或工作区的，除非未进行设置",
   requiredConfig: [],
 };
 

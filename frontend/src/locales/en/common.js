@@ -1,924 +1,923 @@
 const TRANSLATIONS = {
   onboarding: {
     home: {
-      title: "Welcome to",
-      getStarted: "Get Started",
+      title: "欢迎使用",
+      getStarted: "开始使用",
     },
     llm: {
-      title: "LLM Preference",
+      title: "语言模型偏好设置",
       description:
-        "AnythingLLM can work with many LLM providers. This will be the service which handles chatting.",
+        "抑郁症专家知识库系统可以与多种语言模型提供商协同工作。这将是处理聊天服务的核心。",
     },
     userSetup: {
-      title: "User Setup",
-      description: "Configure your user settings.",
-      howManyUsers: "How many users will be using this instance?",
-      justMe: "Just me",
-      myTeam: "My team",
-      instancePassword: "Instance Password",
-      setPassword: "Would you like to set up a password?",
-      passwordReq: "Passwords must be at least 8 characters.",
+      title: "用户设置",
+      description: "配置您的用户设置。",
+      howManyUsers: "有多少用户将使用此实例？",
+      justMe: "仅我自己",
+      myTeam: "我的团队",
+      instancePassword: "实例密码",
+      setPassword: "您想要设置密码吗？",
+      passwordReq: "密码必须至少包含8个字符。",
       passwordWarn:
-        "It's important to save this password because there is no recovery method.",
+        "请务必保存此密码，因为没有恢复方法。",
 
-      adminUsername: "Admin account username",
+      adminUsername: "管理员账户用户名",
       adminUsernameReq:
-        "Username must be at least 6 characters long and only contain lowercase letters, numbers, underscores, and hyphens with no spaces.",
-      adminPassword: "Admin account password",
-      adminPasswordReq: "Passwords must be at least 8 characters.",
+        "用户名必须至少包含6个字符，且只能包含小写字母、数字、下划线和连字符，不能有空格。",
+      adminPassword: "管理员账户密码",
+      adminPasswordReq: "密码必须至少包含8个字符。",
       teamHint:
-        "By default, you will be the only admin. Once onboarding is completed you can create and invite others to be users or admins. Do not lose your password as only admins can reset passwords.",
+        "默认情况下，您将是唯一的管理员。完成入职后，您可以创建并邀请其他人成为用户或管理员。请勿丢失您的密码，因为只有管理员可以重置密码。",
     },
     data: {
-      title: "Data Handling & Privacy",
+      title: "数据处理与隐私",
       description:
-        "We are committed to transparency and control when it comes to your personal data.",
+        "我们致力于在处理您的个人数据时保持透明度和控制权。",
       settingsHint:
-        "These settings can be reconfigured at any time in the settings.",
+        "这些设置可以随时在设置页面重新配置。",
     },
     survey: {
-      title: "Welcome to AnythingLLM",
-      description: "Help us make AnythingLLM built for your needs. Optional.",
+      title: "欢迎使用抑郁症专家知识库系统",
+      description: "帮助我们打造适合您需求的抑郁症专家知识库系统。（可选）",
 
-      email: "What's your email?",
-      useCase: "What will you use AnythingLLM for?",
-      useCaseWork: "For work",
-      useCasePersonal: "For personal use",
-      useCaseOther: "Other",
-      comment: "How did you hear about AnythingLLM?",
+      email: "您的电子邮箱是？",
+      useCase: "您将如何使用抑郁症专家知识库系统？",
+      useCaseWork: "工作用途",
+      useCasePersonal: "个人用途",
+      useCaseOther: "其他",
+      comment: "您是如何了解到抑郁症专家知识库系统的？",
       commentPlaceholder:
-        "Reddit, Twitter, GitHub, YouTube, etc. - Let us know how you found us!",
-      skip: "Skip Survey",
-      thankYou: "Thank you for your feedback!",
+        "Reddit、Twitter、GitHub、YouTube等 - 请告诉我们您是如何找到我们的！",
+      skip: "跳过调查",
+      thankYou: "感谢您的反馈！",
     },
     workspace: {
-      title: "Create your first workspace",
+      title: "创建您的第一个工作区",
       description:
-        "Create your first workspace and get started with AnythingLLM.",
+        "创建您的第一个工作区并开始使用抑郁症专家知识库系统。",
     },
   },
   common: {
-    "workspaces-name": "Workspaces Name",
-    error: "error",
-    success: "success",
-    user: "User",
-    selection: "Model Selection",
-    saving: "Saving...",
-    save: "Save changes",
-    previous: "Previous Page",
-    next: "Next Page",
-    optional: "Optional",
-    yes: "Yes",
-    no: "No",
+    "workspaces-name": "工作区名称",
+    error: "错误",
+    success: "成功",
+    user: "用户",
+    selection: "模型选择",
+    saving: "正在保存...",
+    save: "保存更改",
+    previous: "上一页",
+    next: "下一页",
+    optional: "可选",
+    yes: "是",
+    no: "否",
   },
 
-  // Setting Sidebar menu items.
+  // 设置侧边栏菜单项
   settings: {
-    title: "Instance Settings",
-    system: "General Settings",
-    invites: "Invites",
-    users: "Users",
-    workspaces: "Workspaces",
-    "workspace-chats": "Workspace Chats",
-    customization: "Customization",
-    interface: "UI Preferences",
-    branding: "Branding & Whitelabeling",
-    chat: "Chat",
-    "api-keys": "Developer API",
-    llm: "LLM",
-    transcription: "Transcription",
-    embedder: "Embedder",
-    "text-splitting": "Text Splitter & Chunking",
-    "voice-speech": "Voice & Speech",
-    "vector-database": "Vector Database",
-    embeds: "Chat Embed",
-    "embed-chats": "Chat Embed History",
-    security: "Security",
-    "event-logs": "Event Logs",
-    privacy: "Privacy & Data",
-    "ai-providers": "AI Providers",
-    "agent-skills": "Agent Skills",
-    admin: "Admin",
-    tools: "Tools",
-    "system-prompt-variables": "System Prompt Variables",
-    "experimental-features": "Experimental Features",
-    contact: "Contact Support",
-    "browser-extension": "Browser Extension",
+    title: "实例设置",
+    system: "通用设置",
+    invites: "邀请",
+    users: "用户",
+    workspaces: "工作区",
+    "workspace-chats": "工作区聊天",
+    customization: "个性化设置",
+    interface: "界面设置",
+    branding: "品牌与白标",
+    chat: "聊天设置",
+    "api-keys": "开发者API",
+    llm: "语言模型",
+    transcription: "转录",
+    embedder: "嵌入引擎",
+    "text-splitting": "文本分割与分块",
+    "voice-speech": "语音与朗读",
+    "vector-database": "向量数据库",
+    embeds: "聊天嵌入",
+    "embed-chats": "聊天嵌入历史",
+    security: "安全",
+    "event-logs": "事件日志",
+    privacy: "隐私与数据",
+    "ai-providers": "AI提供商",
+    "agent-skills": "抑郁症专家智能助手技能",
+    admin: "管理员",
+    tools: "工具",
+    "system-prompt-variables": "系统提示变量",
+    "experimental-features": "实验性功能",
+    contact: "联系支持",
+    "browser-extension": "浏览器扩展",
   },
 
-  // Page Definitions
+  // 页面定义
   login: {
     "multi-user": {
-      welcome: "Welcome to",
-      "placeholder-username": "Username",
-      "placeholder-password": "Password",
-      login: "Login",
-      validating: "Validating...",
-      "forgot-pass": "Forgot password",
-      reset: "Reset",
+      welcome: "欢迎使用",
+      "placeholder-username": "用户名",
+      "placeholder-password": "密码",
+      login: "登录",
+      validating: "验证中...",
+      "forgot-pass": "忘记密码",
+      reset: "重置",
     },
     "sign-in": {
-      start: "Sign in to your",
-      end: "account.",
+      start: "登录到您的",
+      end: "账户。",
     },
     "password-reset": {
-      title: "Password Reset",
+      title: "密码重置",
       description:
-        "Provide the necessary information below to reset your password.",
-      "recovery-codes": "Recovery Codes",
-      "recovery-code": "Recovery Code {{index}}",
-      "back-to-login": "Back to Login",
+        "请提供以下必要信息以重置您的密码。",
+      "recovery-codes": "恢复代码",
+      "recovery-code": "恢复代码 {{index}}",
+      "back-to-login": "返回登录",
     },
   },
 
   welcomeMessage: {
     part1:
-      "Welcome to AnythingLLM, AnythingLLM is an open-source AI tool by Mintplex Labs that turns anything into a trained chatbot you can query and chat with. AnythingLLM is a BYOK (bring-your-own-keys) software so there is no subscription, fee, or charges for this software outside of the services you want to use with it.",
+      "欢迎使用抑郁症专家知识库系统，这是一个可以将任何内容转变为可查询和聊天的训练型聊天机器人的开源AI工具。抑郁症专家知识库系统采用BYOK（自带密钥）方式，因此除了您想要使用的服务外，本软件不收取任何订阅费、费用或收费。",
     part2:
-      "AnythingLLM is the easiest way to put powerful AI products like OpenAi, GPT-4, LangChain, PineconeDB, ChromaDB, and other services together in a neat package with no fuss to increase your productivity by 100x.",
+      "抑郁症专家知识库系统是将强大的AI产品如OpenAI、GPT-4、LangChain、PineconeDB、ChromaDB和其他服务整合在一起的最简单方式，无需复杂设置，让您的工作效率提高100倍。",
     part3:
-      "AnythingLLM can run totally locally on your machine with little overhead you wont even notice it's there! No GPU needed. Cloud and on-premises installation is available as well.\nThe AI tooling ecosystem gets more powerful everyday. AnythingLLM makes it easy to use.",
-    githubIssue: "Create an issue on GitHub",
-    user1: "How do I get started?!",
+      "抑郁症专家知识库系统可以完全在您的本地机器上运行，几乎不会占用资源，您甚至不会注意到它的存在！无需GPU。同样支持云端和本地安装。\nAI工具生态系统每天都在变得更加强大。抑郁症专家知识库系统让使用变得简单。",
+    githubIssue: "在GitHub上创建问题",
+    user1: "我该如何开始？",
     part4:
-      "It's simple. All collections are organized into buckets we call \"Workspaces\". Workspaces are buckets of files, documents, images, PDFs, and other files which will be transformed into something LLM's can understand and use in conversation.\n\nYou can add and remove files at anytime.",
-    createWorkspace: "Create your first workspace",
+      "很简单。所有的收集内容都组织在我们称为”工作区“的存储桶中。工作区是文件、文档、图像、PDF和其他文件的存储桶，这些将被转换为语言模型可以理解并在对话中使用的内容。\n\n您可以随时添加和删除文件。",
+    createWorkspace: "创建您的第一个工作区",
     user2:
-      "Is this like an AI dropbox or something? What about chatting? It is a chatbot isn't it?",
+      "这是一种AI文件盒或类似的东西吗？那聊天呢？它不是一个聊天机器人吗？",
     part5:
-      "AnythingLLM is more than a smarter Dropbox.\n\nAnythingLLM offers two ways of talking with your data:\n\n<i>Query:</i> Your chats will return data or inferences found with the documents in your workspace it has access to. Adding more documents to the Workspace make it smarter! \n\n<i>Conversational:</i> Your documents + your on-going chat history both contribute to the LLM knowledge at the same time. Great for appending real-time text-based info or corrections and misunderstandings the LLM might have. \n\nYou can toggle between either mode \n<i>in the middle of chatting!</i>",
-    user3: "Wow, this sounds amazing, let me try it out already!",
-    part6: "Have Fun!",
-    starOnGitHub: "Star on GitHub",
-    contact: "Contact Mintplex Labs",
+      "抑郁症专家知识库系统不仅仅是一个更智能的文件盒。\n\n抑郁症专家知识库系统提供两种与您的数据交流的方式：\n\n<i>查询模式：</i>您的聊天将返回在工作区文档中找到的数据或推断。添加更多文档到工作区会使它变得更智能！\n\n<i>对话模式：</i>您的文档和正在进行的聊天历史同时为语言模型知识做出贡献。非常适合追加实时基于文本的信息或纠正语言模型可能有的误解。\n\n您可以在<i>聊天过程中</i>切换这两种模式！",
+    user3: "哇，这听起来很棒，让我立即试试！",
+    part6: "祝您使用愉快！",
+    starOnGitHub: "在GitHub上加星标",
+    contact: "联系我们",
   },
 
   "main-page": {
-    noWorkspaceError: "Please create a workspace before starting a chat.",
+    noWorkspaceError: "请在开始聊天前创建一个工作区。",
     checklist: {
-      title: "Getting Started",
-      tasksLeft: "tasks left",
-      completed: "You're on your way to becoming an AnythingLLM expert!",
-      dismiss: "close",
+      title: "入门指南",
+      tasksLeft: "剩余任务",
+      completed: "您正在成为抑郁症专家知识库系统专家的路上！",
+      dismiss: "关闭",
       tasks: {
         create_workspace: {
-          title: "Create a workspace",
-          description: "Create your first workspace to get started",
-          action: "Create",
+          title: "创建工作区",
+          description: "创建您的第一个工作区以开始使用",
+          action: "创建",
         },
         send_chat: {
-          title: "Send a chat",
-          description: "Start a conversation with your AI assistant",
-          action: "Chat",
+          title: "发送聊天",
+          description: "开始与您的AI助手对话",
+          action: "聊天",
         },
         embed_document: {
-          title: "Embed a document",
-          description: "Add your first document to your workspace",
-          action: "Embed",
+          title: "嵌入文档",
+          description: "添加您的第一个文档到工作区",
+          action: "嵌入",
         },
         setup_system_prompt: {
-          title: "Set up a system prompt",
-          description: "Configure your AI assistant's behavior",
-          action: "Set Up",
+          title: "设置系统提示",
+          description: "配置您的AI助手行为",
+          action: "设置",
         },
         define_slash_command: {
-          title: "Define a slash command",
-          description: "Create custom commands for your assistant",
-          action: "Define",
+          title: "定义斜杠命令",
+          description: "为您的助手创建自定义命令",
+          action: "定义",
         },
         visit_community: {
-          title: "Visit Community Hub",
-          description: "Explore community resources and templates",
-          action: "Browse",
+          title: "访问社区中心",
+          description: "探索社区资源和模板",
+          action: "浏览",
         },
       },
     },
     quickLinks: {
-      title: "Quick Links",
-      sendChat: "Send Chat",
-      embedDocument: "Embed a Document",
-      createWorkspace: "Create Workspace",
+      title: "快速链接",
+      sendChat: "发送聊天",
+      embedDocument: "嵌入文档",
+      createWorkspace: "创建工作区",
     },
     exploreMore: {
-      title: "Explore more features",
+      title: "探索更多功能",
       features: {
         customAgents: {
-          title: "Custom AI Agents",
-          description: "Build powerful AI Agents and automations with no code.",
-          primaryAction: "Chat using @agent",
-          secondaryAction: "Build an agent flow",
+          title: "自定义AI抑郁症专家智能助手",
+          description: "无需编码构建强大的AI抑郁症专家智能助手和自动化流程。",
+          primaryAction: "使用@agent聊天",
+          secondaryAction: "构建抑郁症专家智能助手流程",
         },
         slashCommands: {
-          title: "Slash Commands",
+          title: "斜杠命令",
           description:
-            "Save time and inject prompts using custom slash commands.",
-          primaryAction: "Create a Slash Command",
-          secondaryAction: "Explore on Hub",
+            "使用自定义斜杠命令节省时间并注入提示。",
+          primaryAction: "创建斜杠命令",
+          secondaryAction: "在社区中探索",
         },
         systemPrompts: {
-          title: "System Prompts",
+          title: "系统提示",
           description:
-            "Modify the system prompt to customize the AI replies of a workspace.",
-          primaryAction: "Modify a System Prompt",
-          secondaryAction: "Manage prompt variables",
+            "修改系统提示以自定义工作区的AI回复。",
+          primaryAction: "修改系统提示",
+          secondaryAction: "管理提示变量",
         },
       },
     },
     announcements: {
-      title: "Updates & Announcements",
+      title: "更新与公告",
     },
     resources: {
-      title: "Resources",
+      title: "资源",
       links: {
-        docs: "Docs",
-        star: "Star on Github",
+        docs: "文档",
+        star: "在GitHub上加星标",
       },
     },
   },
 
   "new-workspace": {
-    title: "New Workspace",
-    placeholder: "My Workspace",
+    title: "新工作区",
+    placeholder: "我的工作区",
   },
 
-  // Workspace Settings menu items
+  // 工作区设置菜单项
   "workspaces—settings": {
-    general: "General Settings",
-    chat: "Chat Settings",
-    vector: "Vector Database",
-    members: "Members",
-    agent: "Agent Configuration",
+    general: "通用设置",
+    chat: "聊天设置",
+    vector: "向量数据库",
+    members: "成员",
+    agent: "抑郁症专家智能助手配置",
   },
 
-  // General Appearance
+  // 通用外观
   general: {
     vector: {
-      title: "Vector Count",
-      description: "Total number of vectors in your vector database.",
+      title: "向量数量",
+      description: "您的向量数据库中的向量总数。",
     },
     names: {
-      description: "This will only change the display name of your workspace.",
+      description: "这只会更改工作区的显示名称。",
     },
     message: {
-      title: "Suggested Chat Messages",
+      title: "建议的聊天消息",
       description:
-        "Customize the messages that will be suggested to your workspace users.",
-      add: "Add new message",
-      save: "Save Messages",
-      heading: "Explain to me",
-      body: "the benefits of AnythingLLM",
+        "自定义将向工作区用户建议的消息。",
+      add: "添加新消息",
+      save: "保存消息",
+      heading: "向我解释",
+      body: "抑郁症专家知识库系统的好处",
     },
     pfp: {
-      title: "Assistant Profile Image",
+      title: "助手个人形象",
       description:
-        "Customize the profile image of the assistant for this workspace.",
-      image: "Workspace Image",
-      remove: "Remove Workspace Image",
+        "为该工作区的助手自定义个人形象。",
+      image: "工作区图像",
+      remove: "移除工作区图像",
     },
     delete: {
-      title: "Delete Workspace",
+      title: "删除工作区",
       description:
-        "Delete this workspace and all of its data. This will delete the workspace for all users.",
-      delete: "Delete Workspace",
-      deleting: "Deleting Workspace...",
-      "confirm-start": "You are about to delete your entire",
+        "删除此工作区及其所有数据。这将为所有用户删除工作区。",
+      delete: "删除工作区",
+      deleting: "正在删除工作区...",
+      "confirm-start": "您即将删除整个",
       "confirm-end":
-        "workspace. This will remove all vector embeddings in your vector database.\n\nThe original source files will remain untouched. This action is irreversible.",
+        "工作区。这将移除向量数据库中的所有向量嵌入。\n\n原始源文件将保持不变。此操作不可逆。",
     },
   },
 
-  // Chat Settings
+  // 聊天设置
   chat: {
     llm: {
-      title: "Workspace LLM Provider",
+      title: "工作区语言模型提供商",
       description:
-        "The specific LLM provider & model that will be used for this workspace. By default, it uses the system LLM provider and settings.",
-      search: "Search all LLM providers",
+        "将用于此工作区的特定语言模型提供商和模型。默认情况下，它使用系统语言模型提供商和设置。",
+      search: "搜索所有语言模型提供商",
     },
     model: {
-      title: "Workspace Chat model",
+      title: "工作区聊天模型",
       description:
-        "The specific chat model that will be used for this workspace. If empty, will use the system LLM preference.",
-      wait: "-- waiting for models --",
+        "将用于此工作区的特定聊天模型。如果为空，将使用系统语言模型偏好。",
+      wait: "-- 等待模型加载 --",
     },
     mode: {
-      title: "Chat mode",
+      title: "聊天模式",
       chat: {
-        title: "Chat",
-        "desc-start": "will provide answers with the LLM's general knowledge",
-        and: "and",
-        "desc-end": "document context that is found.",
+        title: "聊天",
+        "desc-start": "将使用语言模型的通用知识",
+        and: "和",
+        "desc-end": "找到的文档上下文提供答案。",
       },
       query: {
-        title: "Query",
-        "desc-start": "will provide answers",
-        only: "only",
-        "desc-end": "if document context is found.",
+        title: "查询",
+        "desc-start": "将",
+        only: "仅",
+        "desc-end": "在找到文档上下文时提供答案。",
       },
     },
     history: {
-      title: "Chat History",
+      title: "聊天历史",
       "desc-start":
-        "The number of previous chats that will be included in the response's short-term memory.",
-      recommend: "Recommend 20. ",
+        "将包含在响应短期记忆中的先前聊天数量。",
+      recommend: "建议20条。",
       "desc-end":
-        "Anything more than 45 is likely to lead to continuous chat failures depending on message size.",
+        "超过45条可能会导致持续的聊天失败，具体取决于消息大小。",
     },
     prompt: {
-      title: "Prompt",
+      title: "提示",
       description:
-        "The prompt that will be used on this workspace. Define the context and instructions for the AI to generate a response. You should to provide a carefully crafted prompt so the AI can generate a relevant and accurate response.",
+        "将在此工作区使用的提示。为AI定义上下文和指令以生成响应。您应该提供精心设计的提示，以便AI生成相关且准确的响应。",
     },
     refusal: {
-      title: "Query mode refusal response",
-      "desc-start": "When in",
-      query: "query",
+      title: "查询模式拒绝响应",
+      "desc-start": "当处于",
+      query: "查询",
       "desc-end":
-        "mode, you may want to return a custom refusal response when no context is found.",
+        "模式时，您可能希望在未找到上下文时返回自定义拒绝响应。",
     },
     temperature: {
-      title: "LLM Temperature",
+      title: "语言模型温度",
       "desc-start":
-        'This setting controls how "creative" your LLM responses will be.',
+        "此设置控制您的语言模型响应的”创造性“程度。",
       "desc-end":
-        "The higher the number the more creative. For some models this can lead to incoherent responses when set too high.",
-      hint: "Most LLMs have various acceptable ranges of valid values. Consult your LLM provider for that information.",
+        "数字越高，创造性越强。对于某些模型，如果设置得太高，可能会导致不连贯的响应。",
+      hint: "大多数语言模型有各种可接受的有效值范围。请咨询您的语言模型提供商获取该信息。",
     },
   },
 
-  // Vector Database
+  // 向量数据库
   "vector-workspace": {
-    identifier: "Vector database identifier",
+    identifier: "向量数据库标识符",
     snippets: {
-      title: "Max Context Snippets",
+      title: "最大上下文片段",
       description:
-        "This setting controls the maximum amount of context snippets the will be sent to the LLM for per chat or query.",
-      recommend: "Recommended: 4",
+        "此设置控制每次聊天或查询将发送给语言模型的最大上下文片段数量。",
+      recommend: "推荐：4",
     },
     doc: {
-      title: "Document similarity threshold",
+      title: "文档相似度阈值",
       description:
-        "The minimum similarity score required for a source to be considered related to the chat. The higher the number, the more similar the source must be to the chat.",
-      zero: "No restriction",
-      low: "Low (similarity score ≥ .25)",
-      medium: "Medium (similarity score ≥ .50)",
-      high: "High (similarity score ≥ .75)",
+        "将源视为与聊天相关所需的最低相似度分数。数字越高，源必须与聊天越相似。",
+      zero: "无限制",
+      low: "低（相似度分数 ≥ .25）",
+      medium: "中（相似度分数 ≥ .50）",
+      high: "高（相似度分数 ≥ .75）",
     },
     reset: {
-      reset: "Reset Vector Database",
-      resetting: "Clearing vectors...",
+      reset: "重置向量数据库",
+      resetting: "正在清除向量...",
       confirm:
-        "You are about to reset this workspace's vector database. This will remove all vector embeddings currently embedded.\n\nThe original source files will remain untouched. This action is irreversible.",
-      error: "Workspace vector database could not be reset!",
-      success: "Workspace vector database was reset!",
+        "您即将重置此工作区的向量数据库。这将移除当前嵌入的所有向量嵌入。\n\n原始源文件将保持不变。此操作不可逆。",
+      error: "工作区向量数据库无法重置！",
+      success: "工作区向量数据库已重置！",
     },
   },
 
-  // Agent Configuration
+  // 抑郁症专家智能助手配置
   agent: {
     "performance-warning":
-      "Performance of LLMs that do not explicitly support tool-calling is highly dependent on the model's capabilities and accuracy. Some abilities may be limited or non-functional.",
+      "不明确支持工具调用的语言模型的性能高度依赖于模型的能力和准确性。某些功能可能受限或无法正常工作。",
     provider: {
-      title: "Workspace Agent LLM Provider",
+      title: "工作区抑郁症专家智能助手语言模型提供商",
       description:
-        "The specific LLM provider & model that will be used for this workspace's @agent agent.",
+        "将用于此工作区@agent抑郁症专家智能助手的特定语言模型提供商和模型。",
     },
     mode: {
       chat: {
-        title: "Workspace Agent Chat model",
+        title: "工作区抑郁症专家智能助手聊天模型",
         description:
-          "The specific chat model that will be used for this workspace's @agent agent.",
+          "将用于此工作区@agent抑郁症专家智能助手的特定聊天模型。",
       },
-      title: "Workspace Agent model",
+      title: "工作区抑郁症专家智能助手模型",
       description:
-        "The specific LLM model that will be used for this workspace's @agent agent.",
-      wait: "-- waiting for models --",
+        "将用于此工作区@agent抑郁症专家智能助手的特定语言模型。",
+      wait: "-- 等待模型加载 --",
     },
 
     skill: {
-      title: "Default agent skills",
+      title: "默认抑郁症专家智能助手技能",
       description:
-        "Improve the natural abilities of the default agent with these pre-built skills. This set up applies to all workspaces.",
+        "使用这些预建技能提升默认抑郁症专家智能助手的自然能力。此设置适用于所有工作区。",
       rag: {
-        title: "RAG & long-term memory",
+        title: "RAG和长期记忆",
         description:
-          'Allow the agent to leverage your local documents to answer a query or ask the agent to "remember" pieces of content for long-term memory retrieval.',
+          "允许抑郁症专家智能助手利用您的本地文档回答查询，或要求抑郁症专家智能助手”记住“内容片段以便长期记忆检索。",
       },
       view: {
-        title: "View & summarize documents",
+        title: "查看和总结文档",
         description:
-          "Allow the agent to list and summarize the content of workspace files currently embedded.",
+          "允许抑郁症专家智能助手列出和总结当前嵌入的工作区文件内容。",
       },
       scrape: {
-        title: "Scrape websites",
+        title: "抓取网站",
         description:
-          "Allow the agent to visit and scrape the content of websites.",
+          "允许抑郁症专家智能助手访问并抓取网站内容。",
       },
       generate: {
-        title: "Generate charts",
+        title: "生成图表",
         description:
-          "Enable the default agent to generate various types of charts from data provided or given in chat.",
+          "使默认抑郁症专家智能助手能够从提供的数据或聊天中给出的数据生成各种类型的图表。",
       },
       save: {
-        title: "Generate & save files to browser",
+        title: "生成并保存文件到浏览器",
         description:
-          "Enable the default agent to generate and write to files that save and can be downloaded in your browser.",
+          "使默认抑郁症专家智能助手能够生成并写入可在浏览器中保存和下载的文件。",
       },
       web: {
-        title: "Live web search and browsing",
+        title: "实时网络搜索和浏览",
         "desc-start":
-          "Enable your agent to search the web to answer your questions by connecting to a web-search (SERP) provider.",
+          "通过连接到网络搜索（SERP）提供商，使您的抑郁症专家智能助手能够搜索网络以回答您的问题。",
         "desc-end":
-          "Web search during agent sessions will not work until this is set up.",
+          "在设置完成之前，抑郁症专家智能助手会话期间的网络搜索将无法工作。",
       },
     },
   },
 
-  // Workspace Chats
+  // 工作区聊天
   recorded: {
-    title: "Workspace Chats",
+    title: "工作区聊天",
     description:
-      "These are all the recorded chats and messages that have been sent by users ordered by their creation date.",
-    export: "Export",
+      "这些是所有由用户发送的记录聊天和消息，按创建日期排序。",
+    export: "导出",
     table: {
-      id: "Id",
-      by: "Sent By",
-      workspace: "Workspace",
-      prompt: "Prompt",
-      response: "Response",
-      at: "Sent At",
+      id: "ID",
+      by: "发送者",
+      workspace: "工作区",
+      prompt: "提示",
+      response: "响应",
+      at: "发送时间",
     },
   },
 
   customization: {
     interface: {
-      title: "UI Preferences",
-      description: "Set your UI preferences for AnythingLLM.",
+      title: "界面设置",
+      description: "自定义应用程序的界面外观与行为"
     },
     branding: {
-      title: "Branding & Whitelabeling",
+      title: "品牌与白标",
       description:
-        "White-label your AnythingLLM instance with custom branding.",
+        "使用自定义品牌为您的抑郁症专家知识库系统实例进行白标处理。",
     },
     chat: {
-      title: "Chat",
-      description: "Set your chat preferences for AnythingLLM.",
+      title: "聊天设置",
+      description: "配置您的抑郁症专家知识库系统聊天偏好。",
       auto_submit: {
-        title: "Auto-Submit Speech Input",
-        description:
-          "Automatically submit speech input after a period of silence",
+        title: "自动提交语音输入",
+        description: "在一段时间的静默后自动提交语音输入"
       },
       auto_speak: {
-        title: "Auto-Speak Responses",
-        description: "Automatically speak responses from the AI",
-      },
+        title: "自动朗读回复",
+        description: "自动朗读AI助手的回复内容"
+      }
     },
     items: {
       theme: {
-        title: "Theme",
-        description: "Select your preferred color theme for the application.",
+        title: "主题",
+        description: "选择您偏好的应用程序颜色主题。",
       },
       "show-scrollbar": {
-        title: "Show Scrollbar",
-        description: "Enable or disable the scrollbar in the chat window.",
+        title: "聊天界面滚动条",
+        description: "控制聊天界面是否显示滚动条",
       },
       "support-email": {
-        title: "Support Email",
+        title: "支持邮箱",
         description:
-          "Set the support email address that should be accessible by users when they need help.",
+          "设置用户需要帮助时应可访问的支持邮箱地址。",
       },
       "app-name": {
-        title: "Name",
+        title: "名称",
         description:
-          "Set a name that is displayed on the login page to all users.",
+          "设置在登录页面上向所有用户显示的名称。",
       },
       "chat-message-alignment": {
-        title: "Chat Message Alignment",
+        title: "聊天消息布局",
         description:
-          "Select the message alignment mode when using the chat interface.",
+          "选择聊天时的消息是否保持同侧",
       },
       "display-language": {
-        title: "Display Language",
+        title: "显示语言",
         description:
-          "Select the preferred language to render AnythingLLM's UI in - when translations are available.",
+          "选择渲染抑郁症专家知识库系统界面的首选语言（当翻译可用时）。",
       },
       logo: {
-        title: "Brand Logo",
-        description: "Upload your custom logo to showcase on all pages.",
-        add: "Add a custom logo",
-        recommended: "Recommended size: 800 x 200",
-        remove: "Remove",
-        replace: "Replace",
+        title: "品牌标志",
+        description: "上传您的自定义标志以在所有页面上展示。",
+        add: "添加自定义标志",
+        recommended: "推荐尺寸：800 x 200",
+        remove: "移除",
+        replace: "替换",
       },
       "welcome-messages": {
-        title: "Welcome Messages",
+        title: "欢迎消息",
         description:
-          "Customize the welcome messages displayed to your users. Only non-admin users will see these messages.",
-        new: "New",
-        system: "system",
-        user: "user",
-        message: "message",
-        assistant: "AnythingLLM Chat Assistant",
-        "double-click": "Double click to edit...",
-        save: "Save Messages",
+          "自定义向用户显示的欢迎消息。只有非管理员用户会看到这些消息。",
+        new: "新建",
+        system: "系统",
+        user: "用户",
+        message: "消息",
+        assistant: "抑郁症专家聊天助手",
+        "double-click": "双击编辑...",
+        save: "保存消息",
       },
       "browser-appearance": {
-        title: "Browser Appearance",
+        title: "浏览器外观",
         description:
-          "Customize the appearance of the browser tab and title when the app is open.",
+          "自定义应用程序打开时浏览器标签和标题的外观。",
         tab: {
-          title: "Title",
+          title: "标题",
           description:
-            "Set a custom tab title when the app is open in a browser.",
+            "当应用程序在浏览器中打开时设置自定义标签标题。",
         },
         favicon: {
-          title: "Favicon",
-          description: "Use a custom favicon for the browser tab.",
+          title: "网站图标",
+          description: "为浏览器标签使用自定义网站图标。",
         },
       },
       "sidebar-footer": {
-        title: "Sidebar Footer Items",
+        title: "侧边栏底部项目",
         description:
-          "Customize the footer items displayed on the bottom of the sidebar.",
-        icon: "Icon",
-        link: "Link",
+          "自定义侧边栏底部显示的底部项目。",
+        icon: "图标",
+        link: "链接",
       },
     },
   },
 
-  // API Keys
+  // API密钥
   api: {
-    title: "API Keys",
+    title: "API密钥",
     description:
-      "API keys allow the holder to programmatically access and manage this AnythingLLM instance.",
-    link: "Read the API documentation",
-    generate: "Generate New API Key",
+      "API密钥允许持有者以编程方式访问和管理此抑郁症专家知识库系统实例。",
+    link: "阅读API文档",
+    generate: "生成新API密钥",
     table: {
-      key: "API Key",
-      by: "Created By",
-      created: "Created",
+      key: "API密钥",
+      by: "创建者",
+      created: "创建时间",
     },
   },
 
   llm: {
-    title: "LLM Preference",
+    title: "语言模型偏好",
     description:
-      "These are the credentials and settings for your preferred LLM chat & embedding provider. Its important these keys are current and correct or else AnythingLLM will not function properly.",
-    provider: "LLM Provider",
+      "这些是您首选的语言模型聊天和嵌入提供商的凭据和设置。这些密钥必须是最新和正确的，否则抑郁症专家知识库系统将无法正常运行。",
+    provider: "语言模型提供商",
   },
 
   transcription: {
-    title: "Transcription Model Preference",
+    title: "转录模型偏好",
     description:
-      "These are the credentials and settings for your preferred transcription model provider. Its important these keys are current and correct or else media files and audio will not transcribe.",
-    provider: "Transcription Provider",
+      "这些是您首选的转录模型提供商的凭据和设置。这些密钥必须是最新和正确的，否则媒体文件和音频将无法转录。",
+    provider: "转录提供商",
     "warn-start":
-      "Using the local whisper model on machines with limited RAM or CPU can stall AnythingLLM when processing media files.",
+      "在RAM或CPU有限的机器上使用本地Whisper模型处理媒体文件时可能会使抑郁症专家知识库系统停滞。",
     "warn-recommend":
-      "We recommend at least 2GB of RAM and upload files <10Mb.",
+      "我们建议至少有2GB的RAM，并上传小于10Mb的文件。",
     "warn-end":
-      "The built-in model will automatically download on the first use.",
+      "内置模型将在首次使用时自动下载。",
   },
 
   embedding: {
-    title: "Embedding Preference",
+    title: "嵌入偏好",
     "desc-start":
-      "When using an LLM that does not natively support an embedding engine - you may need to additionally specify credentials to for embedding text.",
+      "当使用不原生支持嵌入引擎的语言模型时，您可能需要额外指定嵌入文本的凭据。",
     "desc-end":
-      "Embedding is the process of turning text into vectors. These credentials are required to turn your files and prompts into a format which AnythingLLM can use to process.",
+      "嵌入是将文本转换为向量的过程。这些凭据是将您的文件和提示转换为抑郁症专家知识库系统可使用的格式所必需的。",
     provider: {
-      title: "Embedding Provider",
+      title: "嵌入提供商",
       description:
-        "There is no set up required when using AnythingLLM's native embedding engine.",
+        "使用抑郁症专家知识库系统的原生嵌入引擎时不需要设置。",
     },
   },
 
   text: {
-    title: "Text splitting & Chunking Preferences",
+    title: "文本分割和分块偏好",
     "desc-start":
-      "Sometimes, you may want to change the default way that new documents are split and chunked before being inserted into your vector database.",
+      "有时，您可能想要更改在将新文档插入向量数据库之前分割和分块的默认方式。",
     "desc-end":
-      "You should only modify this setting if you understand how text splitting works and it's side effects.",
-    "warn-start": "Changes here will only apply to",
-    "warn-center": "newly embedded documents",
-    "warn-end": ", not existing documents.",
+      "只有在您了解文本分割的工作原理及其副作用时才应修改此设置。",
+    "warn-start": "这里的更改将仅适用于",
+    "warn-center": "新嵌入的文档",
+    "warn-end": "，而非现有文档。",
     size: {
-      title: "Text Chunk Size",
+      title: "文本块大小",
       description:
-        "This is the maximum length of characters that can be present in a single vector.",
-      recommend: "Embed model maximum length is",
+        "这是单个向量中可以存在的最大字符长度。",
+      recommend: "嵌入模型最大长度为",
     },
 
     overlap: {
-      title: "Text Chunk Overlap",
+      title: "文本块重叠",
       description:
-        "This is the maximum overlap of characters that occurs during chunking between two adjacent text chunks.",
+        "这是在分块期间两个相邻文本块之间发生的最大字符重叠。",
     },
   },
 
-  // Vector Database
+  // 向量数据库
   vector: {
-    title: "Vector Database",
+    title: "向量数据库",
     description:
-      "These are the credentials and settings for how your AnythingLLM instance will function. It's important these keys are current and correct.",
+      "这些是您的抑郁症专家知识库系统实例如何运行的凭据和设置。这些密钥必须是最新和正确的。",
     provider: {
-      title: "Vector Database Provider",
-      description: "There is no configuration needed for LanceDB.",
+      title: "向量数据库提供商",
+      description: "LanceDB不需要配置。",
     },
   },
 
-  // Embeddable Chat Widgets
+  // 可嵌入聊天小部件
   embeddable: {
-    title: "Embeddable Chat Widgets",
+    title: "可嵌入聊天小部件",
     description:
-      "Embeddable chat widgets are public facing chat interfaces that are tied to a single workspace. These allow you to build workspaces that then you can publish to the world.",
-    create: "Create embed",
+      "可嵌入聊天小部件是与单个工作区绑定的面向公众的聊天界面。这些允许您构建可以发布到全世界的工作区。",
+    create: "创建嵌入",
     table: {
-      workspace: "Workspace",
-      chats: "Sent Chats",
-      Active: "Active Domains",
+      workspace: "工作区",
+      chats: "已发送聊天",
+      Active: "活跃域名",
     },
   },
 
   "embed-chats": {
-    title: "Embed Chats",
-    export: "Export",
+    title: "嵌入聊天记录",
+    export: "导出",
     description:
-      "These are all the recorded chats and messages from any embed that you have published.",
+      "这些是来自您发布的任何嵌入的所有记录聊天和消息。",
     table: {
-      embed: "Embed",
-      sender: "Sender",
-      message: "Message",
-      response: "Response",
-      at: "Sent At",
+      embed: "嵌入",
+      sender: "发送者",
+      message: "消息",
+      response: "回复",
+      at: "发送时间",
     },
   },
 
   multi: {
-    title: "Multi-User Mode",
+    title: "多用户模式",
     description:
-      "Set up your instance to support your team by activating Multi-User Mode.",
+      "通过激活多用户模式为您的团队设置实例。",
     enable: {
-      "is-enable": "Multi-User Mode is Enabled",
-      enable: "Enable Multi-User Mode",
+      "is-enable": "多用户模式已启用",
+      enable: "启用多用户模式",
       description:
-        "By default, you will be the only admin. As an admin you will need to create accounts for all new users or admins. Do not lose your password as only an Admin user can reset passwords.",
-      username: "Admin account username",
-      password: "Admin account password",
+        "默认情况下，您将是唯一的管理员。作为管理员，您需要为所有新用户或管理员创建账户。请勿丢失您的密码，因为只有管理员用户可以重置密码。",
+      username: "管理员账户用户名",
+      password: "管理员账户密码",
     },
     password: {
-      title: "Password Protection",
+      title: "密码保护",
       description:
-        "Protect your AnythingLLM instance with a password. If you forget this there is no recovery method so ensure you save this password.",
+        "使用密码保护您的抑郁症专家知识库系统实例。如果您忘记了密码，将没有恢复方法，所以请确保保存此密码。",
     },
     instance: {
-      title: "Password Protect Instance",
+      title: "密码保护实例",
       description:
-        "By default, you will be the only admin. As an admin you will need to create accounts for all new users or admins. Do not lose your password as only an Admin user can reset passwords.",
-      password: "Instance password",
+        "默认情况下，您将是唯一的管理员。作为管理员，您需要为所有新用户或管理员创建账户。请勿丢失您的密码，因为只有管理员用户可以重置密码。",
+      password: "实例密码",
     },
   },
 
-  // Event Logs
+  // 事件日志
   event: {
-    title: "Event Logs",
+    title: "事件日志",
     description:
-      "View all actions and events happening on this instance for monitoring.",
-    clear: "Clear Event Logs",
+      "查看此实例上发生的所有操作和事件以进行监控。",
+    clear: "清除事件日志",
     table: {
-      type: "Event Type",
-      user: "User",
-      occurred: "Occurred At",
+      type: "事件类型",
+      user: "用户",
+      occurred: "发生时间",
     },
   },
 
-  // Privacy & Data-Handling
+  // 隐私与数据处理
   privacy: {
-    title: "Privacy & Data-Handling",
+    title: "隐私与数据处理",
     description:
-      "This is your configuration for how connected third party providers and AnythingLLM handle your data.",
-    llm: "LLM Selection",
-    embedding: "Embedding Preference",
-    vector: "Vector Database",
-    anonymous: "Anonymous Telemetry Enabled",
+      "这是您关于已连接的第三方提供商和抑郁症专家知识库系统如何处理您的数据的配置。",
+    llm: "语言模型选择",
+    embedding: "嵌入偏好",
+    vector: "向量数据库",
+    anonymous: "已启用匿名遥测",
   },
 
   connectors: {
-    "search-placeholder": "Search data connectors",
-    "no-connectors": "No data connectors found.",
+    "search-placeholder": "搜索数据连接器",
+    "no-connectors": "未找到数据连接器。",
     github: {
-      name: "GitHub Repo",
+      name: "GitHub仓库",
       description:
-        "Import an entire public or private GitHub repository in a single click.",
-      URL: "GitHub Repo URL",
-      URL_explained: "Url of the GitHub repo you wish to collect.",
-      token: "GitHub Access Token",
-      optional: "optional",
-      token_explained: "Access Token to prevent rate limiting.",
-      token_explained_start: "Without a ",
-      token_explained_link1: "Personal Access Token",
+        "一键导入整个公共或私有GitHub仓库。",
+      URL: "GitHub仓库URL",
+      URL_explained: "您希望收集的GitHub仓库的URL。",
+      token: "GitHub访问令牌",
+      optional: "可选",
+      token_explained: "访问令牌可防止限速。",
+      token_explained_start: "没有",
+      token_explained_link1: "个人访问令牌",
       token_explained_middle:
-        ", the GitHub API may limit the number of files that can be collected due to rate limits. You can ",
-      token_explained_link2: "create a temporary Access Token",
-      token_explained_end: " to avoid this issue.",
-      ignores: "File Ignores",
+        "，GitHub API可能会由于速率限制而限制可以收集的文件数量。您可以",
+      token_explained_link2: "创建临时访问令牌",
+      token_explained_end: "来避免此问题。",
+      ignores: "文件忽略",
       git_ignore:
-        "List in .gitignore format to ignore specific files during collection. Press enter after each entry you want to save.",
+        "以.gitignore格式列出，在收集过程中忽略特定文件。输入每个条目后按回车保存。",
       task_explained:
-        "Once complete, all files will be available for embedding into workspaces in the document picker.",
-      branch: "Branch you wish to collect files from.",
-      branch_loading: "-- loading available branches --",
-      branch_explained: "Branch you wish to collect files from.",
+        "完成后，所有文件将在文档选择器中可用于嵌入到工作区中。",
+      branch: "您希望收集文件的分支。",
+      branch_loading: "-- 正在加载可用分支 --",
+      branch_explained: "您希望收集文件的分支。",
       token_information:
-        "Without filling out the <b>GitHub Access Token</b> this data connector will only be able to collect the <b>top-level</b> files of the repo due to GitHub's public API rate-limits.",
+        "如果不填写<b>GitHub访问令牌</b>，由于GitHub公共API的速率限制，此数据连接器将只能收集仓库的<b>顶层</b>文件。",
       token_personal:
-        "Get a free Personal Access Token with a GitHub account here.",
+        "在此处使用GitHub账户获取免费个人访问令牌。",
     },
     gitlab: {
-      name: "GitLab Repo",
+      name: "GitLab仓库",
       description:
-        "Import an entire public or private GitLab repository in a single click.",
-      URL: "GitLab Repo URL",
-      URL_explained: "URL of the GitLab repo you wish to collect.",
-      token: "GitLab Access Token",
-      optional: "optional",
-      token_explained: "Access Token to prevent rate limiting.",
+        "一键导入整个公共或私有GitLab仓库。",
+      URL: "GitLab仓库URL",
+      URL_explained: "您希望收集的GitLab仓库的URL。",
+      token: "GitLab访问令牌",
+      optional: "可选",
+      token_explained: "访问令牌可防止限速。",
       token_description:
-        "Select additional entities to fetch from the GitLab API.",
-      token_explained_start: "Without a ",
-      token_explained_link1: "Personal Access Token",
+        "选择要从GitLab API获取的其他实体。",
+      token_explained_start: "没有",
+      token_explained_link1: "个人访问令牌",
       token_explained_middle:
-        ", the GitLab API may limit the number of files that can be collected due to rate limits. You can ",
-      token_explained_link2: "create a temporary Access Token",
-      token_explained_end: " to avoid this issue.",
-      fetch_issues: "Fetch Issues as Documents",
-      ignores: "File Ignores",
+        "，GitLab API可能会由于速率限制而限制可以收集的文件数量。您可以",
+      token_explained_link2: "创建临时访问令牌",
+      token_explained_end: "来避免此问题。",
+      fetch_issues: "将问题获取为文档",
+      ignores: "文件忽略",
       git_ignore:
-        "List in .gitignore format to ignore specific files during collection. Press enter after each entry you want to save.",
+        "以.gitignore格式列出，在收集过程中忽略特定文件。输入每个条目后按回车保存。",
       task_explained:
-        "Once complete, all files will be available for embedding into workspaces in the document picker.",
-      branch: "Branch you wish to collect files from",
-      branch_loading: "-- loading available branches --",
-      branch_explained: "Branch you wish to collect files from.",
+        "完成后，所有文件将在文档选择器中可用于嵌入到工作区中。",
+      branch: "您希望收集文件的分支",
+      branch_loading: "-- 正在加载可用分支 --",
+      branch_explained: "您希望收集文件的分支。",
       token_information:
-        "Without filling out the <b>GitLab Access Token</b> this data connector will only be able to collect the <b>top-level</b> files of the repo due to GitLab's public API rate-limits.",
+        "如果不填写<b>GitLab访问令牌</b>，由于GitLab公共API的速率限制，此数据连接器将只能收集仓库的<b>顶层</b>文件。",
       token_personal:
-        "Get a free Personal Access Token with a GitLab account here.",
+        "在此处使用GitLab账户获取免费个人访问令牌。",
     },
     youtube: {
-      name: "YouTube Transcript",
+      name: "YouTube转录",
       description:
-        "Import the transcription of an entire YouTube video from a link.",
-      URL: "YouTube Video URL",
+        "从链接导入整个YouTube视频的转录。",
+      URL: "YouTube视频URL",
       URL_explained_start:
-        "Enter the URL of any YouTube video to fetch its transcript. The video must have ",
-      URL_explained_link: "closed captions",
-      URL_explained_end: " available.",
+        "输入任何YouTube视频的URL以获取其转录。该视频必须有",
+      URL_explained_link: "字幕",
+      URL_explained_end: "可用。",
       task_explained:
-        "Once complete, the transcript will be available for embedding into workspaces in the document picker.",
-      language: "Transcript Language",
+        "完成后，转录将在文档选择器中可用于嵌入到工作区中。",
+      language: "转录语言",
       language_explained:
-        "Select the language of the transcript you want to collect.",
-      loading_languages: "-- loading available languages --",
+        "选择您想要收集的转录的语言。",
+      loading_languages: "-- 正在加载可用语言 --",
     },
     "website-depth": {
-      name: "Bulk Link Scraper",
-      description: "Scrape a website and its sub-links up to a certain depth.",
-      URL: "Website URL",
-      URL_explained: "URL of the website you want to scrape.",
-      depth: "Crawl Depth",
+      name: "批量链接抓取器",
+      description: "抓取网站及其子链接，直至特定深度。",
+      URL: "网站URL",
+      URL_explained: "您想要抓取的网站的URL。",
+      depth: "爬取深度",
       depth_explained:
-        "This is the number of child-links that the worker should follow from the origin URL.",
-      max_pages: "Maximum Pages",
-      max_pages_explained: "Maximum number of links to scrape.",
+        "这是工作者应从原始URL跟踪的子链接数量。",
+      max_pages: "最大页面数",
+      max_pages_explained: "要抓取的最大链接数。",
       task_explained:
-        "Once complete, all scraped content will be available for embedding into workspaces in the document picker.",
+        "完成后，所有抓取的内容将在文档选择器中可用于嵌入到工作区中。",
     },
     confluence: {
       name: "Confluence",
-      description: "Import an entire Confluence page in a single click.",
-      deployment_type: "Confluence deployment type",
+      description: "一键导入整个Confluence页面。",
+      deployment_type: "Confluence部署类型",
       deployment_type_explained:
-        "Determine if your Confluence instance is hosted on Atlassian cloud or self-hosted.",
-      base_url: "Confluence base URL",
-      base_url_explained: "This is the base URL of your Confluence space.",
-      space_key: "Confluence space key",
+        "确定您的Confluence实例是托管在Atlassian云上还是自托管。",
+      base_url: "Confluence基础URL",
+      base_url_explained: "这是您的Confluence空间的基础URL。",
+      space_key: "Confluence空间键",
       space_key_explained:
-        "This is the spaces key of your confluence instance that will be used. Usually begins with ~",
-      username: "Confluence Username",
-      username_explained: "Your Confluence username",
-      auth_type: "Confluence Auth Type",
+        "这是将使用的您的Confluence实例的空间键。通常以~开头",
+      username: "Confluence用户名",
+      username_explained: "您的Confluence用户名",
+      auth_type: "Confluence认证类型",
       auth_type_explained:
-        "Select the authentication type you want to use to access your Confluence pages.",
-      auth_type_username: "Username and Access Token",
-      auth_type_personal: "Personal Access Token",
-      token: "Confluence Access Token",
+        "选择您要用来访问Confluence页面的认证类型。",
+      auth_type_username: "用户名和访问令牌",
+      auth_type_personal: "个人访问令牌",
+      token: "Confluence访问令牌",
       token_explained_start:
-        "You need to provide an access token for authentication. You can generate an access token",
-      token_explained_link: "here",
-      token_desc: "Access token for authentication",
-      pat_token: "Confluence Personal Access Token",
-      pat_token_explained: "Your Confluence personal access token.",
+        "您需要提供访问令牌进行认证。您可以",
+      token_explained_link: "在此处",
+      token_desc: "用于认证的访问令牌",
+      pat_token: "Confluence个人访问令牌",
+      pat_token_explained: "您的Confluence个人访问令牌。",
       task_explained:
-        "Once complete, the page content will be available for embedding into workspaces in the document picker.",
+        "完成后，页面内容将在文档选择器中可用于嵌入到工作区中。",
     },
 
     manage: {
-      documents: "Documents",
-      "data-connectors": "Data Connectors",
+      documents: "文档",
+      "data-connectors": "数据连接器",
       "desktop-only":
-        "Editing these settings are only available on a desktop device. Please access this page on your desktop to continue.",
-      dismiss: "Dismiss",
-      editing: "Editing",
+        "编辑这些设置仅在桌面设备上可用。请在桌面上访问此页面继续。",
+      dismiss: "关闭",
+      editing: "正在编辑",
     },
     directory: {
-      "my-documents": "My Documents",
-      "new-folder": "New Folder",
-      "search-document": "Search for document",
-      "no-documents": "No Documents",
-      "move-workspace": "Move to Workspace",
-      name: "Name",
+      "my-documents": "我的文档",
+      "new-folder": "新建文件夹",
+      "search-document": "搜索文档",
+      "no-documents": "没有文档",
+      "move-workspace": "移动到工作区",
+      name: "名称",
       "delete-confirmation":
-        "Are you sure you want to delete these files and folders?\nThis will remove the files from the system and remove them from any existing workspaces automatically.\nThis action is not reversible.",
+        "您确定要删除这些文件和文件夹吗？\n这将从系统中移除文件，并自动从任何现有工作区中删除它们。\n此操作不可逆。",
       "removing-message":
-        "Removing {{count}} documents and {{folderCount}} folders. Please wait.",
-      "move-success": "Successfully moved {{count}} documents.",
-      date: "Date",
-      type: "Type",
-      no_docs: "No Documents",
-      select_all: "Select All",
-      deselect_all: "Deselect All",
-      remove_selected: "Remove Selected",
-      costs: "*One time cost for embeddings",
-      save_embed: "Save and Embed",
+        "正在移除{{count}}个文档和{{folderCount}}个文件夹。请稍候。",
+      "move-success": "成功移动{{count}}个文档。",
+      date: "日期",
+      type: "类型",
+      no_docs: "没有文档",
+      select_all: "全选",
+      deselect_all: "取消全选",
+      remove_selected: "移除所选",
+      costs: "*嵌入的一次性费用",
+      save_embed: "保存并嵌入",
     },
     upload: {
-      "processor-offline": "Document Processor Unavailable",
+      "processor-offline": "文档处理器不可用",
       "processor-offline-desc":
-        "We can't upload your files right now because the document processor is offline. Please try again later.",
-      "click-upload": "Click to upload or drag and drop",
+        "我们现在无法上传您的文件，因为文档处理器处于离线状态。请稍后再试。",
+      "click-upload": "点击上传或拖放",
       "file-types":
-        "supports text files, csv's, spreadsheets, audio files, and more!",
-      "or-submit-link": "or submit a link",
+        "支持文本文件、CSV文件、电子表格、音频文件等！",
+      "or-submit-link": "或提交链接",
       "placeholder-link": "https://example.com",
-      fetching: "Fetching...",
-      "fetch-website": "Fetch website",
+      fetching: "正在获取...",
+      "fetch-website": "获取网站",
       "privacy-notice":
-        "These files will be uploaded to the document processor running on this AnythingLLM instance. These files are not sent or shared with a third party.",
+        "这些文件将上传到在此抑郁症专家知识库系统实例上运行的文档处理器。这些文件不会发送或与第三方共享。",
     },
     pinning: {
-      what_pinning: "What is document pinning?",
+      what_pinning: "什么是文档固定？",
       pin_explained_block1:
-        "When you <b>pin</b> a document in AnythingLLM we will inject the entire content of the document into your prompt window for your LLM to fully comprehend.",
+        "当您在抑郁症专家知识库系统中<b>固定</b>文档时，我们会将文档的全部内容注入到您的提示窗口中，以便您的语言模型完全理解。",
       pin_explained_block2:
-        "This works best with <b>large-context models</b> or small files that are critical to its knowledge-base.",
+        "这对<b>大上下文模型</b>或对其知识库至关重要的小文件效果最佳。",
       pin_explained_block3:
-        "If you are not getting the answers you desire from AnythingLLM by default then pinning is a great way to get higher quality answers in a click.",
-      accept: "Okay, got it",
+        "如果您默认情况下无法从抑郁症专家知识库系统获得满意的答案，那么固定是一种通过点击获得更高质量答案的好方法。",
+      accept: "好的，明白了",
     },
     watching: {
-      what_watching: "What does watching a document do?",
+      what_watching: "监视文档有什么作用？",
       watch_explained_block1:
-        "When you <b>watch</b> a document in AnythingLLM we will <i>automatically</i> sync your document content from it's original source on regular intervals. This will automatically update the content in every workspace where this file is managed.",
+        "当您在抑郁症专家知识库系统中<b>监视</b>文档时，我们将以固定间隔<i>自动</i>从其原始来源同步您的文档内容。这将自动更新该文件被管理的每个工作区中的内容。",
       watch_explained_block2:
-        "This feature currently supports online-based content and will not be available for manually uploaded documents.",
+        "此功能目前支持基于在线的内容，不适用于手动上传的文档。",
       watch_explained_block3_start:
-        "You can manage what documents are watched from the ",
-      watch_explained_block3_link: "File manager",
-      watch_explained_block3_end: " admin view.",
-      accept: "Okay, got it",
+        "您可以在",
+      watch_explained_block3_link: "文件管理器",
+      watch_explained_block3_end: "管理视图中管理被监视的文档。",
+      accept: "好的，明白了",
     },
   },
 
   chat_window: {
-    welcome: "Welcome to your new workspace.",
-    get_started: "To get started either",
-    get_started_default: "To get started",
-    upload: "upload a document",
-    or: "or",
-    send_chat: "send a chat.",
-    send_message: "Send a message",
-    attach_file: "Attach a file to this chat",
-    slash: "View all available slash commands for chatting.",
-    agents: "View all available agents you can use for chatting.",
-    text_size: "Change text size.",
-    microphone: "Speak your prompt.",
-    send: "Send prompt message to workspace",
+    welcome: "欢迎来到您的新工作区",
+    get_started: "开始使用",
+    get_started_default: "开始使用",
+    upload: "上传文档",
+    or: "或",
+    send_chat: "发送聊天",
+    send_message: "发送消息",
+    attach_file: "附加文件到此聊天",
+    slash: "查看所有可用的斜杠命令",
+    agents: "查看所有可用的抑郁症专家智能助手",
+    text_size: "更改文本大小",
+    microphone: "说出您的提示",
+    send: "发送提示消息到工作区",
   },
 
   profile_settings: {
-    edit_account: "Edit Account",
-    profile_picture: "Profile Picture",
-    remove_profile_picture: "Remove Profile Picture",
-    username: "Username",
+    edit_account: "编辑账户",
+    profile_picture: "个人头像",
+    remove_profile_picture: "移除个人头像",
+    username: "用户名",
     username_description:
-      "Username must be only contain lowercase letters, numbers, underscores, and hyphens with no spaces",
-    new_password: "New Password",
-    passwort_description: "Password must be at least 8 characters long",
-    cancel: "Cancel",
-    update_account: "Update Account",
-    theme: "Theme Preference",
-    language: "Preferred language",
+      "用户名必须只包含小写字母、数字、下划线和连字符，不能有空格",
+    new_password: "新密码",
+    passwort_description: "密码必须至少包含8个字符",
+    cancel: "取消",
+    update_account: "更新账户",
+    theme: "主题偏好",
+    language: "首选语言",
   },
 };
 

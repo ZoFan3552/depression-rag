@@ -3,39 +3,11 @@ import System from "@/models/system";
 import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
 import OpenAiLogo from "@/media/llmprovider/openai.png";
 import GenericOpenAiLogo from "@/media/llmprovider/generic-openai.png";
-import AzureOpenAiLogo from "@/media/llmprovider/azure.png";
-import AnthropicLogo from "@/media/llmprovider/anthropic.png";
-import GeminiLogo from "@/media/llmprovider/gemini.png";
 import OllamaLogo from "@/media/llmprovider/ollama.png";
-import TogetherAILogo from "@/media/llmprovider/togetherai.png";
-import FireworksAILogo from "@/media/llmprovider/fireworksai.jpeg";
-import NvidiaNimLogo from "@/media/llmprovider/nvidia-nim.png";
-import LMStudioLogo from "@/media/llmprovider/lmstudio.png";
-import LocalAiLogo from "@/media/llmprovider/localai.png";
-import MistralLogo from "@/media/llmprovider/mistral.jpeg";
-import HuggingFaceLogo from "@/media/llmprovider/huggingface.png";
-import PerplexityLogo from "@/media/llmprovider/perplexity.png";
-import OpenRouterLogo from "@/media/llmprovider/openrouter.jpeg";
-import NovitaLogo from "@/media/llmprovider/novita.png";
-import GroqLogo from "@/media/llmprovider/groq.png";
-import KoboldCPPLogo from "@/media/llmprovider/koboldcpp.png";
-import TextGenWebUILogo from "@/media/llmprovider/text-generation-webui.png";
-import LiteLLMLogo from "@/media/llmprovider/litellm.png";
-import AWSBedrockLogo from "@/media/llmprovider/bedrock.png";
 import DeepSeekLogo from "@/media/llmprovider/deepseek.png";
-import APIPieLogo from "@/media/llmprovider/apipie.png";
-import XAILogo from "@/media/llmprovider/xai.png";
-import CohereLogo from "@/media/llmprovider/cohere.png";
-import ZillizLogo from "@/media/vectordbs/zilliz.png";
-import AstraDBLogo from "@/media/vectordbs/astraDB.png";
 import ChromaLogo from "@/media/vectordbs/chroma.png";
-import PineconeLogo from "@/media/vectordbs/pinecone.png";
 import LanceDbLogo from "@/media/vectordbs/lancedb.png";
-import WeaviateLogo from "@/media/vectordbs/weaviate.png";
 import QDrantLogo from "@/media/vectordbs/qdrant.png";
-import MilvusLogo from "@/media/vectordbs/milvus.png";
-import VoyageAiLogo from "@/media/embeddingprovider/voyageai.png";
-import PPIOLogo from "@/media/llmprovider/ppio.png";
 
 import React, { useState, useEffect } from "react";
 import paths from "@/utils/paths";
@@ -46,193 +18,29 @@ export const LLM_SELECTION_PRIVACY = {
   openai: {
     name: "OpenAI",
     description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to OpenAI",
+      "您的聊天内容不会被用于训练",
+      "您的提示和用于创建回复的文档文本对OpenAI可见",
     ],
     logo: OpenAiLogo,
-  },
-  azure: {
-    name: "Azure OpenAI",
-    description: [
-      "Your chats will not be used for training",
-      "Your text and embedding text are not visible to OpenAI or Microsoft",
-    ],
-    logo: AzureOpenAiLogo,
-  },
-  anthropic: {
-    name: "Anthropic",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to Anthropic",
-    ],
-    logo: AnthropicLogo,
-  },
-  gemini: {
-    name: "Google Gemini",
-    description: [
-      "Your chats are de-identified and used in training",
-      "Your prompts and document text used in response creation are visible to Google",
-    ],
-    logo: GeminiLogo,
-  },
-  "nvidia-nim": {
-    name: "NVIDIA NIM",
-    description: [
-      "Your model and chats are only accessible on the machine running the NVIDIA NIM",
-    ],
-    logo: NvidiaNimLogo,
-  },
-  lmstudio: {
-    name: "LMStudio",
-    description: [
-      "Your model and chats are only accessible on the server running LMStudio",
-    ],
-    logo: LMStudioLogo,
-  },
-  localai: {
-    name: "LocalAI",
-    description: [
-      "Your model and chats are only accessible on the server running LocalAI",
-    ],
-    logo: LocalAiLogo,
   },
   ollama: {
     name: "Ollama",
     description: [
-      "Your model and chats are only accessible on the machine running Ollama models",
+      "您的模型和聊天内容只能在运行Ollama模型的机器上访问",
     ],
     logo: OllamaLogo,
   },
-  togetherai: {
-    name: "TogetherAI",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to TogetherAI",
-    ],
-    logo: TogetherAILogo,
-  },
-  fireworksai: {
-    name: "FireworksAI",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to Fireworks AI",
-    ],
-    logo: FireworksAILogo,
-  },
-  mistral: {
-    name: "Mistral",
-    description: [
-      "Your prompts and document text used in response creation are visible to Mistral",
-    ],
-    logo: MistralLogo,
-  },
-  huggingface: {
-    name: "HuggingFace",
-    description: [
-      "Your prompts and document text used in response are sent to your HuggingFace managed endpoint",
-    ],
-    logo: HuggingFaceLogo,
-  },
-  perplexity: {
-    name: "Perplexity AI",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to Perplexity AI",
-    ],
-    logo: PerplexityLogo,
-  },
-  openrouter: {
-    name: "OpenRouter",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to OpenRouter",
-    ],
-    logo: OpenRouterLogo,
-  },
-  novita: {
-    name: "Novita AI",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to Novita AI",
-    ],
-    logo: NovitaLogo,
-  },
-  groq: {
-    name: "Groq",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to Groq",
-    ],
-    logo: GroqLogo,
-  },
-  koboldcpp: {
-    name: "KoboldCPP",
-    description: [
-      "Your model and chats are only accessible on the server running KoboldCPP",
-    ],
-    logo: KoboldCPPLogo,
-  },
-  textgenwebui: {
-    name: "Oobabooga Web UI",
-    description: [
-      "Your model and chats are only accessible on the server running the Oobabooga Text Generation Web UI",
-    ],
-    logo: TextGenWebUILogo,
-  },
   "generic-openai": {
-    name: "Generic OpenAI compatible service",
+    name: "通用OpenAI兼容服务",
     description: [
-      "Data is shared according to the terms of service applicable with your generic endpoint provider.",
+      "数据共享根据您的通用端点提供商适用的服务条款进行。",
     ],
     logo: GenericOpenAiLogo,
   },
-  cohere: {
-    name: "Cohere",
-    description: [
-      "Data is shared according to the terms of service of cohere.com and your localities privacy laws.",
-    ],
-    logo: CohereLogo,
-  },
-  litellm: {
-    name: "LiteLLM",
-    description: [
-      "Your model and chats are only accessible on the server running LiteLLM",
-    ],
-    logo: LiteLLMLogo,
-  },
-  bedrock: {
-    name: "AWS Bedrock",
-    description: [
-      "You model and chat contents are subject to the agreed EULA for AWS and the model provider on aws.amazon.com",
-    ],
-    logo: AWSBedrockLogo,
-  },
   deepseek: {
     name: "DeepSeek",
-    description: ["Your model and chat contents are visible to DeepSeek"],
+    description: ["您的模型和聊天内容对DeepSeek可见"],
     logo: DeepSeekLogo,
-  },
-  apipie: {
-    name: "APIpie.AI",
-    description: [
-      "Your model and chat contents are visible to APIpie in accordance with their terms of service.",
-    ],
-    logo: APIPieLogo,
-  },
-  xai: {
-    name: "xAI",
-    description: [
-      "Your model and chat contents are visible to xAI in accordance with their terms of service.",
-    ],
-    logo: XAILogo,
-  },
-  ppio: {
-    name: "PPIO",
-    description: [
-      "Your chats will not be used for training",
-      "Your prompts and document text used in response creation are visible to PPIO",
-    ],
-    logo: PPIOLogo,
   },
 };
 
@@ -240,58 +48,22 @@ export const VECTOR_DB_PRIVACY = {
   chroma: {
     name: "Chroma",
     description: [
-      "Your vectors and document text are stored on your Chroma instance",
-      "Access to your instance is managed by you",
+      "您的向量和文档文本存储在您的Chroma实例上",
+      "访问您的实例由您管理",
     ],
     logo: ChromaLogo,
-  },
-  pinecone: {
-    name: "Pinecone",
-    description: [
-      "Your vectors and document text are stored on Pinecone's servers",
-      "Access to your data is managed by Pinecone",
-    ],
-    logo: PineconeLogo,
   },
   qdrant: {
     name: "Qdrant",
     description: [
-      "Your vectors and document text are stored on your Qdrant instance (cloud or self-hosted)",
+      "您的向量和文档文本存储在您的Qdrant实例上（云端或自托管）",
     ],
     logo: QDrantLogo,
-  },
-  weaviate: {
-    name: "Weaviate",
-    description: [
-      "Your vectors and document text are stored on your Weaviate instance (cloud or self-hosted)",
-    ],
-    logo: WeaviateLogo,
-  },
-  milvus: {
-    name: "Milvus",
-    description: [
-      "Your vectors and document text are stored on your Milvus instance (cloud or self-hosted)",
-    ],
-    logo: MilvusLogo,
-  },
-  zilliz: {
-    name: "Zilliz Cloud",
-    description: [
-      "Your vectors and document text are stored on your Zilliz cloud cluster.",
-    ],
-    logo: ZillizLogo,
-  },
-  astra: {
-    name: "AstraDB",
-    description: [
-      "Your vectors and document text are stored on your cloud AstraDB database.",
-    ],
-    logo: AstraDBLogo,
   },
   lancedb: {
     name: "LanceDB",
     description: [
-      "Your vectors and document text are stored privately on this instance of AnythingLLM",
+      "您的向量和文档文本私密存储在此抑郁症专家知识库系统实例上",
     ],
     logo: LanceDbLogo,
   },
@@ -299,113 +71,55 @@ export const VECTOR_DB_PRIVACY = {
 
 export const EMBEDDING_ENGINE_PRIVACY = {
   native: {
-    name: "AnythingLLM Embedder",
+    name: "抑郁症专家知识库嵌入器",
     description: [
-      "Your document text is embedded privately on this instance of AnythingLLM",
+      "您的文档文本在此抑郁症专家知识库系统实例上私密嵌入",
     ],
     logo: AnythingLLMIcon,
   },
   openai: {
     name: "OpenAI",
     description: [
-      "Your document text is sent to OpenAI servers",
-      "Your documents are not used for training",
+      "您的文档文本会发送到OpenAI服务器",
+      "您的文档不会被用于训练",
     ],
     logo: OpenAiLogo,
-  },
-  azure: {
-    name: "Azure OpenAI",
-    description: [
-      "Your document text is sent to your Microsoft Azure service",
-      "Your documents are not used for training",
-    ],
-    logo: AzureOpenAiLogo,
-  },
-  localai: {
-    name: "LocalAI",
-    description: [
-      "Your document text is embedded privately on the server running LocalAI",
-    ],
-    logo: LocalAiLogo,
   },
   ollama: {
     name: "Ollama",
     description: [
-      "Your document text is embedded privately on the server running Ollama",
+      "您的文档文本在运行Ollama的服务器上私密嵌入",
     ],
     logo: OllamaLogo,
   },
-  lmstudio: {
-    name: "LMStudio",
-    description: [
-      "Your document text is embedded privately on the server running LMStudio",
-    ],
-    logo: LMStudioLogo,
-  },
-  cohere: {
-    name: "Cohere",
-    description: [
-      "Data is shared according to the terms of service of cohere.com and your localities privacy laws.",
-    ],
-    logo: CohereLogo,
-  },
-  voyageai: {
-    name: "Voyage AI",
-    description: [
-      "Data sent to Voyage AI's servers is shared according to the terms of service of voyageai.com.",
-    ],
-    logo: VoyageAiLogo,
-  },
-  mistral: {
-    name: "Mistral AI",
-    description: [
-      "Data sent to Mistral AI's servers is shared according to the terms of service of https://mistral.ai.",
-    ],
-    logo: MistralLogo,
-  },
-  litellm: {
-    name: "LiteLLM",
-    description: [
-      "Your document text is only accessible on the server running LiteLLM and to the providers you configured in LiteLLM.",
-    ],
-    logo: LiteLLMLogo,
-  },
   "generic-openai": {
-    name: "Generic OpenAI compatible service",
+    name: "通用OpenAI兼容服务",
     description: [
-      "Data is shared according to the terms of service applicable with your generic endpoint provider.",
+      "数据共享根据您的通用端点提供商适用的服务条款进行。",
     ],
     logo: GenericOpenAiLogo,
-  },
-  gemini: {
-    name: "Google Gemini",
-    description: [
-      "Your document text is sent to Google Gemini's servers for processing",
-      "Your document text is stored or managed according to the terms of service of Google Gemini API Terms of Service",
-    ],
-    logo: GeminiLogo,
   },
 };
 
 export const FALLBACKS = {
   LLM: (provider) => ({
-    name: "Unknown",
+    name: "未知",
     description: [
-      `"${provider}" has no known data handling policy defined in AnythingLLM`,
+      `"${provider}" 在抑郁症专家知识库系统中没有定义已知的数据处理政策`,
     ],
     logo: AnythingLLMIcon,
   }),
   EMBEDDING: (provider) => ({
-    name: "Unknown",
+    name: "未知",
     description: [
-      `"${provider}" has no known data handling policy defined in AnythingLLM`,
+      `"${provider}" 在抑郁症专家知识库系统中没有定义已知的数据处理政策`,
     ],
     logo: AnythingLLMIcon,
   }),
   VECTOR: (provider) => ({
-    name: "Unknown",
+    name: "未知",
     description: [
-      `"${provider}" has no known data handling policy defined in AnythingLLM`,
+      `"${provider}" 在抑郁症专家知识库系统中没有定义已知的数据处理政策`,
     ],
     logo: AnythingLLMIcon,
   }),
@@ -422,6 +136,7 @@ export default function DataHandling({ setHeader, setForwardBtn, setBackBtn }) {
   const TITLE = t("onboarding.data.title");
   const DESCRIPTION = t("onboarding.data.description");
 
+  // 获取系统设置
   useEffect(() => {
     setHeader({ title: TITLE, description: DESCRIPTION });
     setForwardBtn({ showing: true, disabled: false, onClick: handleForward });
@@ -462,64 +177,70 @@ export default function DataHandling({ setHeader, setForwardBtn, setBackBtn }) {
   return (
     <div className="w-full flex items-center justify-center flex-col gap-y-6">
       <div className="p-8 flex flex-col gap-8">
-        <div className="flex flex-col gap-y-2 border-b border-theme-sidebar-border pb-4">
+        <div className="flex flex-col gap-y-2 border-b border-theme-sidebar-border pb-4 hover:bg-white/5 transition-colors duration-200 p-3 rounded-lg">
           <div className="text-theme-text-primary text-base font-bold">
-            LLM Selection
+            语言模型选择
           </div>
           <div className="flex items-center gap-2.5">
             <img
               src={LLMSelection.logo}
               alt="LLM Logo"
-              className="w-8 h-8 rounded"
+              className="w-8 h-8 rounded shadow-sm"
             />
             <p className="text-theme-text-primary text-sm font-bold">
               {LLMSelection.name}
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {LLMSelection.description.map((desc) => (
-              <li className="text-theme-text-primary text-sm">{desc}</li>
+            {LLMSelection.description.map((desc, index) => (
+              <li key={index} className="text-theme-text-primary text-sm">
+                {desc}
+              </li>
             ))}
           </ul>
         </div>
-        <div className="flex flex-col gap-y-2 border-b border-theme-sidebar-border pb-4">
+        <div className="flex flex-col gap-y-2 border-b border-theme-sidebar-border pb-4 hover:bg-white/5 transition-colors duration-200 p-3 rounded-lg">
           <div className="text-theme-text-primary text-base font-bold">
-            Embedding Preference
+            嵌入偏好
           </div>
           <div className="flex items-center gap-2.5">
             <img
               src={EmbeddingEngine.logo}
-              alt="LLM Logo"
-              className="w-8 h-8 rounded"
+              alt="嵌入引擎 Logo"
+              className="w-8 h-8 rounded shadow-sm"
             />
             <p className="text-theme-text-primary text-sm font-bold">
               {EmbeddingEngine.name}
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {EmbeddingEngine.description.map((desc) => (
-              <li className="text-theme-text-primary text-sm">{desc}</li>
+            {EmbeddingEngine.description.map((desc, index) => (
+              <li key={index} className="text-theme-text-primary text-sm">
+                {desc}
+              </li>
             ))}
           </ul>
         </div>
 
-        <div className="flex flex-col gap-y-2 pb-4">
+        <div className="flex flex-col gap-y-2 pb-4 hover:bg-white/5 transition-colors duration-200 p-3 rounded-lg">
           <div className="text-theme-text-primary text-base font-bold">
-            Vector Database
+            向量数据库
           </div>
           <div className="flex items-center gap-2.5">
             <img
               src={VectorDb.logo}
-              alt="LLM Logo"
-              className="w-8 h-8 rounded"
+              alt="向量数据库 Logo"
+              className="w-8 h-8 rounded shadow-sm"
             />
             <p className="text-theme-text-primary text-sm font-bold">
               {VectorDb.name}
             </p>
           </div>
           <ul className="flex flex-col list-disc ml-4">
-            {VectorDb.description.map((desc) => (
-              <li className="text-theme-text-primary text-sm">{desc}</li>
+            {VectorDb.description.map((desc, index) => (
+              <li key={index} className="text-theme-text-primary text-sm">
+                {desc}
+              </li>
             ))}
           </ul>
         </div>

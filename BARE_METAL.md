@@ -1,78 +1,113 @@
-# Run AnythingLLM in production without Docker
+以下是该文档的中文翻译：
 
-> [!WARNING]
-> This method of deployment is **not supported** by the core-team and is to be used as a reference for your deployment.
-> You are fully responsible for securing your deployment and data in this mode.
-> **Any issues** experienced from bare-metal or non-containerized deployments will be **not** answered or supported.
+---
 
-Here you can find the scripts and known working process to run AnythingLLM outside of a Docker container.
+# 在生产环境中运行 AnythingLLM（无需 Docker）
 
-### Minimum Requirements
-> [!TIP]
-> You should aim for at least 2GB of RAM. Disk storage is proportional to however much data
-> you will be storing (documents, vectors, models, etc). Minimum 10GB recommended.
+> ⚠️ **警告**  
+> 此部署方式**不受核心团队支持**，仅作为您部署的参考。  
+> 在此模式下，**您需要完全负责**部署和数据的安全性。  
+> **任何问题**，如果是裸机或非容器化部署引起的，**将不会获得解答或支持**。
 
-- NodeJS v18
-- Yarn
+本文档提供了在不使用 Docker 容器的情况下运行 AnythingLLM 的脚本和已验证流程。
 
+---
 
-## Getting started
+### 最低要求
 
-1. Clone the repo into your server as the user who the application will run as.
-`git clone git@github.com:Mintplex-Labs/anything-llm.git`
+> 💡 **提示**  
+> 建议至少配备 2GB RAM。磁盘存储应根据实际存储需求（文档、向量、模型等）配置，建议至少 10GB。
 
-2. `cd anything-llm` and run `yarn setup`. This will install all dependencies to run in production as well as debug the application.
+- NodeJS v18  
+- Yarn 包管理器  
 
-3. `cp server/.env.example server/.env` to create the basic ENV file for where instance settings will be read from on service start.
+---
 
-4. Ensure that the `server/.env` file has _at least_ these keys to start. These values will persist and this file will be automatically written and managed after your first successful boot.
+## 开始部署
+
+1. 将仓库克隆到服务器上，使用将运行应用程序的用户账号：  
+   ```bash
+   git clone git@github.com:Mintplex-Labs/anything-llm.git
+   ```
+
+2. 进入项目目录并运行 `yarn setup` 安装所有运行依赖并进行调试：  
+   ```bash
+   cd anything-llm  
+   yarn setup
+   ```
+
+3. 复制环境变量模板文件以创建配置文件：  
+   ```bash
+   cp server/.env.example server/.env
+   ```
+
+4. 确保 `server/.env` 至少包含以下键值，用于设置服务启动时所需的存储路径：  
+   ```bash
+   STORAGE_DIR="/your/absolute/path/to/server/storage"
+   ```
+
+5. 编辑 `frontend/.env` 文件，将 `VITE_API_BASE` 设置为 `/api`：  
+   ```env
+   # VITE_API_BASE='http://localhost:3001/api' # 本地开发时使用  
+   # VITE_API_BASE="https://$CODESPACE_NAME-3001.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN/api" # GitHub Codespaces  
+   VITE_API_BASE='/api' # 用于部署在非 localhost 或 Docker 时
+   ```
+
+---
+
+## 启动应用程序
+
+AnythingLLM 由三个主要部分组成：`frontend`（前端）、`server`（服务器）、`collector`（收集器）。在生产环境中，你需要分别运行 `server` 和 `collector` 两个进程，并提前编译前端代码。
+
+1. 编译前端应用：  
+   ```bash
+   cd frontend && yarn build
+   ```
+
+2. 将编译后的前端文件复制到服务器目录中：  
+   ```bash
+   cp -R frontend/dist server/public
+   ```
+
+3. 准备数据库文件并执行迁移操作：  
+   ```bash
+   cd server && npx prisma generate --schema=./prisma/schema.prisma  
+   cd server && npx prisma migrate deploy --schema=./prisma/schema.prisma
+   ```
+
+4. 启动服务器进程（生产环境）：  
+   ```bash
+   cd server && NODE_ENV=production node index.js &
+   ```
+
+5. 启动收集器进程（另一个终端或进程中）：  
+   ```bash
+   cd collector && NODE_ENV=production node index.js &
+   ```
+
+AnythingLLM 应该现在已经运行在 `http://localhost:3001`！
+
+---
+
+## 更新 AnythingLLM
+
+要更新 AnythingLLM，可通过以下命令拉取最新代码并重新部署：
+
+```bash
+git pull origin master
 ```
-STORAGE_DIR="/your/absolute/path/to/server/storage"
-```
 
-5. Edit the `frontend/.env` file for the `VITE_BASE_API` to now be set to `/api`. This is documented in the .env for which one you should use.
-```
-# VITE_API_BASE='http://localhost:3001/api' # Use this URL when developing locally
-# VITE_API_BASE="https://$CODESPACE_NAME-3001.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN/api" # for GitHub Codespaces
-VITE_API_BASE='/api' # Use this URL deploying on non-localhost address OR in docker.
-```
+然后重复步骤 2 - 5 以完成更新。
 
-## To start the application
+**注意事项：**  
+- 确保每个目录重新运行 `yarn` 以更新依赖包。  
+- 更新前使用 `pkill node` 杀死旧进程，避免出现多个实例导致冲突。
 
-AnythingLLM is comprised of three main sections. The `frontend`, `server`, and `collector`. When running in production you will be running `server` and `collector` on two different processes, with a build step for compilation of the frontend.
+---
 
-1. Build the frontend application.
-`cd frontend && yarn build` - this will produce a `frontend/dist` folder that will be used later.
+### 示例更新脚本
 
-2. Copy `frontend/dist` to `server/public` - `cp -R frontend/dist server/public`.
-This should create a folder in `server` named `public` which contains a top level `index.html` file and various other files/folders.
-
-3. Migrate and prepare your database file.
-```
-cd server && npx prisma generate --schema=./prisma/schema.prisma
-cd server && npx prisma migrate deploy --schema=./prisma/schema.prisma
-```
-
-4. Boot the server in production
-`cd server && NODE_ENV=production node index.js &`
-
-5. Boot the collection in another process
-`cd collector && NODE_ENV=production node index.js &`
-
-AnythingLLM should now be running on `http://localhost:3001`!
-
-## Updating AnythingLLM
-
-To update AnythingLLM with future updates you can `git pull origin master` to pull in the latest code and then repeat steps 2 - 5 to deploy with all changes fully.
-
-_note_ You should ensure that each folder runs `yarn` again to ensure packages are up to date in case any dependencies were added, changed, or removed.
-
-_note_ You should `pkill node` before running an update so that you are not running multiple AnythingLLM processes on the same instance as this can cause conflicts.
-
-
-### Example update script
-
-```shell
+```bash
 #!/bin/bash
 
 cd $HOME/anything-llm &&\
@@ -81,12 +116,12 @@ git pull origin master &&\
 echo "HEAD pulled to commit $(git log -1 --pretty=format:"%h" | tail -n 1)"
 
 echo "Freezing current ENVs"
-curl -I "http://localhost:3001/api/env-dump" | head -n 1|cut -d$' ' -f2
+curl -I "http://localhost:3001/api/env-dump" | head -n 1 | cut -d$' ' -f2
 
 echo "Rebuilding Frontend"
 cd $HOME/anything-llm/frontend && yarn && yarn build && cd $HOME/anything-llm
 
-echo "Copying to Sever Public"
+echo "Copying to Server Public"
 rm -rf server/public
 cp -r frontend/dist server/public
 
@@ -102,7 +137,7 @@ cd $HOME/anything-llm/server && npx prisma migrate deploy --schema=./prisma/sche
 cd $HOME/anything-llm/server && npx prisma generate
 
 echo "Booting up services."
-truncate -s 0 /logs/server.log # Or any other log file location.
+truncate -s 0 /logs/server.log
 truncate -s 0 /logs/collector.log
 
 cd $HOME/anything-llm/server
@@ -112,4 +147,4 @@ cd $HOME/anything-llm/collector
 (NODE_ENV=production node index.js) &> /logs/collector.log &
 ```
 
-
+---

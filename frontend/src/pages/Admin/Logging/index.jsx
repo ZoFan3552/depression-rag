@@ -30,18 +30,18 @@ export default function AdminLogs() {
   const handleResetLogs = async () => {
     if (
       !window.confirm(
-        "Are you sure you want to clear all event logs? This action is irreversible."
+        "您确定要清除所有事件日志吗？此操作不可逆。"
       )
     )
       return;
     const { success, error } = await System.clearEventLogs();
     if (success) {
-      showToast("Event logs cleared successfully.", "success");
+      showToast("事件日志已成功清除。", "success");
       setLogs([]);
       setCanNext(false);
       setOffset(0);
     } else {
-      showToast(`Failed to clear logs: ${error}`, "error");
+      showToast(`清除日志失败: ${error}`, "error");
     }
   };
 
@@ -53,12 +53,12 @@ export default function AdminLogs() {
     setOffset(offset + 1);
   };
 
-  return (
+  rreturn (
     <div className="w-screen h-screen overflow-hidden bg-theme-bg-container flex">
       <Sidebar />
       <div
         style={{ height: isMobile ? "100%" : "calc(100% - 32px)" }}
-        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] bg-theme-bg-secondary w-full h-full overflow-y-scroll p-4 md:p-0"
+        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] bg-theme-bg-secondary w-full h-full overflow-y-scroll p-4 md:p-0 shadow-lg"
       >
         <div className="flex flex-col w-full px-1 md:pl-6 md:pr-[50px] md:py-6 py-16">
           <div className="w-full flex flex-col gap-y-1 pb-6 border-white/10 border-b-2">
@@ -74,7 +74,7 @@ export default function AdminLogs() {
           <div className="w-full justify-end flex">
             <CTAButton
               onClick={handleResetLogs}
-              className="mt-3 mr-0 mb-4 md:-mb-14 z-10"
+              className="mt-3 mr-0 mb-4 md:-mb-14 z-10 hover:scale-105 transition-transform"
             >
               {t("event.clear")}
             </CTAButton>
@@ -144,14 +144,14 @@ function LogsContainer({
       <div className="flex w-full justify-between items-center mt-6">
         <button
           onClick={handlePrevious}
-          className="px-4 py-2 rounded-lg border border-slate-200 text-slate-200 light:text-theme-text-secondary light:border-theme-sidebar-border text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 disabled:invisible"
+          className="px-4 py-2 rounded-lg border border-slate-200 text-slate-200 light:text-theme-text-secondary light:border-theme-sidebar-border text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 hover:shadow-md transition-all duration-300 disabled:invisible"
           disabled={offset === 0}
         >
           {t("common.previous")}
         </button>
         <button
           onClick={handleNext}
-          className="px-4 py-2 rounded-lg border border-slate-200 text-slate-200 light:text-theme-text-secondary light:border-theme-sidebar-border text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 disabled:invisible"
+          className="px-4 py-2 rounded-lg border border-slate-200 text-slate-200 light:text-theme-text-secondary light:border-theme-sidebar-border text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 hover:shadow-md transition-all duration-300 disabled:invisible"
           disabled={!canNext}
         >
           {t("common.next")}

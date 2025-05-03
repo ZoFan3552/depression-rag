@@ -20,6 +20,7 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
   const TITLE = t("onboarding.userSetup.title");
   const DESCRIPTION = t("onboarding.userSetup.description");
 
+  // 处理前进按钮点击
   function handleForward() {
     if (selectedOption === "just_me" && enablePassword) {
       justMeSubmitRef.current?.click();
@@ -30,10 +31,12 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
     }
   }
 
+  // 处理返回按钮点击
   function handleBack() {
     navigate(paths.onboarding.llmPreference());
   }
 
+  // 根据选项状态控制前进按钮
   useEffect(() => {
     let isDisabled = true;
     if (selectedOption === "just_me") {
@@ -49,6 +52,7 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
     });
   }, [selectedOption, singleUserPasswordValid, multiUserLoginValid]);
 
+  // 设置页面标题和返回按钮
   useEffect(() => {
     setHeader({ title: TITLE, description: DESCRIPTION });
     setBackBtn({ showing: true, disabled: false, onClick: handleBack });
@@ -56,8 +60,8 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
 
   return (
     <div className="w-full flex items-center justify-center flex-col gap-y-6">
-      <div className="flex flex-col border rounded-lg border-white/20 light:border-theme-sidebar-border p-8 items-center gap-y-4 w-full max-w-[600px]">
-        <div className=" text-white text-sm font-semibold md:-ml-44">
+      <div className="flex flex-col border rounded-lg border-white/20 light:border-theme-sidebar-border p-8 items-center gap-y-4 w-full max-w-[600px] shadow-md">
+        <div className="text-white text-sm font-semibold md:-ml-44">
           {t("onboarding.userSetup.howManyUsers")}
         </div>
         <div className="flex flex-col md:flex-row gap-6 w-full justify-center">
@@ -67,7 +71,7 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
               selectedOption === "just_me"
                 ? "text-sky-400 border-sky-400/70"
                 : "text-theme-text-primary border-theme-sidebar-border"
-            } min-w-[230px] h-11 p-4 rounded-[10px] border-2  justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300`}
+            } min-w-[230px] h-11 p-4 rounded-[10px] border-2 justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300 hover:shadow-md`}
           >
             <div className="text-center text-sm font-bold">
               {t("onboarding.userSetup.justMe")}
@@ -79,7 +83,7 @@ export default function UserSetup({ setHeader, setForwardBtn, setBackBtn }) {
               selectedOption === "my_team"
                 ? "text-sky-400 border-sky-400/70"
                 : "text-theme-text-primary border-theme-sidebar-border"
-            } min-w-[230px] h-11 p-4 rounded-[10px] border-2  justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300`}
+            } min-w-[230px] h-11 p-4 rounded-[10px] border-2 justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300 hover:shadow-md`}
           >
             <div className="text-center text-sm font-bold">
               {t("onboarding.userSetup.myTeam")}
@@ -117,6 +121,8 @@ const JustMe = ({
   const { t } = useTranslation();
   const [itemSelected, setItemSelected] = useState(false);
   const [password, setPassword] = useState("");
+  
+  // 处理密码表单提交
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -127,12 +133,11 @@ const JustMe = ({
     });
 
     if (error) {
-      showToast(`Failed to set password: ${error}`, "error");
+      showToast(`设置密码失败: ${error}`, "error");
       return;
     }
 
-    // Auto-request token with password that was just set so they
-    // are not redirected to login after completion.
+    // 自动请求令牌，设置密码后不会重定向到登录页面
     const { token } = await System.requestToken({
       password: formData.get("password"),
     });
@@ -156,6 +161,7 @@ const JustMe = ({
     setEnablePassword(false);
   }
 
+  // 检验密码有效性
   useEffect(() => {
     if (enablePassword && itemSelected && password.length >= 8) {
       setSingleUserPasswordValid(true);
@@ -165,10 +171,11 @@ const JustMe = ({
       setSingleUserPasswordValid(false);
     }
   });
+  
   return (
     <div className="w-full flex items-center justify-center flex-col gap-y-6">
-      <div className="flex flex-col border rounded-lg border-white/20 light:border-theme-sidebar-border p-8 items-center gap-y-4 w-full max-w-[600px]">
-        <div className=" text-white text-sm font-semibold md:-ml-56">
+      <div className="flex flex-col border rounded-lg border-white/20 light:border-theme-sidebar-border p-8 items-center gap-y-4 w-full max-w-[600px] shadow-md">
+        <div className="text-white text-sm font-semibold md:-ml-56">
           {t("onboarding.userSetup.setPassword")}
         </div>
         <div className="flex flex-col md:flex-row gap-6 w-full justify-center">
@@ -178,7 +185,7 @@ const JustMe = ({
               enablePassword && itemSelected
                 ? "text-sky-400 border-sky-400/70"
                 : "text-theme-text-primary border-theme-sidebar-border"
-            } min-w-[230px] h-11 p-4 rounded-[10px] border-2  justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300`}
+            } min-w-[230px] h-11 p-4 rounded-[10px] border-2 justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300 hover:shadow-md`}
           >
             <div className="text-center text-sm font-bold">
               {t("common.yes")}
@@ -190,7 +197,7 @@ const JustMe = ({
               !enablePassword && itemSelected
                 ? "text-sky-400 border-sky-400/70"
                 : "text-theme-text-primary border-theme-sidebar-border"
-            } min-w-[230px] h-11 p-4 rounded-[10px] border-2  justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300`}
+            } min-w-[230px] h-11 p-4 rounded-[10px] border-2 justify-center items-center gap-[100px] inline-flex hover:border-sky-400/70 hover:text-sky-400 transition-all duration-300 hover:shadow-md`}
           >
             <div className="text-center text-sm font-bold">
               {t("common.no")}
@@ -208,8 +215,8 @@ const JustMe = ({
             <input
               name="password"
               type="password"
-              className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button outline-none placeholder:text-theme-text-secondary"
-              placeholder="Your admin password"
+              className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button outline-none placeholder:text-theme-text-secondary focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+              placeholder="您的管理员密码"
               minLength={6}
               required={true}
               autoComplete="off"
@@ -238,6 +245,7 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // 处理团队设置表单提交
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -248,13 +256,12 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
     };
     const { success, error } = await System.setupMultiUser(data);
     if (!success) {
-      showToast(`Error: ${error}`, "error");
+      showToast(`错误: ${error}`, "error");
       return;
     }
 
     navigate(paths.onboarding.dataHandling());
-    // Auto-request token with credentials that was just set so they
-    // are not redirected to login after completion.
+    // 自动请求令牌，设置凭据后不会重定向到登录页面
     const { user, token } = await System.requestToken(data);
     window.localStorage.setItem(AUTH_USER, JSON.stringify(user));
     window.localStorage.setItem(AUTH_TOKEN, token);
@@ -266,6 +273,7 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
   const handleUsernameChange = debounce(setNewUsername, 500);
   const handlePasswordChange = debounce(setNewPassword, 500);
 
+  // 验证用户名和密码
   useEffect(() => {
     if (username.length >= 6 && password.length >= 8) {
       setMultiUserLoginValid(true);
@@ -273,8 +281,9 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
       setMultiUserLoginValid(false);
     }
   }, [username, password]);
+  
   return (
-    <div className="w-full flex items-center justify-center border max-w-[600px] rounded-lg border-white/20 light:border-theme-sidebar-border">
+    <div className="w-full flex items-center justify-center border max-w-[600px] rounded-lg border-white/20 light:border-theme-sidebar-border shadow-md">
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col w-full md:px-8 px-2 py-4">
           <div className="space-y-6 flex h-full w-full">
@@ -289,15 +298,15 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
                 <input
                   name="username"
                   type="text"
-                  className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button placeholder:text-theme-text-secondary outline-none"
-                  placeholder="Your admin username"
+                  className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button placeholder:text-theme-text-secondary outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+                  placeholder="您的管理员用户名"
                   minLength={6}
                   required={true}
                   autoComplete="off"
                   onChange={handleUsernameChange}
                 />
               </div>
-              <p className=" text-white text-opacity-80 text-xs font-base">
+              <p className="text-white text-opacity-80 text-xs font-base">
                 {t("onboarding.userSetup.adminUsernameReq")}
               </p>
               <div className="mt-4">
@@ -310,15 +319,15 @@ const MyTeam = ({ setMultiUserLoginValid, myTeamSubmitRef, navigate }) => {
                 <input
                   name="password"
                   type="password"
-                  className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button placeholder:text-theme-text-secondary outline-none"
-                  placeholder="Your admin password"
+                  className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg block w-full p-2.5 focus:outline-primary-button active:outline-primary-button placeholder:text-theme-text-secondary outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+                  placeholder="您的管理员密码"
                   minLength={8}
                   required={true}
                   autoComplete="off"
                   onChange={handlePasswordChange}
                 />
               </div>
-              <p className=" text-white text-opacity-80 text-xs font-base">
+              <p className="text-white text-opacity-80 text-xs font-base">
                 {t("onboarding.userSetup.adminPasswordReq")}
               </p>
             </div>

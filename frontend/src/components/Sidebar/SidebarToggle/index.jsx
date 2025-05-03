@@ -5,10 +5,10 @@ import { Tooltip } from "react-tooltip";
 const SIDEBAR_TOGGLE_STORAGE_KEY = "anythingllm_sidebar_toggle";
 
 /**
- * Returns the previous state of the sidebar from localStorage.
- * If the sidebar was closed, returns false.
- * If the sidebar was open, returns true.
- * If the sidebar state is not set, returns true.
+ * 从 localStorage 返回侧边栏的先前状态。
+ * 如果侧边栏是关闭的，返回 false。
+ * 如果侧边栏是打开的，返回 true。
+ * 如果侧边栏状态未设置，返回 true。
  * @returns {boolean}
  */
 function previousSidebarState() {
@@ -80,17 +80,17 @@ export function ToggleSidebarButton({ showSidebar, setShowSidebar }) {
         data-tooltip-id="sidebar-toggle"
         data-tooltip-content={
           showSidebar
-            ? `Hide Sidebar (${shortcut})`
-            : `Show Sidebar (${shortcut})`
+            ? `隐藏侧边栏 (${shortcut})`
+            : `显示侧边栏 (${shortcut})`
         }
         aria-label={
           showSidebar
-            ? `Hide Sidebar (${shortcut})`
-            : `Show Sidebar (${shortcut})`
+            ? `隐藏侧边栏 (${shortcut})`
+            : `显示侧边栏 (${shortcut})`
         }
       >
         <SidebarSimple
-          className="text-theme-text-secondary hover:text-theme-text-primary"
+          className="text-theme-text-secondary hover:text-theme-text-primary transition-colors duration-200"
           size={24}
         />
       </button>
@@ -98,7 +98,7 @@ export function ToggleSidebarButton({ showSidebar, setShowSidebar }) {
         id="sidebar-toggle"
         place="top"
         delayShow={300}
-        className="tooltip !text-xs z-99"
+        className="tooltip !text-xs z-99 bg-gray-800/90 backdrop-blur-sm shadow-md"
       />
     </>
   );

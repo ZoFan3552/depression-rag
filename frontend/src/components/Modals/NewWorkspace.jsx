@@ -5,11 +5,13 @@ import paths from "@/utils/paths";
 import { useTranslation } from "react-i18next";
 import ModalWrapper from "@/components/ModalWrapper";
 
+// 空操作函数
 const noop = () => false;
 export default function NewWorkspaceModal({ hideModal = noop }) {
   const formEl = useRef(null);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+  // 处理创建工作区的函数
   const handleCreate = async (e) => {
     setError(null);
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function NewWorkspaceModal({ hideModal = noop }) {
 
   return (
     <ModalWrapper isOpen={true}>
-      <div className="w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow border-2 border-theme-modal-border overflow-hidden">
+      <div className="w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow-md border-2 border-theme-modal-border overflow-hidden transition duration-200">
         <div className="relative p-6 border-b rounded-t border-theme-modal-border">
           <div className="w-full flex gap-x-2 items-center">
             <h3 className="text-xl font-semibold text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -35,7 +37,7 @@ export default function NewWorkspaceModal({ hideModal = noop }) {
           <button
             onClick={hideModal}
             type="button"
-            className="absolute top-4 right-4 transition-all duration-300 bg-transparent rounded-lg text-sm p-1 inline-flex items-center hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border"
+            className="absolute top-4 right-4 transition-all duration-300 bg-transparent rounded-lg text-sm p-1.5 inline-flex items-center hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border"
           >
             <X size={24} weight="bold" className="text-white" />
           </button>
@@ -45,12 +47,12 @@ export default function NewWorkspaceModal({ hideModal = noop }) {
           style={{ maxHeight: "calc(100vh - 200px)" }}
         >
           <form ref={formEl} onSubmit={handleCreate}>
-            <div className="py-7 px-9 space-y-2 flex-col">
+            <div className="py-8 px-10 space-y-3 flex-col">
               <div className="w-full flex flex-col gap-y-4">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-white"
+                    className="block mb-2.5 text-sm font-medium text-white"
                   >
                     {t("common.workspaces-name")}
                   </label>
@@ -58,23 +60,23 @@ export default function NewWorkspaceModal({ hideModal = noop }) {
                     name="name"
                     type="text"
                     id="name"
-                    className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+                    className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button focus:ring-2 focus:ring-primary-button/30 active:outline-primary-button outline-none block w-full p-3 transition-all"
                     placeholder={t("new-workspace.placeholder")}
                     required={true}
                     autoComplete="off"
                   />
                 </div>
                 {error && (
-                  <p className="text-red-400 text-sm">Error: {error}</p>
+                  <p className="text-red-400 text-sm font-medium">错误: {error}</p>
                 )}
               </div>
             </div>
-            <div className="flex w-full justify-end items-center p-6 space-x-2 border-t border-theme-modal-border rounded-b">
+            <div className="flex w-full justify-end items-center p-6 space-x-3 border-t border-theme-modal-border rounded-b">
               <button
                 type="submit"
-                className="transition-all duration-300 bg-white text-black hover:opacity-60 px-4 py-2 rounded-lg text-sm"
+                className="transition-all duration-300 bg-white text-black hover:opacity-80 active:opacity-70 px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm"
               >
-                Save
+                保存
               </button>
             </div>
           </form>
@@ -84,11 +86,14 @@ export default function NewWorkspaceModal({ hideModal = noop }) {
   );
 }
 
+// 用于控制新工作区模态框显示的钩子函数
 export function useNewWorkspaceModal() {
   const [showing, setShowing] = useState(false);
+  // 显示模态框
   const showModal = () => {
     setShowing(true);
   };
+  // 隐藏模态框
   const hideModal = () => {
     setShowing(false);
   };

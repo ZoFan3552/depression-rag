@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useSidebarToggle, ToggleSidebarButton } from "./SidebarToggle";
 
 export default function Sidebar() {
+  // ... existing code ...
   const { user } = useUser();
   const { logo } = useLogo();
   const sidebarRef = useRef(null);
@@ -36,11 +37,11 @@ export default function Sidebar() {
       >
         <div className="flex shrink-0 w-full justify-center my-[18px]">
           <div className="flex justify-between w-[250px] min-w-[250px]">
-            <Link to={paths.home()} aria-label="Home">
+            <Link to={paths.home()} aria-label="首页">
               <img
                 src={logo}
-                alt="Logo"
-                className={`rounded max-h-[24px] object-contain transition-opacity duration-500 ${showSidebar ? "opacity-100" : "opacity-0"}`}
+                alt="标志"
+                className={`rounded max-h-[52px] object-contain transition-opacity duration-500 ${showSidebar ? "opacity-100" : "opacity-0"}`}
               />
             </Link>
             {canToggleSidebar && (
@@ -53,7 +54,7 @@ export default function Sidebar() {
         </div>
         <div
           ref={sidebarRef}
-          className="relative m-[16px] rounded-[16px] bg-theme-bg-sidebar border-[2px] border-theme-sidebar-border light:border-none min-w-[250px] p-[10px] h-[calc(100%-76px)]"
+          className="relative m-[16px] rounded-[16px] bg-theme-bg-sidebar border-[2px] border-theme-sidebar-border light:border-none min-w-[250px] p-[10px] h-[calc(100%-76px)] shadow-sm"
         >
           <div className="flex flex-col h-full overflow-x-hidden">
             <div className="flex-grow flex flex-col min-w-[235px]">
@@ -63,11 +64,11 @@ export default function Sidebar() {
                     {(!user || user?.role !== "default") && (
                       <button
                         onClick={showNewWsModal}
-                        className="light:bg-[#C2E7FE] light:hover:bg-[#7CD4FD] flex flex-grow w-[75%] h-[44px] gap-x-2 py-[5px] px-2.5 mb-2 bg-white rounded-[8px] text-sidebar justify-center items-center hover:bg-opacity-80 transition-all duration-300"
+                        className="light:bg-[#C2E7FE] light:hover:bg-[#7CD4FD] flex flex-grow w-[75%] h-[44px] gap-x-2 py-[5px] px-2.5 mb-2 bg-white rounded-[8px] text-sidebar justify-center items-center hover:bg-opacity-80 transition-all duration-300 hover:shadow-md"
                       >
                         <Plus size={18} weight="bold" />
                         <p className="text-sidebar text-sm font-semibold">
-                          {t("new-workspace.title")}
+                          {t("new-workspace.title").replace("New Workspace", "新建工作区")}
                         </p>
                       </button>
                     )}
@@ -88,6 +89,7 @@ export default function Sidebar() {
 }
 
 export function SidebarMobileHeader() {
+  // ... existing code ...
   const { logo } = useLogo();
   const sidebarRef = useRef(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -101,8 +103,7 @@ export function SidebarMobileHeader() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Darkens the rest of the screen
-    // when sidebar is open.
+    // 当侧边栏打开时使屏幕其余部分变暗
     function handleBg() {
       if (showSidebar) {
         setTimeout(() => {
@@ -118,19 +119,19 @@ export function SidebarMobileHeader() {
   return (
     <>
       <div
-        aria-label="Show sidebar"
+        aria-label="显示侧边栏"
         className="fixed top-0 left-0 right-0 z-10 flex justify-between items-center px-4 py-2 bg-theme-bg-sidebar light:bg-white text-slate-200 shadow-lg h-16"
       >
         <button
           onClick={() => setShowSidebar(true)}
-          className="rounded-md p-2 flex items-center justify-center text-theme-text-secondary"
+          className="rounded-md p-2 flex items-center justify-center text-theme-text-secondary hover:bg-gray-100/10 transition-colors"
         >
           <List className="h-6 w-6" />
         </button>
         <div className="flex items-center justify-center flex-grow">
           <img
             src={logo}
-            alt="Logo"
+            alt="标志"
             className="block mx-auto h-6 w-auto"
             style={{ maxHeight: "40px", objectFit: "contain" }}
           />
@@ -153,15 +154,15 @@ export function SidebarMobileHeader() {
         />
         <div
           ref={sidebarRef}
-          className="relative h-[100vh] fixed top-0 left-0  rounded-r-[26px] bg-theme-bg-sidebar w-[80%] p-[18px] "
+          className="relative h-[100vh] top-0 left-0 rounded-r-[26px] bg-theme-bg-sidebar w-[80%] p-[18px] shadow-xl"
         >
           <div className="w-full h-full flex flex-col overflow-x-hidden items-between">
-            {/* Header Information */}
+            {/* 头部信息 */}
             <div className="flex w-full items-center justify-between gap-x-4">
               <div className="flex shrink-1 w-fit items-center justify-start">
                 <img
                   src={logo}
-                  alt="Logo"
+                  alt="标志"
                   className="rounded w-full max-h-[40px]"
                   style={{ objectFit: "contain" }}
                 />
@@ -173,19 +174,19 @@ export function SidebarMobileHeader() {
               )}
             </div>
 
-            {/* Primary Body */}
-            <div className="h-full flex flex-col w-full justify-between pt-4 ">
+            {/* 主体内容 */}
+            <div className="h-full flex flex-col w-full justify-between pt-4">
               <div className="h-auto md:sidebar-items">
-                <div className=" flex flex-col gap-y-4 overflow-y-scroll no-scroll pb-[60px]">
+                <div className="flex flex-col gap-y-4 overflow-y-scroll no-scroll pb-[60px]">
                   <div className="flex gap-x-2 items-center justify-between">
                     {(!user || user?.role !== "default") && (
                       <button
                         onClick={showNewWsModal}
-                        className="flex flex-grow w-[75%] h-[44px] gap-x-2 py-[5px] px-4 bg-white rounded-lg text-sidebar justify-center items-center hover:bg-opacity-80 transition-all duration-300"
+                        className="flex flex-grow w-[75%] h-[44px] gap-x-2 py-[5px] px-4 bg-white rounded-lg text-sidebar justify-center items-center hover:bg-opacity-80 transition-all duration-300 hover:shadow-md"
                       >
                         <Plus className="h-5 w-5" />
                         <p className="text-sidebar text-sm font-semibold">
-                          {t("new-workspace.title")}
+                          {t("new-workspace.title").replace("New Workspace", "新建工作区")}
                         </p>
                       </button>
                     )}

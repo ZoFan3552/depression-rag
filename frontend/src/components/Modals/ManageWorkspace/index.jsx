@@ -10,6 +10,7 @@ import DocumentSettings from "./Documents";
 import DataConnectors from "./DataConnectors";
 import ModalWrapper from "@/components/ModalWrapper";
 
+// 空操作函数
 const noop = () => {};
 const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
   const [settings, setSettings] = useState({});
   const [selectedTab, setSelectedTab] = useState("documents");
 
+  // 获取系统设置
   useEffect(() => {
     async function getSettings() {
       const _settings = await System.keys();
@@ -27,6 +29,7 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
     getSettings();
   }, []);
 
+  // 获取工作区信息
   useEffect(() => {
     async function fetchWorkspace() {
       const workspace = await Workspace.bySlug(providedSlug ?? slug);
@@ -37,10 +40,11 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
 
   if (!workspace) return null;
 
+  // 移动设备显示限制信息
   if (isMobile) {
     return (
       <ModalWrapper isOpen={true}>
-        <div className="w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow border-2 border-theme-modal-border overflow-hidden">
+        <div className="w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow-md border-2 border-theme-modal-border overflow-hidden">
           <div className="relative p-6 border-b rounded-t border-theme-modal-border">
             <div className="w-full flex gap-x-2 items-center">
               <h3 className="text-xl font-semibold text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
@@ -50,7 +54,7 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
             <button
               onClick={hideModal}
               type="button"
-              className="absolute top-4 right-4 transition-all duration-300 bg-transparent rounded-lg text-sm p-1 inline-flex items-center hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border"
+              className="absolute top-4 right-4 transition-all duration-300 bg-transparent rounded-lg text-sm p-1.5 inline-flex items-center hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border"
             >
               <X size={24} weight="bold" className="text-white" />
             </button>
@@ -59,19 +63,19 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
             className="h-full w-full overflow-y-auto"
             style={{ maxHeight: "calc(100vh - 200px)" }}
           >
-            <div className="py-7 px-9 space-y-2 flex-col">
+            <div className="py-8 px-10 space-y-3 flex-col">
               <p className="text-white">
                 {t("connectors.manage.desktop-only")}
               </p>
             </div>
           </div>
-          <div className="flex w-full justify-end items-center p-6 space-x-2 border-t border-theme-modal-border rounded-b">
+          <div className="flex w-full justify-end items-center p-6 space-x-3 border-t border-theme-modal-border rounded-b">
             <button
               onClick={hideModal}
               type="button"
-              className="transition-all duration-300 bg-white text-black hover:opacity-60 px-4 py-2 rounded-lg text-sm"
+              className="transition-all duration-300 bg-white text-black hover:opacity-80 active:opacity-70 px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm"
             >
-              {t("connectors.manage.dismiss")}
+              关闭
             </button>
           </div>
         </div>
@@ -79,16 +83,17 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
     );
   }
 
+  // 桌面设备显示完整界面
   return (
     <div className="w-screen h-screen fixed top-0 left-0 flex justify-center items-center z-99">
       <div className="backdrop h-full w-full absolute top-0 z-10" />
       <div className="absolute max-h-full w-fit transition duration-300 z-20 md:overflow-y-auto py-10">
-        <div className="relative bg-theme-bg-secondary rounded-[12px] shadow border-2 border-theme-modal-border">
-          <div className="flex items-start justify-between p-2 rounded-t border-theme-modal-border relative">
+        <div className="relative bg-theme-bg-secondary rounded-[12px] shadow-lg border-2 border-theme-modal-border">
+          <div className="flex items-start justify-between p-2.5 rounded-t border-theme-modal-border relative">
             <button
               onClick={hideModal}
               type="button"
-              className="z-29 text-white bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center bg-sidebar-button hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border"
+              className="z-29 text-white bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center bg-sidebar-button hover:bg-theme-modal-border hover:border-theme-modal-border hover:border-opacity-50 border-transparent border transition-all duration-200"
             >
               <X size={20} weight="bold" className="text-white" />
             </button>
@@ -114,50 +119,55 @@ const ManageWorkspace = ({ hideModal = noop, providedSlug = null }) => {
 
 export default memo(ManageWorkspace);
 
+// 模态框标签切换组件
 const ModalTabSwitcher = ({ selectedTab, setSelectedTab }) => {
   const { t } = useTranslation();
   return (
     <div className="w-full flex justify-center z-10 relative">
-      <div className="gap-x-2 flex justify-center -mt-[68px] mb-10 bg-theme-bg-secondary p-1 rounded-xl shadow border-2 border-theme-modal-border w-fit">
+      <div className="gap-x-2 flex justify-center -mt-[68px] mb-10 bg-theme-bg-secondary p-1.5 rounded-xl shadow-md border-2 border-theme-modal-border w-fit">
         <button
           onClick={() => setSelectedTab("documents")}
-          className={`border-none px-4 py-2 rounded-[8px] font-semibold hover:bg-theme-modal-border hover:bg-opacity-60 ${
+          className={`border-none px-5 py-2.5 rounded-[8px] font-semibold transition-all duration-200 ${
             selectedTab === "documents"
               ? "bg-theme-modal-border font-bold text-white light:bg-[#E0F2FE] light:text-[#026AA2]"
-              : "text-white/20 font-medium hover:text-white light:bg-white light:text-[#535862] light:hover:bg-[#E0F2FE]"
+              : "text-white/30 font-medium hover:text-white hover:bg-theme-modal-border hover:bg-opacity-60 light:bg-white light:text-[#535862] light:hover:bg-[#E0F2FE]"
           }`}
         >
-          {t("connectors.manage.documents")}
+          文档
         </button>
-        <button
+        {/* <button
           onClick={() => setSelectedTab("dataConnectors")}
-          className={`border-none px-4 py-2 rounded-[8px] font-semibold hover:bg-theme-modal-border hover:bg-opacity-60 ${
+          className={`border-none px-5 py-2.5 rounded-[8px] font-semibold transition-all duration-200 ${
             selectedTab === "dataConnectors"
               ? "bg-theme-modal-border font-bold text-white light:bg-[#E0F2FE] light:text-[#026AA2]"
-              : "text-white/20 font-medium hover:text-white light:bg-white light:text-[#535862] light:hover:bg-[#E0F2FE]"
+              : "text-white/30 font-medium hover:text-white hover:bg-theme-modal-border hover:bg-opacity-60 light:bg-white light:text-[#535862] light:hover:bg-[#E0F2FE]"
           }`}
         >
-          {t("connectors.manage.data-connectors")}
-        </button>
+          数据连接器
+        </button> */}
       </div>
     </div>
   );
 };
 
+// 管理工作区模态框钩子
 export function useManageWorkspaceModal() {
   const { user } = useUser();
   const [showing, setShowing] = useState(false);
 
+  // 显示模态框函数
   function showModal() {
     if (user?.role !== "default") {
       setShowing(true);
     }
   }
 
+  // 隐藏模态框函数
   function hideModal() {
     setShowing(false);
   }
 
+  // 按ESC键关闭模态框
   useEffect(() => {
     function onEscape(event) {
       if (!showing || event.key !== "Escape") return;

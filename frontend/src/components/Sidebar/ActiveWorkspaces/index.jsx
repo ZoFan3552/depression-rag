@@ -47,9 +47,9 @@ export default function ActiveWorkspaces() {
   }
 
   /**
-   * Reorders workspaces in the UI via localstorage on client side.
-   * @param {number} startIndex - the index of the workspace to move
-   * @param {number} endIndex - the index to move the workspace to
+   * 通过客户端本地存储重新排序UI中的工作区。
+   * @param {number} startIndex - 要移动的工作区的索引
+   * @param {number} endIndex - 将工作区移动到的索引
    */
   function reorderWorkspaces(startIndex, endIndex) {
     const reorderedWorkspaces = Array.from(workspaces);
@@ -60,7 +60,7 @@ export default function ActiveWorkspaces() {
       reorderedWorkspaces.map((w) => w.id)
     );
     if (!success) {
-      showToast("Failed to reorder workspaces", "error");
+      showToast("工作区重新排序失败", "error");
       Workspace.all().then((workspaces) => setWorkspaces(workspaces));
     }
   }
@@ -76,7 +76,7 @@ export default function ActiveWorkspaces() {
         {(provided) => (
           <div
             role="list"
-            aria-label="Workspaces"
+            aria-label="工作区"
             className="flex flex-col gap-y-2"
             ref={provided.innerRef}
             {...provided.droppableProps}
@@ -109,17 +109,17 @@ export default function ActiveWorkspaces() {
                           aria-current={isActive ? "page" : ""}
                           className={`
                             transition-all duration-[200ms]
-                            flex flex-grow w-[75%] gap-x-2 py-[6px] pl-[4px] pr-[6px] rounded-[4px] text-white justify-start items-center
+                            flex flex-grow w-[75%] gap-x-2 py-[6px] pl-[4px] pr-[6px] rounded-[6px] text-white justify-start items-center
                             bg-theme-sidebar-item-default
-                            hover:bg-theme-sidebar-subitem-hover hover:font-bold
-                            ${isActive ? "bg-theme-sidebar-item-selected font-bold light:outline-2 light:outline light:outline-blue-400 light:outline-offset-[-2px]" : ""}
+                            hover:bg-theme-sidebar-subitem-hover hover:font-bold hover:shadow-md
+                            ${isActive ? "bg-theme-sidebar-item-selected font-bold light:outline-2 light:outline light:outline-blue-400 light:outline-offset-[-2px] shadow-sm" : ""}
                           `}
                         >
                           <div className="flex flex-row justify-between w-full items-center">
                             {user?.role !== "default" && (
                               <div
                                 {...provided.dragHandleProps}
-                                className="cursor-grab mr-[3px]"
+                                className="cursor-grab mr-[3px] hover:opacity-80 transition-opacity"
                               >
                                 <DotsSixVertical
                                   size={20}
@@ -152,11 +152,11 @@ export default function ActiveWorkspaces() {
                                     setSelectedWs(workspace);
                                     showModal();
                                   }}
-                                  className="border-none rounded-md flex items-center justify-center ml-auto p-[2px] hover:bg-[#646768] text-[#A7A8A9] hover:text-white"
+                                  className="border-none rounded-md flex items-center justify-center ml-auto p-[2px] hover:bg-[#646768] text-[#A7A8A9] hover:text-white transition-colors duration-150"
+                                  aria-label="上传内容"
                                 >
                                   <UploadSimple
                                     className="h-[20px] w-[20px]"
-                                    // weight="bold"
                                   />
                                 </button>
                                 <Link
@@ -167,8 +167,8 @@ export default function ActiveWorkspaces() {
                                           workspace.slug
                                         )
                                   }
-                                  className="rounded-md flex items-center justify-center text-[#A7A8A9] hover:text-white ml-auto p-[2px] hover:bg-[#646768]"
-                                  aria-label="General appearance settings"
+                                  className="rounded-md flex items-center justify-center text-[#A7A8A9] hover:text-white ml-auto p-[2px] hover:bg-[#646768] transition-colors duration-150"
+                                  aria-label="常规外观设置"
                                 >
                                   <GearSix
                                     color={
@@ -177,7 +177,6 @@ export default function ActiveWorkspaces() {
                                         ? "#46C8FF"
                                         : undefined
                                     }
-                                    // weight="bold"
                                     className="h-[20px] w-[20px]"
                                   />
                                 </Link>

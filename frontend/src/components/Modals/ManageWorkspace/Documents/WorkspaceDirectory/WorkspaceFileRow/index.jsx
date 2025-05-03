@@ -9,6 +9,7 @@ import Workspace from "@/models/workspace";
 import showToast from "@/utils/toast";
 import System from "@/models/system";
 
+// 工作区文件行组件
 export default function WorkspaceFileRow({
   item,
   folderName,
@@ -23,31 +24,34 @@ export default function WorkspaceFileRow({
   disableSelection,
   setSelectedItems,
 }) {
+  // 移除文件的处理函数
   const onRemoveClick = async (e) => {
     e.stopPropagation();
     setLoading(true);
 
     try {
-      setLoadingMessage(`Removing file from workspace`);
+      setLoadingMessage(`正在从工作区移除文件`);
       await Workspace.modifyEmbeddings(workspace.slug, {
         adds: [],
         deletes: [`${folderName}/${item.name}`],
       });
       await fetchKeys(true);
     } catch (error) {
-      console.error("Failed to remove document:", error);
+      console.error("移除文档失败:", error);
     }
     setSelectedItems({});
     setLoadingMessage("");
     setLoading(false);
   };
 
+  // 切换行选择状态
   function toggleRowSelection(e) {
     if (disableSelection) return;
     e.stopPropagation();
     toggleSelection();
   }
 
+  // 处理行内复选框的点击
   function handleRowSelection(e) {
     e.stopPropagation();
     toggleSelection();
@@ -56,7 +60,7 @@ export default function WorkspaceFileRow({
   const isMovedItem = movedItems?.some((movedItem) => movedItem.id === item.id);
   return (
     <div
-      className={`text-theme-text-primary text-xs grid grid-cols-12 py-2 pl-3.5 pr-8 h-[34px] items-center ${
+      className={`text-theme-text-primary text-xs grid grid-cols-12 py-2.5 pl-4 pr-8 h-[36px] items-center transition-colors duration-150 ${
         !disableSelection
           ? "hover:bg-theme-file-picker-hover cursor-pointer"
           : ""
@@ -66,7 +70,7 @@ export default function WorkspaceFileRow({
       onClick={toggleRowSelection}
     >
       <div
-        className="col-span-10 w-fit flex gap-x-[2px] items-center relative"
+        className="col-span-10 w-fit flex gap-x-[3px] items-center relative"
         data-tooltip-id="ws-directory-item"
         data-tooltip-content={JSON.stringify({
           title: item.title,
@@ -79,7 +83,7 @@ export default function WorkspaceFileRow({
             <div
               className={`shrink-0 w-3 h-3 rounded border-[1px] border-solid border-white ${
                 selected ? "text-white" : "text-theme-text-primary light:invert"
-              } flex justify-center items-center cursor-pointer`}
+              } flex justify-center items-center cursor-pointer transition-all duration-150 hover:bg-white/10`}
               role="checkbox"
               aria-checked={selected}
               tabIndex={0}
@@ -90,7 +94,7 @@ export default function WorkspaceFileRow({
           ) : null}
         </div>
         <File
-          className="shrink-0 text-base font-bold w-4 h-4 mr-[3px] ml-1"
+          className="shrink-0 text-base font-bold w-4 h-4 mr-[4px] ml-1.5"
           weight="fill"
         />
         <p className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[400px]">
@@ -120,6 +124,7 @@ export default function WorkspaceFileRow({
   );
 }
 
+// 将文件固定到工作区的组件
 const PinItemToWorkspace = memo(({ workspace, docPath, item }) => {
   const [pinned, setPinned] = useState(
     item?.pinnedWorkspaces?.includes(workspace.id) || false
@@ -127,6 +132,7 @@ const PinItemToWorkspace = memo(({ workspace, docPath, item }) => {
   const [hover, setHover] = useState(false);
   const pinEvent = new CustomEvent("pinned_document");
 
+  // 更新固定状态
   const updatePinStatus = async (e) => {
     try {
       e.stopPropagation();
@@ -138,20 +144,20 @@ const PinItemToWorkspace = memo(({ workspace, docPath, item }) => {
       );
 
       if (!success) {
-        showToast(`Failed to ${!pinned ? "pin" : "unpin"} document.`, "error", {
+        showToast(`${!pinned ? "固定" : "取消固定"}文档失败。`, "error", {
           clear: true,
         });
         return;
       }
 
       showToast(
-        `Document ${!pinned ? "pinned to" : "unpinned from"} workspace`,
+        `文档已${!pinned ? "固定到" : "从"}工作区${!pinned ? "" : "取消固定"}`,
         "success",
         { clear: true }
       );
       setPinned(!pinned);
     } catch (error) {
-      showToast(`Failed to pin document. ${error.message}`, "error", {
+      showToast(`固定文档失败。${error.message}`, "error", {
         clear: true,
       });
       return;
@@ -165,36 +171,38 @@ const PinItemToWorkspace = memo(({ workspace, docPath, item }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={updatePinStatus}
-      className="flex items-center ml-2 cursor-pointer"
+      className="flex items-center ml-2 cursor-pointer transition-all duration-200"
       data-tooltip-id="pin-document"
       data-tooltip-content={
-        pinned ? "Un-pin from workspace" : "Pin to workspace"
+        pinned ? "取消固定" : "固定到工作区"
       }
     >
       {pinned ? (
         <div
-          className={`bg-theme-settings-input-active rounded-3xl whitespace-nowrap ${hover ? "bg-red-500/20" : ""}`}
+          className={`bg-theme-settings-input-active rounded-3xl whitespace-nowrap transition-colors duration-200 ${hover ? "bg-red-500/20" : ""}`}
         >
-          <p className={`text-xs px-2 py-0.5 ${hover ? "text-red-500" : ""}`}>
-            {hover ? "Un-pin" : "Pinned"}
+          <p className={`text-xs px-2.5 py-0.5 ${hover ? "text-red-500" : ""}`}>
+            {hover ? "取消固定" : "已固定"}
           </p>
         </div>
       ) : (
         <PushPin
           size={16}
           weight="regular"
-          className="outline-none text-base font-bold flex-shrink-0"
+          className="outline-none text-base font-bold flex-shrink-0 hover:scale-110 transition-transform duration-150"
         />
       )}
     </div>
   );
 });
 
+// 监控文件变化的组件
 const WatchForChanges = memo(({ workspace, docPath, item }) => {
   const [watched, setWatched] = useState(item?.watched || false);
   const [hover, setHover] = useState(false);
   const watchEvent = new CustomEvent("watch_document_for_changes");
 
+  // 更新监控状态
   const updateWatchStatus = async () => {
     try {
       if (!watched) window.dispatchEvent(watchEvent);
@@ -207,7 +215,7 @@ const WatchForChanges = memo(({ workspace, docPath, item }) => {
 
       if (!success) {
         showToast(
-          `Failed to ${!watched ? "watch" : "unwatch"} document.`,
+          `${!watched ? "监控" : "取消监控"}文档失败。`,
           "error",
           {
             clear: true,
@@ -217,17 +225,17 @@ const WatchForChanges = memo(({ workspace, docPath, item }) => {
       }
 
       showToast(
-        `Document ${
+        `文档${
           !watched
-            ? "will be watched for changes"
-            : "will no longer be watched for changes"
-        }.`,
+            ? "将被监控变化"
+            : "不再被监控变化"
+        }。`,
         "success",
         { clear: true }
       );
       setWatched(!watched);
     } catch (error) {
-      showToast(`Failed to watch document. ${error.message}`, "error", {
+      showToast(`监控文档失败。${error.message}`, "error", {
         clear: true,
       });
       return;
@@ -240,30 +248,31 @@ const WatchForChanges = memo(({ workspace, docPath, item }) => {
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="flex gap-x-2 items-center hover:bg-theme-file-picker-hover p-[2px] rounded ml-2"
+      className="flex gap-x-2 items-center hover:bg-theme-file-picker-hover p-[3px] rounded-md ml-2 transition-colors duration-150"
     >
       <Eye
         data-tooltip-id="watch-changes"
         data-tooltip-content={
-          watched ? "Stop watching for changes" : "Watch document for changes"
+          watched ? "停止监控变化" : "监控文档变化"
         }
         size={16}
         onClick={updateWatchStatus}
         weight={hover || watched ? "fill" : "regular"}
-        className="outline-none text-base font-bold flex-shrink-0 cursor-pointer"
+        className="outline-none text-base font-bold flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-150"
       />
     </div>
   );
 });
 
+// 从工作区移除项目的组件
 const RemoveItemFromWorkspace = ({ item, onClick }) => {
   return (
     <div>
       <ArrowUUpLeft
         data-tooltip-id="remove-document"
-        data-tooltip-content="Remove document from workspace"
+        data-tooltip-content="从工作区移除文档"
         onClick={onClick}
-        className="text-base font-bold w-4 h-4 ml-2 flex-shrink-0 cursor-pointer"
+        className="text-base font-bold w-4 h-4 ml-2 flex-shrink-0 cursor-pointer hover:text-red-400 transition-colors duration-200 hover:scale-110 transition-transform"
       />
     </div>
   );

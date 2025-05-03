@@ -6,8 +6,8 @@ import showToast from "../../../../utils/toast";
 import Directory from "./Directory";
 import WorkspaceDirectory from "./WorkspaceDirectory";
 
-// OpenAI Cost per token
-// ref: https://openai.com/pricing#:~:text=%C2%A0/%201K%20tokens-,Embedding%20models,-Build%20advanced%20search
+// OpenAI每个token的成本
+// 参考: https://openai.com/pricing#:~:text=%C2%A0/%201K%20tokens-,Embedding%20models,-Build%20advanced%20search
 
 const MODEL_COSTS = {
   "text-embedding-ada-002": 0.0000001, // $0.0001 / 1K tokens
@@ -26,6 +26,7 @@ export default function DocumentSettings({ workspace, systemSettings }) {
   const [embeddingsCost, setEmbeddingsCost] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState("");
 
+  // 获取文件列表和工作区文档
   async function fetchKeys(refetchWorkspace = false) {
     setLoading(true);
     const localFiles = await System.localFiles();
@@ -36,7 +37,7 @@ export default function DocumentSettings({ workspace, systemSettings }) {
     const documentsInWorkspace =
       currentWorkspace.documents.map((doc) => doc.docpath) || [];
 
-    // Documents that are not in the workspace
+    // 不在工作区中的文档
     const availableDocs = {
       ...localFiles,
       items: localFiles.items.map((folder) => {
@@ -55,7 +56,7 @@ export default function DocumentSettings({ workspace, systemSettings }) {
       }),
     };
 
-    // Documents that are already in the workspace
+    // 已经在工作区中的文档
     const workspaceDocs = {
       ...localFiles,
       items: localFiles.items.map((folder) => {
@@ -79,15 +80,17 @@ export default function DocumentSettings({ workspace, systemSettings }) {
     setLoading(false);
   }
 
+  // 组件加载时获取文件
   useEffect(() => {
     fetchKeys(true);
   }, []);
 
+  // 更新工作区
   const updateWorkspace = async (e) => {
     e.preventDefault();
     setLoading(true);
-    showToast("Updating workspace...", "info", { autoClose: false });
-    setLoadingMessage("This may take a while for large documents");
+    showToast("正在更新工作区...", "info", { autoClose: false });
+    setLoadingMessage("大型文档可能需要一些时间");
 
     const changesToSend = {
       adds: movedItems.map((item) => `${item.folderName}/${item.name}`),
@@ -99,15 +102,15 @@ export default function DocumentSettings({ workspace, systemSettings }) {
     await Workspace.modifyEmbeddings(workspace.slug, changesToSend)
       .then((res) => {
         if (!!res.message) {
-          showToast(`Error: ${res.message}`, "error", { clear: true });
+          showToast(`错误: ${res.message}`, "error", { clear: true });
           return;
         }
-        showToast("Workspace updated successfully.", "success", {
+        showToast("工作区更新成功。", "success", {
           clear: true,
         });
       })
       .catch((error) => {
-        showToast(`Workspace update failed: ${error}`, "error", {
+        showToast(`工作区更新失败: ${error}`, "error", {
           clear: true,
         });
       });
@@ -118,6 +121,7 @@ export default function DocumentSettings({ workspace, systemSettings }) {
     setLoadingMessage("");
   };
 
+  // 将选中的项目移动到工作区
   const moveSelectedItemsToWorkspace = () => {
     setHighlightWorkspace(false);
     setHasChanges(true);
@@ -142,7 +146,7 @@ export default function DocumentSettings({ workspace, systemSettings }) {
       }
     });
 
-    // Do not do cost estimation unless the embedding engine is OpenAi.
+    // 仅当嵌入引擎为OpenAI时进行成本估算
     if (systemSettings?.EmbeddingEngine === "openai") {
       const COST_PER_TOKEN =
         MODEL_COSTS[
@@ -208,8 +212,8 @@ export default function DocumentSettings({ workspace, systemSettings }) {
         moveToWorkspace={moveSelectedItemsToWorkspace}
         setLoadingMessage={setLoadingMessage}
       />
-      <div className="upload-modal-arrow">
-        <ArrowsDownUp className="text-white text-base font-bold rotate-90 w-11 h-11" />
+      <div className="upload-modal-arrow flex items-center justify-center mx-2">
+        <ArrowsDownUp className="text-white text-base font-bold rotate-90 w-11 h-11 transition-transform hover:scale-110" />
       </div>
       <WorkspaceDirectory
         workspace={workspace}

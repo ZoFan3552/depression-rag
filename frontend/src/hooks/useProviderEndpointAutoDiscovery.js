@@ -8,6 +8,7 @@ export default function useProviderEndpointAutoDiscovery({
   initialAuthToken = null,
   ENDPOINTS = [],
 }) {
+  // 状态管理hooks
   const [loading, setLoading] = useState(false);
   const [basePath, setBasePath] = useState(initialBasePath);
   const [basePathValue, setBasePathValue] = useState(initialBasePath);
@@ -17,6 +18,7 @@ export default function useProviderEndpointAutoDiscovery({
   const [autoDetectAttempted, setAutoDetectAttempted] = useState(false);
   const [showAdvancedControls, setShowAdvancedControls] = useState(true);
 
+  // 自动检测端点的函数
   async function autoDetect(isInitialAttempt = false) {
     setLoading(true);
     setAutoDetectAttempted(true);
@@ -27,11 +29,11 @@ export default function useProviderEndpointAutoDiscovery({
           System.customModels(provider, authTokenValue, endpoint, 2_000)
             .then((results) => {
               if (!results?.models || results.models.length === 0)
-                throw new Error("No models");
+                throw new Error("没有找到模型");
               resolve({ endpoint, models: results.models });
             })
             .catch(() => {
-              reject(`${provider} @ ${endpoint} did not resolve.`);
+              reject(`${provider} @ ${endpoint} 无法解析。`);
             });
         })
       );
@@ -40,7 +42,7 @@ export default function useProviderEndpointAutoDiscovery({
     const { endpoint, models } = await Promise.any(possibleEndpoints)
       .then((resolved) => resolved)
       .catch(() => {
-        console.error("All endpoints failed to resolve.");
+        console.error("所有端点均无法解析。");
         return { endpoint: null, models: null };
       });
 
@@ -48,7 +50,7 @@ export default function useProviderEndpointAutoDiscovery({
       setBasePath(endpoint);
       setBasePathValue(endpoint);
       setLoading(false);
-      showToast("Provider endpoint discovered automatically.", "success", {
+      showToast("提供商端点已自动发现。", "success", {
         clear: true,
       });
       setShowAdvancedControls(false);
@@ -58,39 +60,46 @@ export default function useProviderEndpointAutoDiscovery({
     setLoading(false);
     setShowAdvancedControls(true);
     showToast(
-      "Couldn't automatically discover the provider endpoint. Please enter it manually.",
+      "暂未检测到该提供商的 URL，请自行输入",
       "info",
       { clear: true }
     );
   }
 
+  // 处理自动检测按钮点击事件
   function handleAutoDetectClick(e) {
     e.preventDefault();
     autoDetect();
   }
 
+  // 处理基础路径变更
   function handleBasePathChange(e) {
     const value = e.target.value;
     setBasePathValue(value);
   }
 
+  // 处理基础路径失焦事件
   function handleBasePathBlur() {
     setBasePath(basePathValue);
   }
 
+  // 处理认证令牌变更
   function handleAuthTokenChange(e) {
     const value = e.target.value;
     setAuthTokenValue(value);
   }
 
+  // 处理认证令牌失焦事件
   function handleAuthTokenBlur() {
     setAuthToken(authTokenValue);
   }
 
+  // 初始化时执行自动检测
   useEffect(() => {
     if (!initialBasePath && !autoDetectAttempted) autoDetect(true);
   }, [initialBasePath, initialAuthToken, autoDetectAttempted]);
 
+  // 返回钩子状态和方法
   return {
     autoDetecting: loading,
     autoDetectAttempted,

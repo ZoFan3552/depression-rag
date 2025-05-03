@@ -14,6 +14,8 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
   const promptRef = useRef(null);
   const [searchParams] = useSearchParams();
 
+  // ... existing code ...
+
   useEffect(() => {
     async function setupVariableHighlighting() {
       const { variables } = await SystemPromptVariable.getAll();
@@ -21,6 +23,8 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
     }
     setupVariableHighlighting();
   }, []);
+
+  // ... existing code ...
 
   useEffect(() => {
     if (searchParams.get("action") === "focus-system-prompt")
@@ -43,31 +47,31 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
           {t("chat.prompt.description")}
         </p>
         <p className="text-white text-opacity-60 text-xs font-medium mb-2">
-          You can insert{" "}
+          您可以插入{" "}
           <Link
             to={paths.settings.systemPromptVariables()}
-            className="text-primary-button"
+            className="text-primary-button hover:underline"
           >
-            prompt variables
+            提示变量
           </Link>{" "}
-          like:{" "}
+          例如：{" "}
           {availableVariables.slice(0, 3).map((v, i) => (
             <>
               <span
                 key={v.key}
-                className="bg-theme-settings-input-bg px-1 py-0.5 rounded"
+                className="bg-theme-settings-input-bg px-1.5 py-0.5 rounded font-mono text-xs"
               >
                 {`{${v.key}}`}
               </span>
-              {i < availableVariables.length - 1 && ", "}
+              {i < availableVariables.length - 1 && "、 "}
             </>
           ))}
           {availableVariables.length > 3 && (
             <Link
               to={paths.settings.systemPromptVariables()}
-              className="text-primary-button"
+              className="text-primary-button hover:underline"
             >
-              +{availableVariables.length - 3} more...
+              +还有{availableVariables.length - 3}个变量...
             </Link>
           )}
         </p>
@@ -79,10 +83,7 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
         <span
           className={`${!!prompt ? "hidden" : "block"} text-sm pointer-events-none absolute top-0 left-0 p-2.5 w-full h-full !text-theme-settings-input-placeholder opacity-60`}
         >
-          Given the following conversation, relevant context, and a follow up
-          question, reply with an answer to the current question the user is
-          asking. Return only your response to the question given the above
-          information following the users instructions as needed.
+          根据以下对话、相关上下文和后续问题，回答用户当前提出的问题。根据上述信息按照用户的指示，仅返回您对问题的回答。
         </span>
         {isEditing ? (
           <textarea
@@ -111,7 +112,7 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
               minHeight: "150px",
             }}
             defaultValue={prompt}
-            className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 mt-2"
+            className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 mt-2 transition duration-200"
           />
         ) : (
           <div
@@ -121,7 +122,7 @@ export default function ChatPromptSettings({ workspace, setHasChanges }) {
               overflowY: "scroll",
               minHeight: "150px",
             }}
-            className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 mt-2"
+            className="border-none bg-theme-settings-input-bg text-white text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 mt-2 cursor-pointer hover:bg-opacity-90 transition duration-200"
           >
             <Highlighter
               className="whitespace-pre-wrap"

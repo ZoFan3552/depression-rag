@@ -71,7 +71,7 @@ const EventMetadata = ({ metadata, expanded = false }) => {
         colSpan="2"
         className="px-6 py-4 font-medium text-theme-text-primary rounded-l-2xl"
       >
-        Event Metadata
+        事件元数据
       </td>
       <td colSpan="4" className="px-6 py-4 rounded-r-2xl">
         <div className="w-full rounded-lg bg-theme-bg-secondary p-2 text-white shadow-sm border-white/10 border bg-opacity-10">

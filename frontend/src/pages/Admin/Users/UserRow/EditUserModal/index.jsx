@@ -12,6 +12,7 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
     limit: user.dailyMessageLimit || 10,
   });
 
+  // 处理用户更新
   const handleUpdate = async (e) => {
     setError(null);
     e.preventDefault();
@@ -29,7 +30,7 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
 
     const { success, error } = await Admin.updateUser(user.id, data);
     if (success) {
-      // Update local storage if we're editing our own user
+      // 如果正在编辑自己的用户信息，更新本地存储
       if (currentUser && currentUser.id === user.id) {
         currentUser.username = data.username;
         currentUser.bio = data.bio;
@@ -44,11 +45,11 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="relative w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow border-2 border-theme-modal-border">
+      <div className="relative w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow-lg border-2 border-theme-modal-border">
         <div className="relative p-6 border-b rounded-t border-theme-modal-border">
           <div className="w-full flex gap-x-2 items-center">
             <h3 className="text-xl font-semibold text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-              Edit {user.username}
+              编辑 {user.username}
             </h3>
           </div>
           <button
@@ -67,21 +68,20 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
                   htmlFor="username"
                   className="block mb-2 text-sm font-medium text-white"
                 >
-                  Username
+                  用户名
                 </label>
                 <input
                   name="username"
                   type="text"
-                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-                  placeholder="User's username"
+                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+                  placeholder="用户的用户名"
                   defaultValue={user.username}
                   minLength={2}
                   required={true}
                   autoComplete="off"
                 />
                 <p className="mt-2 text-xs text-white/60">
-                  Username must only contain lowercase letters, periods,
-                  numbers, underscores, and hyphens with no spaces
+                  用户名只能包含小写字母、句点、数字、下划线和连字符，不能包含空格
                 </p>
               </div>
               <div>
@@ -89,18 +89,18 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-white"
                 >
-                  New Password
+                  新密码
                 </label>
                 <input
                   name="password"
                   type="text"
-                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-                  placeholder={`${user.username}'s new password`}
+                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+                  placeholder={`${user.username} 的新密码`}
                   autoComplete="off"
                   minLength={8}
                 />
                 <p className="mt-2 text-xs text-white/60">
-                  Password must be at least 8 characters long
+                  密码长度必须至少为8个字符
                 </p>
               </div>
               <div>
@@ -108,12 +108,12 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
                   htmlFor="bio"
                   className="block mb-2 text-sm font-medium text-white"
                 >
-                  Bio
+                  个人简介
                 </label>
                 <textarea
                   name="bio"
-                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-                  placeholder="User's bio"
+                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
+                  placeholder="用户的个人简介"
                   defaultValue={user.bio}
                   autoComplete="off"
                   rows={3}
@@ -124,19 +124,19 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
                   htmlFor="role"
                   className="block mb-2 text-sm font-medium text-white"
                 >
-                  Role
+                  角色
                 </label>
                 <select
                   name="role"
                   required={true}
                   defaultValue={user.role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+                  className="border-none bg-theme-settings-input-bg w-full text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all"
                 >
-                  <option value="default">Default</option>
-                  <option value="manager">Manager</option>
+                  <option value="default">普通用户</option>
+                  <option value="manager">管理人员</option>
                   {currentUser?.role === "admin" && (
-                    <option value="admin">Administrator</option>
+                    <option value="admin">系统管理员</option>
                   )}
                 </select>
                 <RoleHintDisplay role={role} />
@@ -147,21 +147,21 @@ export default function EditUserModal({ currentUser, user, closeModal }) {
                 limit={messageLimit.limit}
                 updateState={setMessageLimit}
               />
-              {error && <p className="text-red-400 text-sm">Error: {error}</p>}
+              {error && <p className="text-red-400 text-sm">错误: {error}</p>}
             </div>
             <div className="flex justify-between items-center mt-6 pt-6 border-t border-theme-modal-border">
               <button
                 onClick={closeModal}
                 type="button"
-                className="transition-all duration-300 text-white hover:bg-zinc-700 px-4 py-2 rounded-lg text-sm"
+                className="transition-all duration-300 text-white hover:bg-zinc-700 px-4 py-2 rounded-lg text-sm hover:scale-105"
               >
-                Cancel
+                取消
               </button>
               <button
                 type="submit"
-                className="transition-all duration-300 bg-white text-black hover:opacity-60 px-4 py-2 rounded-lg text-sm"
+                className="transition-all duration-300 bg-white text-black hover:opacity-80 px-4 py-2 rounded-lg text-sm hover:scale-105 shadow-md"
               >
-                Update user
+                更新用户
               </button>
             </div>
           </form>

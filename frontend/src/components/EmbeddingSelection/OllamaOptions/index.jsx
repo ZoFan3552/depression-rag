@@ -19,29 +19,31 @@ export default function OllamaEmbeddingOptions({ settings }) {
     ENDPOINTS: OLLAMA_COMMON_URLS,
   });
 
+  // 最大块长度状态
   const [maxChunkLength, setMaxChunkLength] = useState(
     settings?.EmbeddingModelMaxChunkLength || 8192
   );
 
+  // 处理最大块长度变化
   const handleMaxChunkLengthChange = (e) => {
     setMaxChunkLength(Number(e.target.value));
   };
 
   return (
     <div className="w-full flex flex-col gap-y-7">
-      <div className="w-full flex items-start gap-[36px] mt-1.5">
+      <div className="w-full flex items-start gap-[36px] mt-2">
         <OllamaEmbeddingModelSelection
           settings={settings}
           basePath={basePath.value}
         />
         <div className="flex flex-col w-60">
           <label className="text-white text-sm font-semibold block mb-2">
-            Max Embedding Chunk Length
+            最大嵌入块长度
           </label>
           <input
             type="number"
             name="EmbeddingModelMaxChunkLength"
-            className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+            className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition-all duration-200"
             placeholder="8192"
             min={1}
             value={maxChunkLength}
@@ -51,7 +53,7 @@ export default function OllamaEmbeddingOptions({ settings }) {
             autoComplete="off"
           />
           <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-            Maximum length of text chunks for embedding.
+            用于嵌入的文本块的最大长度。
           </p>
         </div>
       </div>
@@ -61,9 +63,9 @@ export default function OllamaEmbeddingOptions({ settings }) {
             e.preventDefault();
             setShowAdvancedControls(!showAdvancedControls);
           }}
-          className="border-none text-theme-text-primary hover:text-theme-text-secondary flex items-center text-sm"
+          className="border-none text-theme-text-primary hover:text-theme-text-secondary flex items-center text-sm transition-colors duration-150"
         >
-          {showAdvancedControls ? "Hide" : "Show"} Manual Endpoint Input
+          {showAdvancedControls ? "隐藏" : "显示"}手动端点输入
           {showAdvancedControls ? (
             <CaretUp size={14} className="ml-1" />
           ) : (
@@ -77,7 +79,7 @@ export default function OllamaEmbeddingOptions({ settings }) {
           <div className="flex flex-col w-60">
             <div className="flex justify-between items-center mb-2">
               <label className="text-white text-sm font-semibold">
-                Ollama Base URL
+                Ollama 基础 URL
               </label>
               {loading ? (
                 <PreLoader size="6" />
@@ -86,9 +88,9 @@ export default function OllamaEmbeddingOptions({ settings }) {
                   {!basePathValue.value && (
                     <button
                       onClick={handleAutoDetectClick}
-                      className="bg-primary-button text-xs font-medium px-2 py-1 rounded-lg hover:bg-secondary hover:text-white shadow-[0_4px_14px_rgba(0,0,0,0.25)]"
+                      className="bg-primary-button text-xs font-medium px-2 py-1 rounded-lg hover:bg-secondary hover:text-white shadow-[0_4px_14px_rgba(0,0,0,0.25)] transition-all duration-200"
                     >
-                      Auto-Detect
+                      自动检测
                     </button>
                   )}
                 </>
@@ -97,7 +99,7 @@ export default function OllamaEmbeddingOptions({ settings }) {
             <input
               type="url"
               name="EmbeddingBasePath"
-              className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+              className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition-all duration-200"
               placeholder="http://127.0.0.1:11434"
               value={basePathValue.value}
               required={true}
@@ -107,7 +109,7 @@ export default function OllamaEmbeddingOptions({ settings }) {
               onBlur={basePath.onBlur}
             />
             <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-              Enter the URL where Ollama is running.
+              输入 Ollama 运行的 URL 地址。
             </p>
           </div>
         </div>
@@ -117,10 +119,13 @@ export default function OllamaEmbeddingOptions({ settings }) {
 }
 
 function OllamaEmbeddingModelSelection({ settings, basePath = null }) {
+  // 存储可用的自定义模型列表
   const [customModels, setCustomModels] = useState([]);
+  // 控制加载状态
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 获取自定义模型列表
     async function findCustomModels() {
       if (!basePath) {
         setCustomModels([]);
@@ -144,22 +149,21 @@ function OllamaEmbeddingModelSelection({ settings, basePath = null }) {
     return (
       <div className="flex flex-col w-60">
         <label className="text-white text-sm font-semibold block mb-2">
-          Ollama Embedding Model
+          Ollama 嵌入模型
         </label>
         <select
           name="EmbeddingModelPref"
           disabled={true}
-          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-not-allowed opacity-80"
         >
           <option disabled={true} selected={true}>
             {!!basePath
-              ? "--loading available models--"
-              : "Enter Ollama URL first"}
+              ? "--正在加载可用模型--"
+              : "请先输入 Ollama URL"}
           </option>
         </select>
         <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-          Select the Ollama model for embeddings. Models will load after
-          entering a valid Ollama URL.
+          选择用于嵌入的 Ollama 模型。在输入有效的 Ollama URL 后，模型列表将会加载。
         </p>
       </div>
     );
@@ -168,15 +172,15 @@ function OllamaEmbeddingModelSelection({ settings, basePath = null }) {
   return (
     <div className="flex flex-col w-60">
       <label className="text-white text-sm font-semibold block mb-2">
-        Ollama Embedding Model
+        Ollama 嵌入模型
       </label>
       <select
         name="EmbeddingModelPref"
         required={true}
-        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition-colors duration-200 hover:bg-theme-settings-input-active"
       >
         {customModels.length > 0 && (
-          <optgroup label="Your loaded models">
+          <optgroup label="您已加载的模型">
             {customModels.map((model) => {
               return (
                 <option
@@ -192,7 +196,7 @@ function OllamaEmbeddingModelSelection({ settings, basePath = null }) {
         )}
       </select>
       <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-        Choose the Ollama model you want to use for generating embeddings.
+        选择您想要用于生成嵌入的 Ollama 模型。
       </p>
     </div>
   );

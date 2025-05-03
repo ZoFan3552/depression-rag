@@ -8,6 +8,7 @@ import DataHandling from "./DataHandling";
 import Survey from "./Survey";
 import CreateWorkspace from "./CreateWorkspace";
 
+// 定义引导步骤组件映射
 const OnboardingSteps = {
   home: Home,
   "llm-preference": LLMPreference,
@@ -20,21 +21,27 @@ const OnboardingSteps = {
 export default OnboardingSteps;
 
 export function OnboardingLayout({ children }) {
+  // 页面标题和描述状态
   const [header, setHeader] = useState({
     title: "",
     description: "",
   });
+  
+  // 返回按钮状态
   const [backBtn, setBackBtn] = useState({
     showing: false,
     disabled: true,
     onClick: () => null,
   });
+  
+  // 前进按钮状态
   const [forwardBtn, setForwardBtn] = useState({
     showing: false,
     disabled: true,
     onClick: () => null,
   });
 
+  // 移动设备布局
   if (isMobile) {
     return (
       <div
@@ -59,7 +66,8 @@ export function OnboardingLayout({ children }) {
                 <button
                   disabled={backBtn.disabled}
                   onClick={backBtn.onClick}
-                  className="group p-2 rounded-lg border-2 border-zinc-300 disabled:border-zinc-600 h-fit w-fit disabled:not-allowed hover:bg-zinc-100 disabled:hover:bg-transparent"
+                  className="group p-2 rounded-lg border-2 border-zinc-300 disabled:border-zinc-600 h-fit w-fit disabled:cursor-not-allowed hover:bg-zinc-100 disabled:hover:bg-transparent transition-all duration-200"
+                  aria-label="返回"
                 >
                   <ArrowLeft
                     className="text-white group-hover:text-black group-disabled:text-gray-500"
@@ -74,7 +82,8 @@ export function OnboardingLayout({ children }) {
                 <button
                   disabled={forwardBtn.disabled}
                   onClick={forwardBtn.onClick}
-                  className="group p-2 rounded-lg border-2 border-zinc-300 disabled:border-zinc-600 h-fit w-fit disabled:not-allowed hover:bg-teal disabled:hover:bg-transparent"
+                  className="group p-2 rounded-lg border-2 border-zinc-300 disabled:border-zinc-600 h-fit w-fit disabled:cursor-not-allowed hover:bg-teal disabled:hover:bg-transparent transition-all duration-200"
+                  aria-label="继续"
                 >
                   <ArrowRight
                     className="text-white group-hover:text-teal group-disabled:text-gray-500"
@@ -89,18 +98,20 @@ export function OnboardingLayout({ children }) {
     );
   }
 
+  // 桌面设备布局
   return (
     <div
       data-layout="onboarding"
       className="w-screen overflow-y-auto bg-theme-bg-primary flex justify-center overflow-hidden"
     >
+      {/* 左侧返回按钮区域 */}
       <div className="flex w-1/5 h-screen justify-center items-center">
         {backBtn.showing && (
           <button
             disabled={backBtn.disabled}
             onClick={backBtn.onClick}
-            className="group p-2 rounded-lg border-2 border-theme-sidebar-border h-fit w-fit disabled:cursor-not-allowed hover:bg-theme-bg-secondary disabled:hover:bg-transparent"
-            aria-label="Back"
+            className="group p-2 rounded-lg border-2 border-theme-sidebar-border h-fit w-fit disabled:cursor-not-allowed hover:bg-theme-bg-secondary disabled:hover:bg-transparent transition-all duration-200 hover:shadow-md"
+            aria-label="返回"
           >
             <ArrowLeft
               className="text-theme-text-secondary group-hover:text-theme-text-primary group-disabled:text-gray-500"
@@ -110,25 +121,27 @@ export function OnboardingLayout({ children }) {
         )}
       </div>
 
+      {/* 中间内容区域 */}
       <div className="w-full md:w-3/5 relative h-full py-10">
         <div className="flex flex-col w-fit mx-auto gap-y-1 mb-[55px]">
           <h1 className="text-theme-text-primary font-semibold text-center text-2xl">
             {header.title}
           </h1>
-          <p className="text-theme-text-secondary text-base text-center">
+          <p className="text-theme-text-secondary text-base text-center max-w-[600px]">
             {header.description}
           </p>
         </div>
         {children(setHeader, setBackBtn, setForwardBtn)}
       </div>
 
+      {/* 右侧前进按钮区域 */}
       <div className="flex w-1/5 h-screen justify-center items-center">
         {forwardBtn.showing && (
           <button
             disabled={forwardBtn.disabled}
             onClick={forwardBtn.onClick}
-            className="group p-2 rounded-lg border-2 border-theme-sidebar-border h-fit w-fit disabled:cursor-not-allowed hover:bg-teal disabled:hover:bg-transparent"
-            aria-label="Continue"
+            className="group p-2 rounded-lg border-2 border-theme-sidebar-border h-fit w-fit disabled:cursor-not-allowed hover:bg-teal disabled:hover:bg-transparent transition-all duration-200 hover:shadow-md"
+            aria-label="继续"
           >
             <ArrowRight
               className="text-theme-text-secondary group-hover:text-white group-disabled:text-gray-500"

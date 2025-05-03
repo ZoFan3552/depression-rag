@@ -4,7 +4,7 @@ export default function ChromaDBOptions({ settings }) {
       <div className="w-full flex items-center gap-[36px] mt-1.5">
         <div className="flex flex-col w-60">
           <label className="text-white text-sm font-semibold block mb-3">
-            Chroma Endpoint
+            Chroma API 端点
           </label>
           <input
             type="url"

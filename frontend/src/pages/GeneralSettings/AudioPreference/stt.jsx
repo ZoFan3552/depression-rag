@@ -9,15 +9,16 @@ import BrowserNative from "@/components/SpeechToText/BrowserNative";
 
 const PROVIDERS = [
   {
-    name: "System native",
+    name: "浏览器内置",
     value: "native",
     logo: AnythingLLMIcon,
     options: (settings) => <BrowserNative settings={settings} />,
-    description: "Uses your browser's built in STT service if supported.",
+    description: "使用浏览器内置的语音转文字服务（如果支持）。",
   },
 ];
 
 export default function SpeechToTextProvider({ settings }) {
+  // 状态变量定义
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +29,7 @@ export default function SpeechToTextProvider({ settings }) {
   const [searchMenuOpen, setSearchMenuOpen] = useState(false);
   const searchInputRef = useRef(null);
 
+  // 表单提交处理函数
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -39,14 +41,15 @@ export default function SpeechToTextProvider({ settings }) {
     setSaving(true);
 
     if (error) {
-      showToast(`Failed to save preferences: ${error}`, "error");
+      showToast(`保存偏好设置失败: ${error}`, "error");
     } else {
-      showToast("Speech-to-text preferences saved successfully.", "success");
+      showToast("语音转文字偏好设置保存成功。", "success");
     }
     setSaving(false);
     setHasChanges(!!error);
   };
 
+  // 更新提供商选择
   const updateProviderChoice = (selection) => {
     setSearchQuery("");
     setSelectedProvider(selection);
@@ -54,6 +57,7 @@ export default function SpeechToTextProvider({ settings }) {
     setHasChanges(true);
   };
 
+  // 处理X按钮点击
   const handleXButton = () => {
     if (searchQuery.length > 0) {
       setSearchQuery("");
@@ -63,6 +67,7 @@ export default function SpeechToTextProvider({ settings }) {
     }
   };
 
+  // 过滤提供商列表
   useEffect(() => {
     const filtered = PROVIDERS.filter((provider) =>
       provider.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -79,28 +84,25 @@ export default function SpeechToTextProvider({ settings }) {
       <div className="flex flex-col w-full px-1 md:pl-6 md:pr-[50px] md:py-6 py-16">
         <div className="w-full flex flex-col gap-y-1 pb-6 border-white light:border-theme-sidebar-border border-b-2 border-opacity-10">
           <div className="flex gap-x-4 items-center">
-            <p className="text-lg leading-6 font-bold text-white">
-              Speech-to-text Preference
+            <p className="text-xl leading-6 font-bold text-white">
+              语音转文字偏好设置
             </p>
           </div>
-          <p className="text-xs leading-[18px] font-base text-white text-opacity-60">
-            Here you can specify what kind of text-to-speech and speech-to-text
-            providers you would want to use in your AnythingLLM experience. By
-            default, we use the browser's built in support for these services,
-            but you may want to use others.
+          <p className="text-sm leading-[18px] font-medium text-white text-opacity-70">
+            在这里，您可以指定想要在抑郁症专家知识库系统体验中使用何种语音转文字提供商。默认情况下，我们使用浏览器内置的支持服务，但您可能希望使用其他服务。
           </p>
         </div>
         <div className="w-full justify-end flex">
           {hasChanges && (
             <CTAButton
               onClick={() => handleSubmit()}
-              className="mt-3 mr-0 -mb-14 z-10"
+              className="mt-3 mr-0 -mb-14 z-10 hover:shadow-lg transition-all duration-300"
             >
-              {saving ? "Saving..." : "Save changes"}
+              {saving ? "正在保存..." : "保存更改"}
             </CTAButton>
           )}
         </div>
-        <div className="text-base font-bold text-white mt-6 mb-4">Provider</div>
+        <div className="text-base font-bold text-white mt-6 mb-4">提供商</div>
         <div className="relative">
           {searchMenuOpen && (
             <div
@@ -109,7 +111,7 @@ export default function SpeechToTextProvider({ settings }) {
             />
           )}
           {searchMenuOpen ? (
-            <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[310px] overflow-auto white-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button z-20">
+            <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[310px] overflow-auto white-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button shadow-lg z-20">
               <div className="w-full flex flex-col gap-y-1">
                 <div className="flex items-center sticky top-0 border-b border-[#9CA3AF] mx-4 bg-theme-settings-input-bg">
                   <MagnifyingGlass
@@ -121,7 +123,7 @@ export default function SpeechToTextProvider({ settings }) {
                     type="text"
                     name="stt-provider-search"
                     autoComplete="off"
-                    placeholder="Search speech to text providers"
+                    placeholder="搜索语音转文字提供商"
                     className="border-none -ml-4 my-2 bg-transparent z-20 pl-12 h-[38px] w-full px-4 py-1 text-sm outline-none text-theme-text-primary placeholder:text-theme-text-primary placeholder:font-medium"
                     onChange={(e) => setSearchQuery(e.target.value)}
                     ref={searchInputRef}
@@ -132,7 +134,7 @@ export default function SpeechToTextProvider({ settings }) {
                   <X
                     size={20}
                     weight="bold"
-                    className="cursor-pointer text-white hover:text-x-button"
+                    className="cursor-pointer text-white hover:text-x-button transition-colors duration-200"
                     onClick={handleXButton}
                   />
                 </div>
@@ -153,15 +155,15 @@ export default function SpeechToTextProvider({ settings }) {
             </div>
           ) : (
             <button
-              className="w-full max-w-[640px] h-[64px] bg-theme-settings-input-bg rounded-lg flex items-center p-[14px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300"
+              className="w-full max-w-[640px] h-[64px] bg-theme-settings-input-bg rounded-lg flex items-center p-[14px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300 hover:shadow-md"
               type="button"
               onClick={() => setSearchMenuOpen(true)}
             >
               <div className="flex gap-x-4 items-center">
                 <img
                   src={selectedProviderObject.logo}
-                  alt={`${selectedProviderObject.name} logo`}
-                  className="w-10 h-10 rounded-md"
+                  alt={`${selectedProviderObject.name} 标志`}
+                  className="w-10 h-10 rounded-md object-cover"
                 />
                 <div className="flex flex-col text-left">
                   <div className="text-sm font-semibold text-white">

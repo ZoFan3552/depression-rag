@@ -10,6 +10,7 @@ export default function ContextMenu({
   const contextMenuRef = useRef(null);
 
   useEffect(() => {
+    // 处理点击菜单外部区域的事件
     const handleClickOutside = (event) => {
       if (
         contextMenuRef.current &&
@@ -25,6 +26,7 @@ export default function ContextMenu({
     };
   }, [closeContextMenu]);
 
+  // 检查是否所有项目都已被选中
   const isAllSelected = () => {
     const allItems = files.items.flatMap((folder) => [
       folder.name,
@@ -33,6 +35,7 @@ export default function ContextMenu({
     return allItems.every((item) => selectedItems[item]);
   };
 
+  // 切换全选/取消全选状态
   const toggleSelectAll = () => {
     if (isAllSelected()) {
       setSelectedItems({});
@@ -60,19 +63,19 @@ export default function ContextMenu({
         left: `${contextMenu.x}px`,
         zIndex: 1000,
       }}
-      className="bg-theme-bg-secondary border border-theme-modal-border rounded-md shadow-lg"
+      className="bg-theme-bg-secondary border border-theme-modal-border rounded-md shadow-lg transition-shadow duration-200 overflow-hidden"
     >
       <button
         onClick={toggleSelectAll}
-        className="block w-full text-left px-4 py-2 text-sm text-theme-text-primary hover:bg-theme-file-picker-hover"
+        className="block w-full text-left px-4 py-2.5 text-sm text-theme-text-primary hover:bg-theme-file-picker-hover transition-colors duration-150 font-medium"
       >
-        {isAllSelected() ? "Unselect All" : "Select All"}
+        {isAllSelected() ? "取消全选" : "全选"}
       </button>
       <button
         onClick={closeContextMenu}
-        className="block w-full text-left px-4 py-2 text-sm text-theme-text-primary hover:bg-theme-file-picker-hover"
+        className="block w-full text-left px-4 py-2.5 text-sm text-theme-text-primary hover:bg-theme-file-picker-hover transition-colors duration-150 font-medium"
       >
-        Cancel
+        取消
       </button>
     </div>
   );

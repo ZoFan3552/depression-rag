@@ -4,31 +4,22 @@ import { isMobile } from "react-device-detect";
 import System from "@/models/system";
 import showToast from "@/utils/toast";
 import ChromaLogo from "@/media/vectordbs/chroma.png";
-import PineconeLogo from "@/media/vectordbs/pinecone.png";
 import LanceDbLogo from "@/media/vectordbs/lancedb.png";
-import WeaviateLogo from "@/media/vectordbs/weaviate.png";
 import QDrantLogo from "@/media/vectordbs/qdrant.png";
-import MilvusLogo from "@/media/vectordbs/milvus.png";
-import ZillizLogo from "@/media/vectordbs/zilliz.png";
-import AstraDBLogo from "@/media/vectordbs/astraDB.png";
 import PreLoader from "@/components/Preloader";
 import ChangeWarningModal from "@/components/ChangeWarning";
 import { CaretUpDown, MagnifyingGlass, X } from "@phosphor-icons/react";
 import LanceDBOptions from "@/components/VectorDBSelection/LanceDBOptions";
 import ChromaDBOptions from "@/components/VectorDBSelection/ChromaDBOptions";
-import PineconeDBOptions from "@/components/VectorDBSelection/PineconeDBOptions";
 import QDrantDBOptions from "@/components/VectorDBSelection/QDrantDBOptions";
-import WeaviateDBOptions from "@/components/VectorDBSelection/WeaviateDBOptions";
 import VectorDBItem from "@/components/VectorDBSelection/VectorDBItem";
-import MilvusDBOptions from "@/components/VectorDBSelection/MilvusDBOptions";
-import ZillizCloudOptions from "@/components/VectorDBSelection/ZillizCloudOptions";
 import { useModal } from "@/hooks/useModal";
 import ModalWrapper from "@/components/ModalWrapper";
-import AstraDBOptions from "@/components/VectorDBSelection/AstraDBOptions";
 import CTAButton from "@/components/lib/CTAButton";
 import { useTranslation } from "react-i18next";
 
 export default function GeneralVectorDatabase() {
+  // 状态管理
   const [saving, setSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [hasEmbeddings, setHasEmbeddings] = useState(false);
@@ -42,6 +33,7 @@ export default function GeneralVectorDatabase() {
   const { isOpen, openModal, closeModal } = useModal();
   const { t } = useTranslation();
 
+  // 表单提交处理
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (selectedVDB !== settings?.VectorDB && hasChanges && hasEmbeddings) {
@@ -51,6 +43,7 @@ export default function GeneralVectorDatabase() {
     }
   };
 
+  // 保存设置
   const handleSaveSettings = async () => {
     setSaving(true);
     const form = document.getElementById("vectordb-form");
@@ -61,16 +54,17 @@ export default function GeneralVectorDatabase() {
 
     const { error } = await System.updateSystem(settingsData);
     if (error) {
-      showToast(`Failed to save vector database settings: ${error}`, "error");
+      showToast(`向量数据库设置保存失败: ${error}`, "error");
       setHasChanges(true);
     } else {
-      showToast("Vector database preferences saved successfully.", "success");
+      showToast("向量数据库偏好设置保存成功。", "success");
       setHasChanges(false);
     }
     setSaving(false);
     closeModal();
   };
 
+  // 更新向量数据库选择
   const updateVectorChoice = (selection) => {
     setSearchQuery("");
     setSelectedVDB(selection);
@@ -78,6 +72,7 @@ export default function GeneralVectorDatabase() {
     setHasChanges(true);
   };
 
+  // 处理X按钮点击
   const handleXButton = () => {
     if (searchQuery.length > 0) {
       setSearchQuery("");
@@ -87,6 +82,7 @@ export default function GeneralVectorDatabase() {
     }
   };
 
+  // 初始化加载设置
   useEffect(() => {
     async function fetchKeys() {
       const _settings = await System.keys();
@@ -98,6 +94,7 @@ export default function GeneralVectorDatabase() {
     fetchKeys();
   }, []);
 
+  // 根据搜索查询过滤向量数据库
   useEffect(() => {
     const filtered = VECTOR_DBS.filter((vdb) =>
       vdb.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -105,6 +102,7 @@ export default function GeneralVectorDatabase() {
     setFilteredVDBs(filtered);
   }, [searchQuery, selectedVDB]);
 
+  // 向量数据库列表
   const VECTOR_DBS = [
     {
       name: "LanceDB",
@@ -112,7 +110,7 @@ export default function GeneralVectorDatabase() {
       logo: LanceDbLogo,
       options: <LanceDBOptions />,
       description:
-        "100% local vector DB that runs on the same instance as AnythingLLM.",
+        "100%本地向量数据库，与抑郁症专家知识库系统在同一实例上运行。",
     },
     {
       name: "Chroma",
@@ -120,51 +118,14 @@ export default function GeneralVectorDatabase() {
       logo: ChromaLogo,
       options: <ChromaDBOptions settings={settings} />,
       description:
-        "Open source vector database you can host yourself or on the cloud.",
-    },
-    {
-      name: "Pinecone",
-      value: "pinecone",
-      logo: PineconeLogo,
-      options: <PineconeDBOptions settings={settings} />,
-      description: "100% cloud-based vector database for enterprise use cases.",
-    },
-    {
-      name: "Zilliz Cloud",
-      value: "zilliz",
-      logo: ZillizLogo,
-      options: <ZillizCloudOptions settings={settings} />,
-      description:
-        "Cloud hosted vector database built for enterprise with SOC 2 compliance.",
+        "开源向量数据库，可以自行托管或部署在云端。",
     },
     {
       name: "QDrant",
       value: "qdrant",
       logo: QDrantLogo,
       options: <QDrantDBOptions settings={settings} />,
-      description: "Open source local and distributed cloud vector database.",
-    },
-    {
-      name: "Weaviate",
-      value: "weaviate",
-      logo: WeaviateLogo,
-      options: <WeaviateDBOptions settings={settings} />,
-      description:
-        "Open source local and cloud hosted multi-modal vector database.",
-    },
-    {
-      name: "Milvus",
-      value: "milvus",
-      logo: MilvusLogo,
-      options: <MilvusDBOptions settings={settings} />,
-      description: "Open-source, highly scalable, and blazing fast.",
-    },
-    {
-      name: "AstraDB",
-      value: "astra",
-      logo: AstraDBLogo,
-      options: <AstraDBOptions settings={settings} />,
-      description: "Vector Search for Real-world GenAI.",
+      description: "开源本地和分布式云向量数据库。",
     },
   ];
 
@@ -195,26 +156,26 @@ export default function GeneralVectorDatabase() {
             <div className="flex flex-col w-full px-1 md:pl-6 md:pr-[50px] py-16 md:py-6">
               <div className="w-full flex flex-col gap-y-1 pb-6 border-white light:border-theme-sidebar-border border-b-2 border-opacity-10">
                 <div className="flex gap-x-4 items-center">
-                  <p className="text-lg leading-6 font-bold text-white">
-                    {t("vector.title")}
+                  <p className="text-xl leading-6 font-bold text-white">
+                    {t("vector.title", "抑郁症专家知识库系统 - 向量数据库设置")}
                   </p>
                 </div>
-                <p className="text-xs leading-[18px] font-base text-white text-opacity-60">
-                  {t("vector.description")}
+                <p className="text-sm leading-[18px] font-medium text-white text-opacity-70">
+                  {t("vector.description", "在这里您可以配置用于存储和检索抑郁症知识嵌入向量的数据库，这对知识检索和智能问答至关重要。")}
                 </p>
               </div>
               <div className="w-full justify-end flex">
                 {hasChanges && (
                   <CTAButton
                     onClick={() => handleSubmit()}
-                    className="mt-3 mr-0 -mb-14 z-10"
+                    className="mt-3 mr-0 -mb-14 z-10 hover:shadow-lg transition-all duration-300"
                   >
-                    {saving ? t("common.saving") : t("common.save")}
+                    {saving ? t("common.saving", "正在保存...") : t("common.save", "保存更改")}
                   </CTAButton>
                 )}
               </div>
               <div className="text-base font-bold text-white mt-6 mb-4">
-                {t("vector.provider.title")}
+                {t("vector.provider.title", "向量数据库提供商")}
               </div>
               <div className="relative">
                 {searchMenuOpen && (
@@ -224,7 +185,7 @@ export default function GeneralVectorDatabase() {
                   />
                 )}
                 {searchMenuOpen ? (
-                  <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[310px] overflow-auto white-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button z-20">
+                  <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[310px] overflow-auto white-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button shadow-lg z-20">
                     <div className="w-full flex flex-col gap-y-1">
                       <div className="flex items-center sticky top-0 border-b border-[#9CA3AF] mx-4 bg-theme-settings-input-bg">
                         <MagnifyingGlass
@@ -236,7 +197,7 @@ export default function GeneralVectorDatabase() {
                           type="text"
                           name="vdb-search"
                           autoComplete="off"
-                          placeholder="Search all vector database providers"
+                          placeholder="搜索所有向量数据库提供商"
                           className="border-none -ml-4 my-2 bg-transparent z-20 pl-12 h-[38px] w-full px-4 py-1 text-sm outline-none text-theme-text-primary placeholder:text-theme-text-primary placeholder:font-medium"
                           onChange={(e) => setSearchQuery(e.target.value)}
                           ref={searchInputRef}
@@ -247,7 +208,7 @@ export default function GeneralVectorDatabase() {
                         <X
                           size={20}
                           weight="bold"
-                          className="cursor-pointer text-white hover:text-x-button"
+                          className="cursor-pointer text-white hover:text-x-button transition-colors duration-200"
                           onClick={handleXButton}
                         />
                       </div>
@@ -268,15 +229,15 @@ export default function GeneralVectorDatabase() {
                   </div>
                 ) : (
                   <button
-                    className="w-full max-w-[640px] h-[64px] bg-theme-settings-input-bg rounded-lg flex items-center p-[14px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300"
+                    className="w-full max-w-[640px] h-[64px] bg-theme-settings-input-bg rounded-lg flex items-center p-[14px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300 hover:shadow-md"
                     type="button"
                     onClick={() => setSearchMenuOpen(true)}
                   >
                     <div className="flex gap-x-4 items-center">
                       <img
                         src={selectedVDBObject.logo}
-                        alt={`${selectedVDBObject.name} logo`}
-                        className="w-10 h-10 rounded-md"
+                        alt={`${selectedVDBObject.name} 标志`}
+                        className="w-10 h-10 rounded-md object-cover"
                       />
                       <div className="flex flex-col text-left">
                         <div className="text-sm font-semibold text-white">
@@ -308,7 +269,7 @@ export default function GeneralVectorDatabase() {
       )}
       <ModalWrapper isOpen={isOpen}>
         <ChangeWarningModal
-          warningText="Switching the vector database will reset all previously embedded documents in all workspaces.\n\nConfirming will clear all embeddings from your vector database and remove all documents from your workspaces. Your uploaded documents will not be deleted, they will be available for re-embedding."
+          warningText="切换向量数据库将重置所有工作区中以前嵌入的文档。\n\n确认后将清除向量数据库中的所有嵌入，并从您的工作区中删除所有文档。您上传的文档不会被删除，它们将可用于重新嵌入。"
           onClose={closeModal}
           onConfirm={handleSaveSettings}
         />

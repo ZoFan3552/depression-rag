@@ -124,7 +124,7 @@ function systemEndpoints(app) {
             "failed_login_invalid_username",
             {
               ip: request.ip || "Unknown IP",
-              username: username || "Unknown user",
+              username: username || "default user",
             },
             existingUser?.id
           );
@@ -142,7 +142,7 @@ function systemEndpoints(app) {
             "failed_login_invalid_password",
             {
               ip: request.ip || "Unknown IP",
-              username: username || "Unknown user",
+              username: username || "default user",
             },
             existingUser?.id
           );
@@ -160,7 +160,7 @@ function systemEndpoints(app) {
             "failed_login_account_suspended",
             {
               ip: request.ip || "Unknown IP",
-              username: username || "Unknown user",
+              username: username || "default user",
             },
             existingUser?.id
           );
@@ -183,7 +183,7 @@ function systemEndpoints(app) {
           "login_event",
           {
             ip: request.ip || "Unknown IP",
-            username: existingUser.username || "Unknown user",
+            username: existingUser.username || "default user",
           },
           existingUser?.id
         );
@@ -285,7 +285,7 @@ function systemEndpoints(app) {
         "login_event",
         {
           ip: request.ip || "Unknown IP",
-          username: token.user.username || "Unknown user",
+          username: token.user.username || "default user",
         },
         token.user.id
       );

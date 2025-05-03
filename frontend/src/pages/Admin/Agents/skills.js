@@ -1,5 +1,4 @@
 import AgentWebSearchSelection from "./WebSearchSelection";
-import AgentSQLConnectorSelection from "./SQLConnectorSelection";
 import GenericSkillPanel from "./GenericSkillPanel";
 import DefaultSkillPanel from "./DefaultSkillPanel";
 import {
@@ -13,30 +12,33 @@ import RAGImage from "@/media/agents/rag-memory.png";
 import SummarizeImage from "@/media/agents/view-summarize.png";
 import ScrapeWebsitesImage from "@/media/agents/scrape-websites.png";
 import GenerateChartsImage from "@/media/agents/generate-charts.png";
-import GenerateSaveImages from "@/media/agents/generate-save-files.png";
 
+/**
+ * 默认技能配置
+ * 这些技能是系统内置的基础能力
+ */
 export const defaultSkills = {
   "rag-memory": {
-    title: "RAG & long-term memory",
+    title: "抑郁症知识检索与长期记忆",
     description:
-      'Allow the agent to leverage your local documents to answer a query or ask the agent to "remember" pieces of content for long-term memory retrieval.',
+      "允许抑郁症专家利用本地文档回答查询，或要求专家“记住”内容片段以便进行长期记忆检索。",
     component: DefaultSkillPanel,
     icon: Brain,
     image: RAGImage,
     skill: "rag-memory",
   },
   "document-summarizer": {
-    title: "View & summarize documents",
+    title: "查看与总结文档",
     description:
-      "Allow the agent to list and summarize the content of workspace files currently embedded.",
+      "允许抑郁症专家列出并总结当前嵌入的工作区文件内容，提取关键的抑郁症治疗信息。",
     component: DefaultSkillPanel,
     icon: File,
     image: SummarizeImage,
     skill: "document-summarizer",
   },
   "web-scraping": {
-    title: "Scrape websites",
-    description: "Allow the agent to visit and scrape the content of websites.",
+    title: "网站内容抓取",
+    description: "允许抑郁症专家访问并抓取网站内容，获取最新的心理健康研究资料。",
     component: DefaultSkillPanel,
     icon: Browser,
     image: ScrapeWebsitesImage,
@@ -44,33 +46,27 @@ export const defaultSkills = {
   },
 };
 
+/**
+ * 可配置技能
+ * 这些技能需要额外配置才能启用
+ */
 export const configurableSkills = {
-  "save-file-to-browser": {
-    title: "Generate & save files to browser",
-    description:
-      "Enable the default agent to generate and write to files that can be saved to your computer.",
-    component: GenericSkillPanel,
-    skill: "save-file-to-browser",
-    icon: FileMagnifyingGlass,
-    image: GenerateSaveImages,
-  },
   "create-chart": {
-    title: "Generate charts",
+    title: "生成数据图表",
     description:
-      "Enable the default agent to generate various types of charts from data provided or given in chat.",
+      "使抑郁症专家能够从提供的数据或聊天中给出的信息生成各种类型的图表，直观展示抑郁症相关统计数据。",
     component: GenericSkillPanel,
     skill: "create-chart",
     icon: ChartBar,
     image: GenerateChartsImage,
   },
   "web-browsing": {
-    title: "Web Search",
+    title: "网络搜索",
+    description:
+      "允许抑郁症专家在网络上搜索最新的心理健康信息，提供循证治疗建议。",
     component: AgentWebSearchSelection,
     skill: "web-browsing",
-  },
-  "sql-agent": {
-    title: "SQL Connector",
-    component: AgentSQLConnectorSelection,
-    skill: "sql-agent",
+    icon: FileMagnifyingGlass,
+    image: ScrapeWebsitesImage,
   },
 };

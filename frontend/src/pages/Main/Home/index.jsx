@@ -1,8 +1,5 @@
 import React from "react";
 import QuickLinks from "./QuickLinks";
-import ExploreFeatures from "./ExploreFeatures";
-import Updates from "./Updates";
-import Resources from "./Resources";
 import Checklist from "./Checklist";
 import { isMobile } from "react-device-detect";
 
@@ -16,9 +13,6 @@ export default function Home() {
         <div className="w-full max-w-[1200px] flex flex-col gap-y-[24px] p-4 pt-16 md:p-12 md:pt-11">
           <Checklist />
           <QuickLinks />
-          <ExploreFeatures />
-          <Updates />
-          <Resources />
         </div>
       </div>
     </div>

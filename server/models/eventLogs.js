@@ -91,7 +91,7 @@ const EventLogs = {
         const user = res.userId ? await User.get({ id: res.userId }) : null;
         res.user = user
           ? { username: user.username }
-          : { username: "unknown user" };
+          : { username: "default user" };
       }
 
       return results;

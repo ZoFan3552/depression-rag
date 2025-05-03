@@ -18,6 +18,7 @@ export default function WorkspaceAgentConfiguration({ workspace }) {
   const [loading, setLoading] = useState(true);
   const formEl = useRef(null);
 
+  // 获取系统设置
   useEffect(() => {
     async function fetchSettings() {
       const _settings = await System.keys();
@@ -28,6 +29,7 @@ export default function WorkspaceAgentConfiguration({ workspace }) {
     fetchSettings();
   }, []);
 
+  // 处理更新
   const handleUpdate = async (e) => {
     setSaving(true);
     e.preventDefault();
@@ -62,9 +64,9 @@ export default function WorkspaceAgentConfiguration({ workspace }) {
     await System.updateSystem(data.env);
 
     if (!!updatedWorkspace) {
-      showToast("Workspace updated!", "success", { clear: true });
+      showToast("工作区已更新！", "success", { clear: true });
     } else {
-      showToast(`Error: ${message}`, "error", { clear: true });
+      showToast(`错误：${message}`, "error", { clear: true });
     }
 
     setSaving(false);
@@ -91,15 +93,13 @@ export default function WorkspaceAgentConfiguration({ workspace }) {
             {!hasChanges && (
               <div className="flex flex-col gap-y-4">
                 <a
-                  className="w-fit transition-all duration-300 border border-slate-200 px-5 py-2.5 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800"
+                  className="w-fit transition-all duration-300 border border-slate-200 px-5 py-2.5 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800 shadow-sm hover:shadow-md"
                   href={paths.settings.agentSkills()}
                 >
-                  Configure Agent Skills
+                  配置抑郁症专家智能助手技能
                 </a>
-                <p className="text-white text-opacity-60 text-xs font-medium">
-                  Customize and enhance the default agent's capabilities by
-                  enabling or disabling specific skills. These settings will be
-                  applied across all workspaces.
+                <p className="text-white text-opacity-60 text-xs font-medium leading-relaxed">
+                  通过启用或禁用特定技能来自定义和增强默认抑郁症专家智能助手的能力。这些设置将应用于所有工作区。
                 </p>
               </div>
             )}
@@ -110,9 +110,9 @@ export default function WorkspaceAgentConfiguration({ workspace }) {
           <button
             type="submit"
             form="agent-settings-form"
-            className="w-fit transition-all duration-300 border border-slate-200 px-5 py-2.5 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800"
+            className="w-fit transition-all duration-300 border border-slate-200 px-5 py-2.5 rounded-lg text-white text-sm items-center flex gap-x-2 hover:bg-slate-200 hover:text-slate-800 focus:ring-gray-800 shadow-sm hover:shadow-md"
           >
-            {saving ? "Updating agent..." : "Update workspace agent"}
+            {saving ? "正在更新抑郁症专家智能助手..." : "更新工作区抑郁症专家智能助手"}
           </button>
         )}
       </form>

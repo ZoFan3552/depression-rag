@@ -36,7 +36,7 @@ function ActionMenu({ chatId, forkThread, isEditing, role }) {
 
   return (
     <div className="mt-2 -ml-0.5 relative" ref={menuRef}>
-      <button
+      {/* <button
         onClick={toggleMenu}
         className="border-none text-[var(--theme-sidebar-footer-icon-fill)] hover:text-[var(--theme-sidebar-footer-icon-fill)] transition-colors duration-200"
         data-tooltip-id="action-menu"
@@ -44,7 +44,7 @@ function ActionMenu({ chatId, forkThread, isEditing, role }) {
         aria-label="More actions"
       >
         <DotsThreeVertical size={24} weight="bold" />
-      </button>
+      </button> */}
       {open && (
         <div className="absolute -top-1 left-7 mt-1 border-[1.5px] border-white/40 rounded-lg bg-theme-action-menu-bg flex flex-col shadow-[0_4px_14px_rgba(0,0,0,0.25)] text-white z-99 md:z-10">
           <button

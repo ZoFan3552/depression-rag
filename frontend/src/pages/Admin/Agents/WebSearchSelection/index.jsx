@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Admin from "@/models/admin";
 import AnythingLLMIcon from "@/media/logo/anything-llm-icon.png";
 import GoogleSearchIcon from "./icons/google.png";
-import SearchApiIcon from "./icons/searchapi.png";
-import SerperDotDevIcon from "./icons/serper.png";
 import BingSearchIcon from "./icons/bing.png";
-import SerplySearchIcon from "./icons/serply.png";
-import SearXNGSearchIcon from "./icons/searxng.png";
-import TavilySearchIcon from "./icons/tavily.svg";
 import DuckDuckGoIcon from "./icons/duckduckgo.png";
 import {
   CaretUpDown,
@@ -18,24 +13,20 @@ import {
 import SearchProviderItem from "./SearchProviderItem";
 import WebSearchImage from "@/media/agents/scrape-websites.png";
 import {
-  SearchApiOptions,
-  SerperDotDevOptions,
   GoogleSearchOptions,
   BingSearchOptions,
-  SerplySearchOptions,
-  SearXNGOptions,
-  TavilySearchOptions,
   DuckDuckGoOptions,
 } from "./SearchProviderOptions";
 
+// 搜索提供商列表配置
 const SEARCH_PROVIDERS = [
   {
-    name: "Please make a selection",
+    name: "请选择搜索提供商",
     value: "none",
     logo: AnythingLLMIcon,
     options: () => <React.Fragment />,
     description:
-      "Web search will be disabled until a provider and keys are provided.",
+      "在提供搜索引擎和密钥之前，网络搜索功能将被禁用。",
   },
   {
     name: "DuckDuckGo",
@@ -43,62 +34,22 @@ const SEARCH_PROVIDERS = [
     logo: DuckDuckGoIcon,
     options: () => <DuckDuckGoOptions />,
     description:
-      "Free and privacy-focused web search using DuckDuckGo's HTML interface.",
+      "使用DuckDuckGo的HTML界面进行免费且注重隐私的网络搜索。",
   },
   {
-    name: "Google Search Engine",
+    name: "谷歌搜索引擎",
     value: "google-search-engine",
     logo: GoogleSearchIcon,
     options: (settings) => <GoogleSearchOptions settings={settings} />,
     description:
-      "Web search powered by a custom Google Search Engine. Free for 100 queries per day.",
+      "由自定义谷歌搜索引擎提供的网络搜索。每天免费100次查询。",
   },
   {
-    name: "SearchApi",
-    value: "searchapi",
-    logo: SearchApiIcon,
-    options: (settings) => <SearchApiOptions settings={settings} />,
-    description:
-      "SearchApi delivers structured data from multiple search engines. Free for 100 queries, but then paid. ",
-  },
-  {
-    name: "Serper.dev",
-    value: "serper-dot-dev",
-    logo: SerperDotDevIcon,
-    options: (settings) => <SerperDotDevOptions settings={settings} />,
-    description:
-      "Serper.dev web-search. Free account with a 2,500 calls, but then paid.",
-  },
-  {
-    name: "Bing Search",
+    name: "必应搜索",
     value: "bing-search",
     logo: BingSearchIcon,
     options: (settings) => <BingSearchOptions settings={settings} />,
-    description: "Web search powered by the Bing Search API (paid service).",
-  },
-  {
-    name: "Serply.io",
-    value: "serply-engine",
-    logo: SerplySearchIcon,
-    options: (settings) => <SerplySearchOptions settings={settings} />,
-    description:
-      "Serply.io web-search. Free account with a 100 calls/month forever.",
-  },
-  {
-    name: "SearXNG",
-    value: "searxng-engine",
-    logo: SearXNGSearchIcon,
-    options: (settings) => <SearXNGOptions settings={settings} />,
-    description:
-      "Free, open-source, internet meta-search engine with no tracking.",
-  },
-  {
-    name: "Tavily Search",
-    value: "tavily-search",
-    logo: TavilySearchIcon,
-    options: (settings) => <TavilySearchOptions settings={settings} />,
-    description:
-      "Tavily Search API. Offers a free tier with 1000 queries per month.",
+    description: "由必应搜索API提供的网络搜索（付费服务）。",
   },
 ];
 
@@ -115,6 +66,7 @@ export default function AgentWebSearchSelection({
   const [searchQuery, setSearchQuery] = useState("");
   const [searchMenuOpen, setSearchMenuOpen] = useState(false);
 
+  // 更新选择的搜索提供商
   function updateChoice(selection) {
     setSearchQuery("");
     setSelectedProvider(selection);
@@ -122,6 +74,7 @@ export default function AgentWebSearchSelection({
     setHasChanges(true);
   }
 
+  // 处理X按钮点击
   function handleXButton() {
     if (searchQuery.length > 0) {
       setSearchQuery("");
@@ -131,6 +84,7 @@ export default function AgentWebSearchSelection({
     }
   }
 
+  // 根据搜索查询过滤搜索提供商
   useEffect(() => {
     const filtered = SEARCH_PROVIDERS.filter((provider) =>
       provider.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -138,6 +92,7 @@ export default function AgentWebSearchSelection({
     setFilteredResults(filtered);
   }, [searchQuery, selectedProvider]);
 
+  // 初始化加载已保存的搜索提供商设置
   useEffect(() => {
     Admin.systemPreferencesByFields(["agent_search_provider"])
       .then((res) =>
@@ -146,24 +101,26 @@ export default function AgentWebSearchSelection({
       .catch(() => setSelectedProvider("none"));
   }, []);
 
+  // 获取当前选中的搜索提供商对象
   const selectedSearchProviderObject = SEARCH_PROVIDERS.find(
     (provider) => provider.value === selectedProvider
   );
 
   return (
-    <div className="p-2">
-      <div className="flex flex-col gap-y-[18px] max-w-[500px]">
-        <div className="flex items-center gap-x-2">
+    <div className="p-3">
+      <div className="flex flex-col gap-y-[20px] max-w-[520px]">
+        <div className="flex items-center gap-x-3">
           <ListMagnifyingGlass
-            size={24}
+            size={26}
             color="var(--theme-text-primary)"
             weight="bold"
+            className="text-primary-button"
           />
           <label
             htmlFor="name"
             className="text-theme-text-primary text-md font-bold"
           >
-            Live web search and browsing
+            网络实时搜索与浏览
           </label>
           <label className="border-none relative inline-flex items-center ml-auto cursor-pointer">
             <input
@@ -178,13 +135,11 @@ export default function AgentWebSearchSelection({
         </div>
         <img
           src={WebSearchImage}
-          alt="Web Search"
-          className="w-full rounded-md"
+          alt="网络搜索"
+          className="w-full rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
         />
-        <p className="text-theme-text-secondary text-opacity-60 text-xs font-medium py-1.5">
-          Enable your agent to search the web to answer your questions by
-          connecting to a web-search (SERP) provider. Web search during agent
-          sessions will not work until this is set up.
+        <p className="text-theme-text-secondary text-opacity-80 text-sm font-medium py-2 leading-relaxed">
+          通过连接网络搜索(SERP)提供商，使抑郁症专家智能体能够搜索网络以回答您的问题。在未设置此功能之前，智能体会话期间的网络搜索将无法工作。
         </p>
         <div hidden={!enabled}>
           <div className="relative">
@@ -200,7 +155,7 @@ export default function AgentWebSearchSelection({
               />
             )}
             {searchMenuOpen ? (
-              <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[310px] overflow-auto white-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button z-20">
+              <div className="absolute top-0 left-0 w-full max-w-[640px] max-h-[320px] overflow-auto custom-scrollbar min-h-[64px] bg-theme-settings-input-bg rounded-lg flex flex-col justify-between cursor-pointer border-2 border-primary-button z-20 shadow-xl">
                 <div className="w-full flex flex-col gap-y-1">
                   <div className="flex items-center sticky top-0 border-b border-[#9CA3AF] mx-4 bg-theme-settings-input-bg">
                     <MagnifyingGlass
@@ -212,8 +167,8 @@ export default function AgentWebSearchSelection({
                       type="text"
                       name="web-provider-search"
                       autoComplete="off"
-                      placeholder="Search available web-search providers"
-                      className="border-none -ml-4 my-2 bg-transparent z-20 pl-12 h-[38px] w-full px-4 py-1 text-sm outline-none text-theme-text-primary placeholder:text-theme-text-primary placeholder:font-medium"
+                      placeholder="搜索可用的网络搜索提供商"
+                      className="border-none -ml-4 my-2 bg-transparent z-20 pl-12 h-[38px] w-full px-4 py-1 text-sm outline-none text-theme-text-primary placeholder:text-theme-text-primary placeholder:font-medium focus:ring-2 focus:ring-primary-button/30 rounded-md transition-all duration-200"
                       onChange={(e) => setSearchQuery(e.target.value)}
                       ref={searchInputRef}
                       onKeyDown={(e) => {
@@ -223,11 +178,11 @@ export default function AgentWebSearchSelection({
                     <X
                       size={20}
                       weight="bold"
-                      className="cursor-pointer text-white hover:text-x-button"
+                      className="cursor-pointer text-white hover:text-red-400 transition-colors duration-200"
                       onClick={handleXButton}
                     />
                   </div>
-                  <div className="flex-1 pl-4 pr-2 flex flex-col gap-y-1 overflow-y-auto white-scrollbar pb-4">
+                  <div className="flex-1 pl-4 pr-2 flex flex-col gap-y-1 overflow-y-auto custom-scrollbar pb-4">
                     {filteredResults.map((provider) => {
                       return (
                         <SearchProviderItem
@@ -243,14 +198,14 @@ export default function AgentWebSearchSelection({
               </div>
             ) : (
               <button
-                className="w-full max-w-[640px] h-[64px] bg-theme-settings-input-bg rounded-lg flex items-center p-[14px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300"
+                className="w-full max-w-[640px] h-[68px] bg-theme-settings-input-bg rounded-lg flex items-center p-[16px] justify-between cursor-pointer border-2 border-transparent hover:border-primary-button transition-all duration-300 shadow-md hover:shadow-lg"
                 type="button"
                 onClick={() => setSearchMenuOpen(true)}
               >
                 <div className="flex gap-x-4 items-center">
                   <img
                     src={selectedSearchProviderObject.logo}
-                    alt={`${selectedSearchProviderObject.name} logo`}
+                    alt={`${selectedSearchProviderObject.name} 图标`}
                     className="w-10 h-10 rounded-md"
                   />
                   <div className="flex flex-col text-left">
@@ -262,12 +217,12 @@ export default function AgentWebSearchSelection({
                     </div>
                   </div>
                 </div>
-                <CaretUpDown size={24} weight="bold" className="text-white" />
+                <CaretUpDown size={24} weight="bold" className="text-white text-opacity-80 group-hover:text-opacity-100" />
               </button>
             )}
           </div>
           {selectedProvider !== "none" && (
-            <div className="mt-4 flex flex-col gap-y-1">
+            <div className="mt-5 flex flex-col gap-y-2 bg-theme-bg-secondary p-4 rounded-lg shadow-md transition-all duration-300">
               {selectedSearchProviderObject.options(settings)}
             </div>
           )}

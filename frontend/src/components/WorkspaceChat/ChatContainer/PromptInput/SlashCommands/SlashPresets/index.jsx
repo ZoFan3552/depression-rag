@@ -31,8 +31,8 @@ export default function SlashPresets({ setShowing, sendCommand, promptRef }) {
 
   /*
    * @checklist-item
-   * If the URL has the slash-commands param, open the add modal for the user
-   * automatically when the component mounts.
+   * 如果URL中有slash-commands参数，当组件挂载时
+   * 自动为用户打开添加模态框。
    */
   useEffect(() => {
     if (
@@ -102,13 +102,13 @@ export default function SlashPresets({ setShowing, sendCommand, promptRef }) {
             sendCommand(`${preset.command} `, false);
             promptRef?.current?.focus();
           }}
-          className="border-none w-full hover:cursor-pointer hover:bg-theme-action-menu-item-hover px-2 py-2 rounded-xl flex flex-row justify-start"
+          className="border-none w-full hover:cursor-pointer hover:bg-blue-100 px-2 py-2 rounded-xl flex flex-row justify-start"
         >
           <div className="w-full flex-col text-left flex pointer-events-none">
-            <div className="text-theme-text-primary text-sm font-bold">
+            <div className="text-blue-700 text-sm font-bold">
               {preset.command}
             </div>
-            <div className="text-theme-text-secondary text-sm">
+            <div className="text-blue-600 text-opacity-80 text-sm">
               {preset.description}
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function SlashPresets({ setShowing, sendCommand, promptRef }) {
               e.stopPropagation();
               handleEditPreset(preset);
             }}
-            className="border-none text-theme-text-primary text-sm p-1 hover:cursor-pointer hover:bg-theme-action-menu-item-hover rounded-full mt-1"
+            className="border-none text-blue-600 text-sm p-1 hover:cursor-pointer hover:bg-blue-200 rounded-full mt-1"
           >
             <DotsThree size={24} weight="bold" />
           </button>
@@ -125,12 +125,12 @@ export default function SlashPresets({ setShowing, sendCommand, promptRef }) {
       ))}
       <button
         onClick={openAddModal}
-        className="border-none w-full hover:cursor-pointer hover:bg-theme-action-menu-item-hover px-2 py-1 rounded-xl flex flex-col justify-start"
+        className="border-none w-full hover:cursor-pointer hover:bg-blue-100 px-2 py-1 rounded-xl flex flex-col justify-start"
       >
         <div className="w-full flex-row flex pointer-events-none items-center gap-2">
-          <Plus size={24} weight="fill" className="text-theme-text-primary" />
-          <div className="text-theme-text-primary text-sm font-medium">
-            Add New Preset
+          <Plus size={24} weight="fill" className="text-blue-600" />
+          <div className="text-blue-700 text-sm font-medium">
+            添加新预设
           </div>
         </div>
       </button>

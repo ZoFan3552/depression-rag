@@ -35,7 +35,7 @@ export default function ThreadItem({
       className="w-full relative flex h-[38px] items-center border-none rounded-lg"
       role="listitem"
     >
-      {/* Curved line Element and leader if required */}
+      {/* 弧线元素和前导线（如需要） */}
       <div
         style={{ width: THREAD_CALLOUT_DETAIL_WIDTH / 2 }}
         className={`${
@@ -44,7 +44,7 @@ export default function ThreadItem({
             : "border-l border-b border-[#6F6F71] light:border-theme-sidebar-border z-[1]"
         } h-[50%] absolute top-0 left-3 rounded-bl-lg`}
       ></div>
-      {/* Downstroke border for next item */}
+      {/* 下一项的下行边框 */}
       {hasNext && (
         <div
           style={{ width: THREAD_CALLOUT_DETAIL_WIDTH / 2 }}
@@ -56,13 +56,13 @@ export default function ThreadItem({
         ></div>
       )}
 
-      {/* Curved line inline placeholder for spacing - not visible */}
+      {/* 弧线内联占位符用于间距 - 不可见 */}
       <div
         style={{ width: THREAD_CALLOUT_DETAIL_WIDTH + 8 }}
         className="h-full"
       />
       <div
-        className={`flex w-full items-center justify-between pr-2 group relative ${isActive ? "bg-[var(--theme-sidebar-thread-selected)] border border-solid border-transparent light:border-blue-400" : "hover:bg-theme-sidebar-subitem-hover"} rounded-[4px]`}
+        className={`flex w-full items-center justify-between pr-2 group relative ${isActive ? "bg-[var(--theme-sidebar-thread-selected)] border border-solid border-transparent light:border-blue-400" : "hover:bg-theme-sidebar-subitem-hover"} rounded-[6px] transition-colors duration-200`}
       >
         {thread.deleted ? (
           <div className="w-full flex justify-between">
@@ -70,7 +70,7 @@ export default function ThreadItem({
               <p
                 className={`text-left text-sm text-slate-400/50 light:text-slate-500 italic`}
               >
-                deleted thread
+                已删除会话
               </p>
             </div>
             {ctrlPressed && (
@@ -78,9 +78,10 @@ export default function ThreadItem({
                 type="button"
                 className="border-none"
                 onClick={() => toggleMarkForDeletion(thread.id)}
+                aria-label="恢复会话"
               >
                 <ArrowCounterClockwise
-                  className="text-zinc-300 hover:text-white light:text-theme-text-secondary hover:light:text-theme-text-primary"
+                  className="text-zinc-300 hover:text-white light:text-theme-text-secondary hover:light:text-theme-text-primary transition-colors duration-200"
                   size={18}
                 />
               </button>
@@ -105,16 +106,15 @@ export default function ThreadItem({
         )}
         {!!thread.slug && !thread.deleted && (
           <div ref={optionsContainer} className="flex items-center">
-            {" "}
-            {/* Added flex and items-center */}
             {ctrlPressed ? (
               <button
                 type="button"
                 className="border-none"
                 onClick={() => toggleMarkForDeletion(thread.id)}
+                aria-label="标记删除"
               >
                 <X
-                  className="text-zinc-300 light:text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary"
+                  className="text-zinc-300 light:text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary transition-colors duration-200"
                   weight="bold"
                   size={18}
                 />
@@ -125,10 +125,10 @@ export default function ThreadItem({
                   type="button"
                   className="border-none"
                   onClick={() => setShowOptions(!showOptions)}
-                  aria-label="Thread options"
+                  aria-label="会话选项"
                 >
                   <DotsThree
-                    className="text-slate-300 light:text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary"
+                    className="text-slate-300 light:text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary transition-colors duration-200"
                     size={25}
                   />
                 </button>
@@ -161,7 +161,7 @@ function OptionsMenu({
 }) {
   const menuRef = useRef(null);
 
-  // Ref menu options
+  // 引用菜单选项
   const outsideClick = (e) => {
     if (!menuRef.current) return false;
     if (
@@ -180,7 +180,7 @@ function OptionsMenu({
     window.removeEventListener("click", outsideClick);
     window.removeEventListener("keyup", isEsc);
   }
-  // end Ref menu options
+  // 引用菜单选项结束
 
   useEffect(() => {
     function setListeners() {
@@ -195,7 +195,7 @@ function OptionsMenu({
 
   const renameThread = async () => {
     const name = window
-      .prompt("What would you like to rename this thread to?")
+      .prompt("您想将此会话重命名为什么？")
       ?.trim();
     if (!name || name.length === 0) {
       close();
@@ -208,7 +208,7 @@ function OptionsMenu({
       { name }
     );
     if (!!message) {
-      showToast(`Thread could not be updated! ${message}`, "error", {
+      showToast(`会话无法更新！${message}`, "error", {
         clear: true,
       });
       close();
@@ -222,19 +222,19 @@ function OptionsMenu({
   const handleDelete = async () => {
     if (
       !window.confirm(
-        "Are you sure you want to delete this thread? All of its chats will be deleted. You cannot undo this."
+        "您确定要删除此会话吗？它的所有聊天记录都将被删除。此操作无法撤销。"
       )
     )
       return;
     const success = await Workspace.threads.delete(workspace.slug, thread.slug);
     if (!success) {
-      showToast("Thread could not be deleted!", "error", { clear: true });
+      showToast("会话无法删除！", "error", { clear: true });
       return;
     }
     if (success) {
-      showToast("Thread deleted successfully!", "success", { clear: true });
+      showToast("会话删除成功！", "success", { clear: true });
       onRemove(thread.id);
-      // Redirect if deleting the active thread
+      // 如果删除的是当前活动会话，则重定向
       if (currentThreadSlug === thread.slug) {
         window.location.href = paths.workspace.chat(workspace.slug);
       }
@@ -245,23 +245,23 @@ function OptionsMenu({
   return (
     <div
       ref={menuRef}
-      className="absolute w-fit z-[20] top-[25px] right-[10px] bg-zinc-900 light:bg-theme-bg-sidebar light:border-[1px] light:border-theme-sidebar-border rounded-lg p-1"
+      className="absolute w-fit z-[20] top-[25px] right-[10px] bg-zinc-900 light:bg-theme-bg-sidebar light:border-[1px] light:border-theme-sidebar-border rounded-lg p-1 shadow-lg"
     >
       <button
         onClick={renameThread}
         type="button"
-        className="w-full rounded-md flex items-center p-2 gap-x-2 hover:bg-slate-500/20 text-slate-300 light:text-theme-text-primary"
+        className="w-full rounded-md flex items-center p-2 gap-x-2 hover:bg-slate-500/20 text-slate-300 light:text-theme-text-primary transition-colors duration-200"
       >
         <PencilSimple size={18} />
-        <p className="text-sm">Rename</p>
+        <p className="text-sm">重命名</p>
       </button>
       <button
         onClick={handleDelete}
         type="button"
-        className="w-full rounded-md flex items-center p-2 gap-x-2 hover:bg-red-500/20 text-slate-300 light:text-theme-text-primary hover:text-red-100"
+        className="w-full rounded-md flex items-center p-2 gap-x-2 hover:bg-red-500/20 text-slate-300 light:text-theme-text-primary hover:text-red-100 transition-colors duration-200"
       >
         <Trash size={18} />
-        <p className="text-sm">Delete Thread</p>
+        <p className="text-sm">删除会话</p>
       </button>
     </div>
   );

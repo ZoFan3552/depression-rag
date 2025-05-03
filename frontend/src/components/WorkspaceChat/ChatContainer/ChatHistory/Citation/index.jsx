@@ -49,7 +49,7 @@ export default function Citations({ sources = [] }) {
           open ? "pb-2" : ""
         } hover:text-white/75 hover:light:text-black/75 transition-all duration-300`}
       >
-        {open ? "Hide Citations" : "Show Citations"}
+        {open ? "隐藏引用" : "查看引用"}
         <CaretRight
           className={`w-3.5 h-3.5 inline-block ml-1 transform transition-transform duration-300 ${
             open ? "rotate-90" : ""

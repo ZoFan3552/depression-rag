@@ -50,14 +50,15 @@ export default function SettingsSidebar() {
         <div className="fixed top-0 left-0 right-0 z-10 flex justify-between items-center px-4 py-2 bg-theme-bg-sidebar light:bg-white text-theme-text-secondary shadow-lg h-16">
           <button
             onClick={() => setShowSidebar(true)}
-            className="rounded-md p-2 flex items-center justify-center text-theme-text-secondary"
+            className="rounded-md p-2 flex items-center justify-center text-theme-text-secondary hover:bg-theme-bg-secondary/20 transition-colors duration-200"
+            aria-label="显示侧边栏"
           >
             <List className="h-6 w-6" />
           </button>
           <div className="flex items-center justify-center flex-grow">
             <img
               src={logo}
-              alt="Logo"
+              alt="标志"
               className="block mx-auto h-6 w-auto"
               style={{ maxHeight: "40px", objectFit: "contain" }}
             />
@@ -80,15 +81,15 @@ export default function SettingsSidebar() {
           />
           <div
             ref={sidebarRef}
-            className="h-[100vh] fixed top-0 left-0 rounded-r-[26px] bg-theme-bg-sidebar w-[80%] p-[18px]"
+            className="h-[100vh] fixed top-0 left-0 rounded-r-[26px] bg-theme-bg-sidebar w-[80%] p-[18px] shadow-xl"
           >
             <div className="w-full h-full flex flex-col overflow-x-hidden items-between">
-              {/* Header Information */}
+              {/* 头部信息 */}
               <div className="flex w-full items-center justify-between gap-x-4">
                 <div className="flex shrink-1 w-fit items-center justify-start">
                   <img
                     src={logo}
-                    alt="Logo"
+                    alt="标志"
                     className="rounded w-full max-h-[40px]"
                     style={{ objectFit: "contain" }}
                   />
@@ -96,29 +97,20 @@ export default function SettingsSidebar() {
                 <div className="flex gap-x-2 items-center text-slate-500 shrink-0">
                   <a
                     href={paths.home()}
-                    className="transition-all duration-300 p-2 rounded-full text-white bg-theme-action-menu-bg hover:bg-theme-action-menu-item-hover hover:border-slate-100 hover:border-opacity-50 border-transparent border"
+                    className="transition-all duration-300 p-2 rounded-full text-white bg-theme-action-menu-bg hover:bg-theme-action-menu-item-hover hover:border-slate-100 hover:border-opacity-50 border-transparent border hover:shadow-md"
+                    aria-label="回到首页"
                   >
                     <House className="h-4 w-4" />
                   </a>
                 </div>
               </div>
 
-              {/* Primary Body */}
+              {/* 主体内容 */}
               <div className="h-full flex flex-col w-full justify-between pt-4 overflow-y-scroll no-scroll">
                 <div className="h-auto md:sidebar-items">
                   <div className="flex flex-col gap-y-4 pb-[60px] overflow-y-scroll no-scroll">
                     <SidebarOptions user={user} t={t} />
                     <div className="h-[1.5px] bg-[#3D4147] mx-3 mt-[14px]" />
-                    <SupportEmail />
-                    <Link
-                      hidden={
-                        user?.hasOwnProperty("role") && user.role !== "admin"
-                      }
-                      to={paths.settings.privacy()}
-                      className="text-theme-text-secondary hover:text-white text-xs leading-[18px] mx-3"
-                    >
-                      {t("settings.privacy")}
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -138,37 +130,28 @@ export default function SettingsSidebar() {
         <Link
           to={paths.home()}
           className="flex shrink-0 max-w-[55%] items-center justify-start mx-[38px] my-[18px]"
+          aria-label="回到首页"
         >
           <img
             src={logo}
-            alt="Logo"
-            className="rounded max-h-[24px]"
+            alt="标志"
+            className="rounded max-h-[52px]"
             style={{ objectFit: "contain" }}
           />
         </Link>
         <div
           ref={sidebarRef}
-          className="transition-all duration-500 relative m-[16px] rounded-[16px] bg-theme-bg-sidebar border-[2px] border-theme-sidebar-border light:border-none min-w-[250px] p-[10px] h-[calc(100%-76px)]"
+          className="transition-all duration-500 relative m-[16px] rounded-[16px] bg-theme-bg-sidebar border-[2px] border-theme-sidebar-border light:border-none min-w-[250px] p-[10px] h-[calc(100%-76px)] shadow-sm"
         >
           <div className="w-full h-full flex flex-col overflow-x-hidden items-between min-w-[235px]">
             <div className="text-theme-text-secondary text-sm font-medium uppercase mt-[4px] mb-0 ml-2">
-              {t("settings.title")}
+              {t("settings.title").replace("Settings", "设置")}
             </div>
             <div className="relative h-[calc(100%-60px)] flex flex-col w-full justify-between pt-[10px] overflow-y-scroll no-scroll">
               <div className="h-auto sidebar-items">
                 <div className="flex flex-col gap-y-2 pb-[60px] overflow-y-scroll no-scroll">
                   <SidebarOptions user={user} t={t} />
                   <div className="h-[1.5px] bg-[#3D4147] mx-3 mt-[14px]" />
-                  <SupportEmail />
-                  <Link
-                    hidden={
-                      user?.hasOwnProperty("role") && user.role !== "admin"
-                    }
-                    to={paths.settings.privacy()}
-                    className="text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary text-xs leading-[18px] mx-3"
-                  >
-                    {t("settings.privacy")}
-                  </Link>
                 </div>
               </div>
             </div>
@@ -182,110 +165,78 @@ export default function SettingsSidebar() {
   );
 }
 
-function SupportEmail() {
-  const [supportEmail, setSupportEmail] = useState(paths.mailToMintplex());
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    const fetchSupportEmail = async () => {
-      const supportEmail = await System.fetchSupportEmail();
-      setSupportEmail(
-        supportEmail?.email
-          ? `mailto:${supportEmail.email}`
-          : paths.mailToMintplex()
-      );
-    };
-    fetchSupportEmail();
-  }, []);
-
-  return (
-    <Link
-      to={supportEmail}
-      className="text-theme-text-secondary hover:text-white hover:light:text-theme-text-primary text-xs leading-[18px] mx-3 mt-1"
-    >
-      {t("settings.contact")}
-    </Link>
-  );
-}
-
 const SidebarOptions = ({ user = null, t }) => (
   <CanViewChatHistoryProvider>
     {({ viewable: canViewChatHistory }) => (
       <>
         <Option
-          btnText={t("settings.ai-providers")}
+          btnText={t("settings.ai-providers").replace("AI Providers", "AI 提供商")}
           icon={<Gear className="h-5 w-5 flex-shrink-0" />}
           user={user}
           childOptions={[
             {
-              btnText: t("settings.llm"),
+              btnText: t("settings.llm").replace("LLM", "大语言模型"),
               href: paths.settings.llmPreference(),
               flex: true,
               roles: ["admin"],
             },
             {
-              btnText: t("settings.vector-database"),
+              btnText: t("settings.vector-database").replace("Vector Database", "向量数据库"),
               href: paths.settings.vectorDatabase(),
               flex: true,
               roles: ["admin"],
             },
             {
-              btnText: t("settings.embedder"),
+              btnText: t("settings.embedder").replace("Embedder", "嵌入模型"),
               href: paths.settings.embedder.modelPreference(),
               flex: true,
               roles: ["admin"],
             },
             {
-              btnText: t("settings.text-splitting"),
+              btnText: t("settings.text-splitting").replace("Text Splitting", "文本分割"),
               href: paths.settings.embedder.chunkingPreference(),
               flex: true,
               roles: ["admin"],
             },
             {
-              btnText: t("settings.voice-speech"),
+              btnText: t("settings.voice-speech").replace("Voice & Speech", "语音与朗读"),
               href: paths.settings.audioPreference(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: t("settings.transcription"),
-              href: paths.settings.transcriptionPreference(),
               flex: true,
               roles: ["admin"],
             },
           ]}
         />
         <Option
-          btnText={t("settings.admin")}
+          btnText={t("settings.admin").replace("Admin", "管理员")}
           icon={<UserCircleGear className="h-5 w-5 flex-shrink-0" />}
           user={user}
           childOptions={[
             {
-              btnText: t("settings.users"),
+              btnText: t("settings.users").replace("Users", "用户"),
               href: paths.settings.users(),
               roles: ["admin", "manager"],
             },
             {
-              btnText: t("settings.workspaces"),
+              btnText: t("settings.workspaces").replace("Workspaces", "工作区"),
               href: paths.settings.workspaces(),
               roles: ["admin", "manager"],
             },
             {
               hidden: !canViewChatHistory,
-              btnText: t("settings.workspace-chats"),
+              btnText: t("settings.workspace-chats").replace("Workspace Chats", "工作区聊天"),
               href: paths.settings.chats(),
               flex: true,
               roles: ["admin", "manager"],
             },
             {
-              btnText: t("settings.invites"),
+              btnText: t("settings.invites").replace("Invites", "邀请"),
               href: paths.settings.invites(),
               roles: ["admin", "manager"],
             },
           ]}
         />
         <Option
-          btnText={t("settings.agent-skills")}
+          btnText={t("settings.agent-skills").replace("Agent Skills", "抑郁症专家智能助手技能")}
           icon={<Robot className="h-5 w-5 flex-shrink-0" />}
           href={paths.settings.agentSkills()}
           user={user}
@@ -293,48 +244,18 @@ const SidebarOptions = ({ user = null, t }) => (
           roles={["admin"]}
         />
         <Option
-          btnText="Community Hub"
-          icon={<Globe className="h-5 w-5 flex-shrink-0" />}
-          childOptions={[
-            {
-              btnText: "Explore Trending",
-              href: paths.communityHub.trending(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: "Your Account",
-              href: paths.communityHub.authentication(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: "Import Item",
-              href: paths.communityHub.importItem(),
-              flex: true,
-              roles: ["admin"],
-            },
-          ]}
-        />
-        <Option
-          btnText={t("settings.customization")}
+          btnText={t("settings.customization").replace("Customization", "自定义")}
           icon={<PencilSimpleLine className="h-5 w-5 flex-shrink-0" />}
           user={user}
           childOptions={[
             {
-              btnText: t("settings.interface"),
+              btnText: t("settings.interface").replace("Interface", "界面"),
               href: paths.settings.interface(),
               flex: true,
               roles: ["admin", "manager"],
             },
             {
-              btnText: t("settings.branding"),
-              href: paths.settings.branding(),
-              flex: true,
-              roles: ["admin", "manager"],
-            },
-            {
-              btnText: t("settings.chat"),
+              btnText: t("settings.chat").replace("Chat", "聊天"),
               href: paths.settings.chat(),
               flex: true,
               roles: ["admin", "manager"],
@@ -342,118 +263,25 @@ const SidebarOptions = ({ user = null, t }) => (
           ]}
         />
         <Option
-          btnText={t("settings.tools")}
+          btnText={t("settings.tools").replace("Tools", "工具")}
           icon={<Toolbox className="h-5 w-5 flex-shrink-0" />}
           user={user}
           childOptions={[
             {
-              hidden: !canViewChatHistory,
-              btnText: t("settings.embed-chats"),
-              href: paths.settings.embedChats(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: t("settings.embeds"),
-              href: paths.settings.embedSetup(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: t("settings.event-logs"),
+              btnText: t("settings.event-logs").replace("Event Logs", "事件日志"),
               href: paths.settings.logs(),
               flex: true,
               roles: ["admin"],
             },
             {
-              btnText: t("settings.api-keys"),
-              href: paths.settings.apiKeys(),
-              flex: true,
-              roles: ["admin"],
-            },
-            {
-              btnText: t("settings.system-prompt-variables"),
+              btnText: t("settings.system-prompt-variables").replace("System Prompt Variables", "系统提示变量"),
               href: paths.settings.systemPromptVariables(),
               flex: true,
               roles: ["admin"],
             },
-            {
-              btnText: t("settings.browser-extension"),
-              href: paths.settings.browserExtension(),
-              flex: true,
-              roles: ["admin", "manager"],
-            },
           ]}
         />
-        <Option
-          btnText={t("settings.security")}
-          icon={<Nut className="h-5 w-5 flex-shrink-0" />}
-          href={paths.settings.security()}
-          user={user}
-          flex={true}
-          roles={["admin", "manager"]}
-          hidden={user?.role}
-        />
-        <HoldToReveal key="exp_features">
-          <Option
-            btnText={t("settings.experimental-features")}
-            icon={<Flask className="h-5 w-5 flex-shrink-0" />}
-            href={paths.settings.experimental()}
-            user={user}
-            flex={true}
-            roles={["admin"]}
-          />
-        </HoldToReveal>
       </>
     )}
   </CanViewChatHistoryProvider>
 );
-
-function HoldToReveal({ children, holdForMs = 3_000 }) {
-  let timeout = null;
-  const [showing, setShowing] = useState(
-    window.localStorage.getItem(
-      "anythingllm_experimental_feature_preview_unlocked"
-    )
-  );
-
-  useEffect(() => {
-    const onPress = (e) => {
-      if (!["Control", "Meta"].includes(e.key) || timeout !== null) return;
-      timeout = setTimeout(() => {
-        setShowing(true);
-        // Setting toastId prevents hook spam from holding control too many times or the event not detaching
-        showToast("Experimental feature previews unlocked!");
-        window.localStorage.setItem(
-          "anythingllm_experimental_feature_preview_unlocked",
-          "enabled"
-        );
-        window.removeEventListener("keypress", onPress);
-        window.removeEventListener("keyup", onRelease);
-        clearTimeout(timeout);
-      }, holdForMs);
-    };
-    const onRelease = (e) => {
-      if (!["Control", "Meta"].includes(e.key)) return;
-      if (showing) {
-        window.removeEventListener("keypress", onPress);
-        window.removeEventListener("keyup", onRelease);
-        clearTimeout(timeout);
-        return;
-      }
-      clearTimeout(timeout);
-    };
-
-    if (!showing) {
-      window.addEventListener("keydown", onPress);
-      window.addEventListener("keyup", onRelease);
-    }
-    return () => {
-      window.removeEventListener("keydown", onPress);
-      window.removeEventListener("keyup", onRelease);
-    };
-  }, []);
-
-  if (!showing) return null;
-  return children;
-}

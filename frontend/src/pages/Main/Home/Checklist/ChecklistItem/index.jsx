@@ -4,6 +4,7 @@ import { Check } from "@phosphor-icons/react";
 import { safeJsonParse } from "@/utils/request";
 
 export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
+  // 初始化完成状态，从本地存储中获取已完成的项目
   const [isCompleted, setIsCompleted] = useState(() => {
     const stored = window.localStorage.getItem(CHECKLIST_STORAGE_KEY);
     if (!stored) return false;
@@ -11,11 +12,13 @@ export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
     return completedItems[id] || false;
   });
 
+  // 处理点击事件，完成或执行清单项目
   const handleClick = async (e) => {
     e.preventDefault();
     if (!isCompleted) {
       const shouldComplete = await onAction();
       if (shouldComplete) {
+        // 更新本地存储中的完成状态
         const stored = window.localStorage.getItem(CHECKLIST_STORAGE_KEY);
         const completedItems = stored ? JSON.parse(stored) : {};
         completedItems[id] = true;
@@ -24,6 +27,7 @@ export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
           JSON.stringify(completedItems)
         );
         setIsCompleted(true);
+        // 触发清单更新事件
         window.dispatchEvent(new CustomEvent(CHECKLIST_UPDATED_EVENT));
       }
     } else {
@@ -33,10 +37,10 @@ export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
 
   return (
     <div
-      className={`flex items-center gap-x-4 transition-colors cursor-pointer rounded-lg p-3 group hover:bg-theme-checklist-item-bg-hover ${
+      className={`flex items-center gap-x-4 transition-colors cursor-pointer rounded-lg p-3 group hover:bg-blue-50 ${
         isCompleted
-          ? "bg-theme-checklist-item-completed-bg"
-          : "bg-theme-checklist-item-bg"
+          ? "bg-blue-100"
+          : "bg-white"
       }`}
       onClick={handleClick}
     >
@@ -46,8 +50,8 @@ export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
             size={18}
             className={
               isCompleted
-                ? "text-theme-checklist-item-completed-text"
-                : "text-theme-checklist-item-text"
+                ? "text-blue-700"
+                : "text-blue-600"
             }
           />
         </div>
@@ -56,24 +60,28 @@ export function ChecklistItem({ id, title, action, onAction, icon: Icon }) {
         <h3
           className={`text-sm font-medium transition-colors duration-200 ${
             isCompleted
-              ? "text-theme-checklist-item-completed-text line-through"
-              : "text-theme-checklist-item-text"
+              ? "text-blue-700 line-through"
+              : "text-blue-800"
           }`}
         >
           {title}
         </h3>
       </div>
       {isCompleted ? (
-        <div className="w-5 h-5 rounded-full bg-theme-checklist-checkbox-fill flex items-center justify-center">
+        <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
           <Check
             size={14}
             weight="bold"
-            className="text-theme-checklist-checkbox-text"
+            className="text-white"
           />
         </div>
       ) : (
-        <button className="w-[64px] h-[24px] rounded-md bg-white/10 light:bg-white/70 text-theme-checklist-item-text font-semibold text-xs transition-all duration-200 flex items-center justify-center hover:bg-white/20 light:hover:bg-white/60">
-          {action}
+        <button className="w-[64px] h-[24px] rounded-md bg-blue-500 text-white font-semibold text-xs transition-all duration-200 flex items-center justify-center hover:bg-blue-600">
+          {action === "Try" ? "尝试" : 
+           action === "Go" ? "前往" : 
+           action === "Create" ? "创建" : 
+           action === "View" ? "查看" : 
+           action === "Open" ? "打开" : action}
         </button>
       )}
     </div>

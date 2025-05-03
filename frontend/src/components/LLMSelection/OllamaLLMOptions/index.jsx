@@ -22,16 +22,18 @@ export default function OllamaLLMOptions({ settings }) {
     initialAuthToken: settings?.OllamaLLMAuthToken,
     ENDPOINTS: OLLAMA_COMMON_URLS,
   });
+  // 性能模式状态
   const [performanceMode, setPerformanceMode] = useState(
     settings?.OllamaLLMPerformanceMode || "base"
   );
+  // 最大令牌数状态
   const [maxTokens, setMaxTokens] = useState(
     settings?.OllamaLLMTokenLimit || 4096
   );
 
   return (
     <div className="w-full flex flex-col gap-y-7">
-      <div className="w-full flex items-start gap-[36px] mt-1.5">
+      <div className="w-full flex items-start gap-[36px] mt-2">
         <OllamaLLMModelSelection
           settings={settings}
           basePath={basePath.value}
@@ -39,12 +41,12 @@ export default function OllamaLLMOptions({ settings }) {
         />
         <div className="flex flex-col w-60">
           <label className="text-white text-sm font-semibold block mb-2">
-            Max Tokens
+            最大令牌数
           </label>
           <input
             type="number"
             name="OllamaLLMTokenLimit"
-            className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+            className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition-all duration-200"
             placeholder="4096"
             defaultChecked="4096"
             min={1}
@@ -55,7 +57,7 @@ export default function OllamaLLMOptions({ settings }) {
             autoComplete="off"
           />
           <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-            Maximum number of tokens for context and response.
+            上下文和响应的最大令牌数限制。
           </p>
         </div>
       </div>
@@ -65,9 +67,9 @@ export default function OllamaLLMOptions({ settings }) {
             e.preventDefault();
             setShowAdvancedControls(!showAdvancedControls);
           }}
-          className="border-none text-theme-text-primary hover:text-theme-text-secondary flex items-center text-sm"
+          className="border-none text-theme-text-primary hover:text-theme-text-secondary flex items-center text-sm transition-colors duration-150"
         >
-          {showAdvancedControls ? "Hide" : "Show"} advanced settings
+          {showAdvancedControls ? "隐藏" : "显示"}高级设置
           {showAdvancedControls ? (
             <CaretUp size={14} className="ml-1" />
           ) : (
@@ -82,7 +84,7 @@ export default function OllamaLLMOptions({ settings }) {
             <div className="flex flex-col w-60">
               <div className="flex justify-between items-center mb-2">
                 <label className="text-white text-sm font-semibold">
-                  Ollama Base URL
+                  Ollama 基础 URL
                 </label>
                 {loading ? (
                   <PreLoader size="6" />
@@ -91,9 +93,9 @@ export default function OllamaLLMOptions({ settings }) {
                     {!basePathValue.value && (
                       <button
                         onClick={handleAutoDetectClick}
-                        className="bg-primary-button text-xs font-medium px-2 py-1 rounded-lg hover:bg-secondary hover:text-white shadow-[0_4px_14px_rgba(0,0,0,0.25)]"
+                        className="bg-primary-button text-xs font-medium px-2 py-1 rounded-lg hover:bg-secondary hover:text-white shadow-[0_4px_14px_rgba(0,0,0,0.25)] transition-all duration-200"
                       >
-                        Auto-Detect
+                        自动检测
                       </button>
                     )}
                   </>
@@ -102,7 +104,7 @@ export default function OllamaLLMOptions({ settings }) {
               <input
                 type="url"
                 name="OllamaLLMBasePath"
-                className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+                className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition-all duration-200"
                 placeholder="http://127.0.0.1:11434"
                 value={basePathValue.value}
                 required={true}
@@ -112,12 +114,12 @@ export default function OllamaLLMOptions({ settings }) {
                 onBlur={basePath.onBlur}
               />
               <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-                Enter the URL where Ollama is running.
+                输入 Ollama 运行的 URL 地址。
               </p>
             </div>
             <div className="flex flex-col w-60">
               <label className="text-white text-sm font-semibold mb-2 flex items-center">
-                Performance Mode
+                性能模式
                 <Info
                   size={16}
                   className="ml-2 text-white"
@@ -127,15 +129,15 @@ export default function OllamaLLMOptions({ settings }) {
               <select
                 name="OllamaLLMPerformanceMode"
                 required={true}
-                className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+                className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition-colors duration-200"
                 value={performanceMode}
                 onChange={(e) => setPerformanceMode(e.target.value)}
               >
-                <option value="base">Base (Default)</option>
-                <option value="maximum">Maximum</option>
+                <option value="base">基础模式（默认）</option>
+                <option value="maximum">最大性能模式</option>
               </select>
               <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-                Choose the performance mode for the Ollama model.
+                为 Ollama 模型选择性能模式。
               </p>
               <Tooltip
                 id="performance-mode-tooltip"
@@ -143,51 +145,45 @@ export default function OllamaLLMOptions({ settings }) {
                 className="tooltip !text-xs max-w-xs"
               >
                 <p className="text-red-500">
-                  <strong>Note:</strong> Be careful with the Maximum mode. It
-                  may increase resource usage significantly.
+                  <strong>注意：</strong> 请谨慎使用最大性能模式。它可能会显著增加资源使用量。
                 </p>
                 <br />
                 <p>
-                  <strong>Base:</strong> Ollama automatically limits the context
-                  to 2048 tokens, keeping resources usage low while maintaining
-                  good performance. Suitable for most users and models.
+                  <strong>基础模式：</strong> Ollama 自动将上下文限制在 2048 个令牌，保持较低的资源使用率同时维持良好的性能。适合大多数用户和模型。
                 </p>
                 <br />
                 <p>
-                  <strong>Maximum:</strong> Uses the full context window (up to
-                  Max Tokens). Will result in increased resource usage but
-                  allows for larger context conversations. <br />
+                  <strong>最大性能模式：</strong> 使用完整的上下文窗口（最大令牌数限制）。会导致资源使用量增加，但允许更大上下文的对话。<br />
                   <br />
-                  This is not recommended for most users.
+                  不推荐大多数用户使用此模式。
                 </p>
               </Tooltip>
             </div>
             <div className="flex flex-col w-60">
               <label className="text-white text-sm font-semibold block mb-2">
-                Ollama Keep Alive
+                Ollama 保持活跃时间
               </label>
               <select
                 name="OllamaLLMKeepAliveSeconds"
                 required={true}
-                className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+                className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition-colors duration-200"
                 defaultValue={settings?.OllamaLLMKeepAliveSeconds ?? "300"}
               >
-                <option value="0">No cache</option>
-                <option value="300">5 minutes</option>
-                <option value="3600">1 hour</option>
-                <option value="-1">Forever</option>
+                <option value="0">不缓存</option>
+                <option value="300">5 分钟</option>
+                <option value="3600">1 小时</option>
+                <option value="-1">永久</option>
               </select>
               <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-                Choose how long Ollama should keep your model in memory before
-                unloading.
+                选择 Ollama 在卸载模型前将其保持在内存中的时间。
                 <a
-                  className="underline text-blue-300"
+                  className="underline text-blue-300 hover:text-blue-400 transition-colors duration-150"
                   href="https://github.com/ollama/ollama/blob/main/docs/faq.md#how-do-i-keep-a-model-loaded-in-memory-or-make-it-unload-immediately"
                   target="_blank"
                   rel="noreferrer"
                 >
                   {" "}
-                  Learn more &rarr;
+                  了解更多 &rarr;
                 </a>
               </p>
             </div>
@@ -195,20 +191,18 @@ export default function OllamaLLMOptions({ settings }) {
           <div className="w-full flex items-start gap-4">
             <div className="flex flex-col w-100">
               <label className="text-white text-sm font-semibold">
-                Auth Token
+                认证令牌
               </label>
               <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-                Enter a <code>Bearer</code> Auth Token for interacting with your
-                Ollama server.
+                输入用于与 Ollama 服务器交互的 <code>Bearer</code> 认证令牌。
                 <br />
-                Used <b>only</b> if running Ollama behind an authentication
-                server.
+                <b>仅</b>在 Ollama 运行在认证服务器后面时使用。
               </p>
               <input
                 type="password"
                 name="OllamaLLMAuthToken"
-                className="border-none bg-theme-settings-input-bg mt-2 text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg outline-none block w-full p-2.5"
-                placeholder="Ollama Auth Token"
+                className="border-none bg-theme-settings-input-bg mt-2 text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg outline-none block w-full p-2.5 transition-all duration-200"
+                placeholder="Ollama 认证令牌"
                 value={authTokenValue.value}
                 onChange={authToken.onChange}
                 onBlur={authToken.onBlur}
@@ -229,10 +223,13 @@ function OllamaLLMModelSelection({
   basePath = null,
   authToken = null,
 }) {
+  // 存储可用的自定义模型列表
   const [customModels, setCustomModels] = useState([]);
+  // 控制加载状态
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 获取自定义模型列表
     async function findCustomModels() {
       if (!basePath) {
         setCustomModels([]);
@@ -260,22 +257,21 @@ function OllamaLLMModelSelection({
     return (
       <div className="flex flex-col w-60">
         <label className="text-white text-sm font-semibold block mb-2">
-          Ollama Model
+          Ollama 模型
         </label>
         <select
           name="OllamaLLMModelPref"
           disabled={true}
-          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-not-allowed opacity-80"
         >
           <option disabled={true} selected={true}>
             {!!basePath
-              ? "--loading available models--"
-              : "Enter Ollama URL first"}
+              ? "--正在加载可用模型--"
+              : "请先输入 Ollama URL"}
           </option>
         </select>
         <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-          Select the Ollama model you want to use. Models will load after
-          entering a valid Ollama URL.
+          选择您想要使用的 Ollama 模型。在输入有效的 Ollama URL 后，模型列表将会加载。
         </p>
       </div>
     );
@@ -284,15 +280,15 @@ function OllamaLLMModelSelection({
   return (
     <div className="flex flex-col w-60">
       <label className="text-white text-sm font-semibold block mb-2">
-        Ollama Model
+        Ollama 模型
       </label>
       <select
         name="OllamaLLMModelPref"
         required={true}
-        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition-colors duration-200 hover:bg-theme-settings-input-active"
       >
         {customModels.length > 0 && (
-          <optgroup label="Your loaded models">
+          <optgroup label="您已加载的模型">
             {customModels.map((model) => {
               return (
                 <option
@@ -308,7 +304,7 @@ function OllamaLLMModelSelection({
         )}
       </select>
       <p className="text-xs leading-[18px] font-base text-white text-opacity-60 mt-2">
-        Choose the Ollama model you want to use for your conversations.
+        选择您想要用于对话的 Ollama 模型。
       </p>
     </div>
   );

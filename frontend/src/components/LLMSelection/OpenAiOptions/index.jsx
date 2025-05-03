@@ -6,16 +6,16 @@ export default function OpenAiOptions({ settings }) {
   const [openAIKey, setOpenAIKey] = useState(settings?.OpenAiKey);
 
   return (
-    <div className="flex gap-[36px] mt-1.5">
+    <div className="flex gap-[36px] mt-2">
       <div className="flex flex-col w-60">
         <label className="text-white text-sm font-semibold block mb-3">
-          API Key
+          API 密钥
         </label>
         <input
           type="password"
           name="OpenAiKey"
-          className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
-          placeholder="OpenAI API Key"
+          className="border-none bg-theme-settings-input-bg text-white placeholder:text-theme-settings-input-placeholder text-sm rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition-all duration-200"
+          placeholder="OpenAI API 密钥"
           defaultValue={settings?.OpenAiKey ? "*".repeat(20) : ""}
           required={true}
           autoComplete="off"
@@ -32,10 +32,13 @@ export default function OpenAiOptions({ settings }) {
 }
 
 function OpenAIModelSelection({ apiKey, settings }) {
+  // 按组织分组的模型列表
   const [groupedModels, setGroupedModels] = useState({});
+  // 控制加载状态
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 获取自定义模型列表
     async function findCustomModels() {
       setLoading(true);
       const { models } = await System.customModels(
@@ -44,6 +47,7 @@ function OpenAIModelSelection({ apiKey, settings }) {
       );
 
       if (models?.length > 0) {
+        // 按组织对模型进行分组
         const modelsByOrganization = models.reduce((acc, model) => {
           acc[model.organization] = acc[model.organization] || [];
           acc[model.organization].push(model);
@@ -61,15 +65,15 @@ function OpenAIModelSelection({ apiKey, settings }) {
     return (
       <div className="flex flex-col w-60">
         <label className="text-white text-sm font-semibold block mb-3">
-          Chat Model Selection
+          聊天模型选择
         </label>
         <select
           name="OpenAiModelPref"
           disabled={true}
-          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+          className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-not-allowed opacity-80"
         >
           <option disabled={true} selected={true}>
-            -- loading available models --
+            -- 正在加载可用模型 --
           </option>
         </select>
       </div>
@@ -79,12 +83,12 @@ function OpenAIModelSelection({ apiKey, settings }) {
   return (
     <div className="flex flex-col w-60">
       <label className="text-white text-sm font-semibold block mb-3">
-        Chat Model Selection
+        聊天模型选择
       </label>
       <select
         name="OpenAiModelPref"
         required={true}
-        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5"
+        className="border-none bg-theme-settings-input-bg border-gray-500 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition-colors duration-200 hover:bg-theme-settings-input-active"
       >
         {Object.keys(groupedModels)
           .sort()

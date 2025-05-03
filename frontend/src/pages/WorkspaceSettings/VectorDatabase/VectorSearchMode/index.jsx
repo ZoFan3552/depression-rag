@@ -1,18 +1,18 @@
 import { useState } from "react";
 
-// We dont support all vectorDBs yet for reranking due to complexities of how each provider
-// returns information. We need to normalize the response data so Reranker can be used for each provider.
+// 由于各提供商返回信息的复杂性，我们尚未支持所有向量数据库的重排序。
+// 我们需要标准化响应数据，以便可以对每个提供商使用重排序器。
 const supportedVectorDBs = ["lancedb"];
 const hint = {
   default: {
-    title: "Default",
+    title: "默认",
     description:
-      "This is the fastest performance, but may not return the most relevant results leading to model hallucinations.",
+      "这是性能最快的选项，但可能无法返回最相关的结果，导致模型产生幻觉。",
   },
   rerank: {
-    title: "Accuracy Optimized",
+    title: "优化准确性",
     description:
-      "LLM responses may take longer to generate, but your responses will be more accurate and relevant.",
+      "大语言模型响应可能需要更长时间生成，但您的回答将更加准确和相关。",
   },
 };
 
@@ -27,23 +27,23 @@ export default function VectorSearchMode({ workspace, setHasChanges }) {
     <div>
       <div className="flex flex-col">
         <label htmlFor="name" className="block input-label">
-          Search Preference
+          搜索偏好
         </label>
       </div>
       <select
         name="vectorSearchMode"
         value={selection}
-        className="border-none bg-theme-settings-input-bg text-white text-sm mt-2 rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5"
+        className="border-none bg-theme-settings-input-bg text-white text-sm mt-2 rounded-lg focus:outline-primary-button active:outline-primary-button outline-none block w-full p-2.5 transition duration-200 cursor-pointer hover:bg-opacity-90"
         onChange={(e) => {
           setSelection(e.target.value);
           setHasChanges(true);
         }}
         required={true}
       >
-        <option value="default">Default</option>
-        <option value="rerank">Accuracy Optimized</option>
+        <option value="default">默认</option>
+        <option value="rerank">优化准确性</option>
       </select>
-      <p className="text-white text-opacity-60 text-xs font-medium py-1.5">
+      <p className="text-white text-opacity-60 text-xs font-medium py-1.5 mt-1">
         {hint[selection]?.description}
       </p>
     </div>

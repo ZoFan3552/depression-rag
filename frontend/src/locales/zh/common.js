@@ -75,7 +75,7 @@ const TRANSLATIONS = {
     "workspace-chats": "对话历史记录",
     customization: "外观",
     "api-keys": "API 密钥",
-    llm: "LLM 首选项",
+    llm: "大语言模型首选项",
     transcription: "转录模型",
     embedder: "Embedder 首选项",
     "text-splitting": "文本分割",
@@ -87,7 +87,7 @@ const TRANSLATIONS = {
     "event-logs": "事件日志",
     privacy: "隐私与数据",
     "ai-providers": "人工智能提供商",
-    "agent-skills": "代理技能",
+    "agent-skills": "抑郁症专家智能助手技能",
     admin: "管理员",
     tools: "工具",
     "experimental-features": "实验功能",
@@ -149,7 +149,7 @@ const TRANSLATIONS = {
     chat: "聊天设置",
     vector: "向量数据库",
     members: "成员",
-    agent: "代理配置",
+    agent: "智能助手配置",
   },
   general: {
     vector: {
@@ -280,7 +280,7 @@ const TRANSLATIONS = {
       wait: "-- 等待模型 --",
     },
     skill: {
-      title: "默认代理技能",
+      title: "默认抑郁症专家智能助手技能",
       description:
         "使用这些预构建的技能提高默认代理的自然能力。此设置适用于所有工作区。",
       rag: {
@@ -338,9 +338,9 @@ const TRANSLATIONS = {
     },
   },
   llm: {
-    title: "LLM 首选项",
+    title: "大语言模型首选项",
     description:
-      "这些是你首选的 LLM 聊天和嵌入提供商的凭据和设置。重要的是，这些密钥是最新的和正确的，否则 AnythingLLM 将无法正常运行。",
+      "这些是你首选的 AI 聊天和提供商的凭据和设置。这些密钥需是最新的和正确的，否则系统将无法正常运行。",
     provider: "LLM 提供商",
   },
   transcription: {
@@ -358,10 +358,10 @@ const TRANSLATIONS = {
     "desc-start":
       "当使用本身不支持嵌入引擎的 LLM 时，你可能需要额外指定用于嵌入文本的凭据。",
     "desc-end":
-      "嵌入是将文本转换为矢量的过程。需要这些凭据才能将你的文件和提示转换为 AnythingLLM 可以用来处理的格式。",
+      "嵌入是将文本转换为矢量的过程。需要这些凭据才能将你的文件和提示转换为系统可以用来处理的格式。",
     provider: {
       title: "嵌入引擎提供商",
-      description: "使用 AnythingLLM 的本机嵌入引擎时不需要设置。",
+      description: "使用系统内置的嵌入引擎时不需要设置。",
     },
   },
   text: {
@@ -385,7 +385,7 @@ const TRANSLATIONS = {
   vector: {
     title: "向量数据库",
     description:
-      "这些是 AnythingLLM 实例如何运行的凭据和设置。重要的是，这些密钥是最新的和正确的。",
+      "这些是向量数据库实例凭据和设置。密钥需是最新的和正确的。",
     provider: {
       title: "向量数据库提供商",
       description: "LanceDB 不需要任何配置。",

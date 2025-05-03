@@ -7,25 +7,17 @@ import showToast from "@/utils/toast";
 import {
   CaretLeft,
   CaretRight,
-  Plug,
   Robot,
-  Hammer,
-  FlowArrow,
 } from "@phosphor-icons/react";
 import ContextualSaveBar from "@/components/ContextualSaveBar";
 import { castToType } from "@/utils/types";
 import { FullScreenLoader } from "@/components/Preloader";
 import { defaultSkills, configurableSkills } from "./skills";
 import { DefaultBadge } from "./Badges/default";
-import ImportedSkillList from "./Imported/SkillList";
 import ImportedSkillConfig from "./Imported/ImportedSkillConfig";
 import { Tooltip } from "react-tooltip";
-import AgentFlowsList from "./AgentFlows";
 import FlowPanel from "./AgentFlows/FlowPanel";
-import { MCPServersList, MCPServerHeader } from "./MCPServers";
 import ServerPanel from "./MCPServers/ServerPanel";
-import { Link } from "react-router-dom";
-import paths from "@/utils/paths";
 import AgentFlows from "@/models/agentFlows";
 
 export default function AdminAgents() {
@@ -44,11 +36,11 @@ export default function AdminAgents() {
   const [selectedFlow, setSelectedFlow] = useState(null);
   const [activeFlowIds, setActiveFlowIds] = useState([]);
 
-  // MCP Servers are lazy loaded to not block the UI thread
+  // MCP服务器懒加载，避免阻塞UI线程
   const [mcpServers, setMcpServers] = useState([]);
   const [selectedMcpServer, setSelectedMcpServer] = useState(null);
 
-  // Alert user if they try to leave the page with unsaved changes
+  // 如果用户尝试在有未保存的更改时离开页面，提醒用户
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (hasChanges) {
@@ -86,6 +78,7 @@ export default function AdminAgents() {
     fetchSettings();
   }, []);
 
+  // 切换默认技能状态
   const toggleDefaultSkill = (skillName) => {
     setDisabledAgentSkills((prev) => {
       const updatedSkills = prev.includes(skillName)
@@ -96,6 +89,7 @@ export default function AdminAgents() {
     });
   };
 
+  // 切换抑郁症专家智能助手技能状态
   const toggleAgentSkill = (skillName) => {
     setAgentSkills((prev) => {
       const updatedSkills = prev.includes(skillName)
@@ -106,6 +100,7 @@ export default function AdminAgents() {
     });
   };
 
+  // 切换流程状态
   const toggleFlow = (flowId) => {
     setActiveFlowIds((prev) => {
       const updatedFlows = prev.includes(flowId)
@@ -115,6 +110,7 @@ export default function AdminAgents() {
     });
   };
 
+  // 切换MCP服务器状态
   const toggleMCP = (serverName) => {
     setMcpServers((prev) => {
       return prev.map((server) => {
@@ -124,6 +120,7 @@ export default function AdminAgents() {
     });
   };
 
+  // 提交表单处理
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -164,11 +161,11 @@ export default function AdminAgents() {
         _preferences.settings?.disabled_agent_skills ?? []
       );
       setImportedSkills(_preferences.settings?.imported_agent_skills ?? []);
-      showToast(`Agent preferences saved successfully.`, "success", {
+      showToast(`代理偏好设置保存成功。`, "success", {
         clear: true,
       });
     } else {
-      showToast(`Agent preferences failed to save.`, "error", { clear: true });
+      showToast(`代理偏好设置保存失败。`, "error", { clear: true });
     }
 
     setHasChanges(false);
@@ -187,7 +184,7 @@ export default function AdminAgents() {
     SelectedSkillComponent = defaultSkills[selectedSkill]?.component;
   }
 
-  // Update the click handlers to clear the other selection
+  // 更新点击处理程序以清除其他选择
   const handleDefaultSkillClick = (skill) => {
     setSelectedFlow(null);
     setSelectedMcpServer(null);
@@ -216,12 +213,14 @@ export default function AdminAgents() {
     if (isMobile) setShowSkillModal(true);
   };
 
+  // 处理流程删除
   const handleFlowDelete = (flowId) => {
     setSelectedFlow(null);
     setActiveFlowIds((prev) => prev.filter((id) => id !== flowId));
     setAgentFlows((prev) => prev.filter((flow) => flow.uuid !== flowId));
   };
 
+  // 处理MCP服务器删除
   const handleMCPServerDelete = (serverName) => {
     setSelectedMcpServer(null);
     setMcpServers((prev) =>
@@ -233,7 +232,7 @@ export default function AdminAgents() {
     return (
       <div
         style={{ height: isMobile ? "100%" : "calc(100% - 32px)" }}
-        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] w-full h-full flex justify-center items-center"
+        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[24px] w-full h-full flex justify-center items-center bg-theme-bg-secondary shadow-lg"
       >
         <FullScreenLoader />
       </div>
@@ -264,16 +263,16 @@ export default function AdminAgents() {
             value={disabledAgentSkills.join(",")}
           />
 
-          {/* Skill settings nav */}
+          {/* 技能设置导航 */}
           <div
             hidden={showSkillModal}
             className="flex flex-col gap-y-[18px] overflow-y-scroll no-scroll"
           >
             <div className="text-theme-text-primary flex items-center gap-x-2">
               <Robot size={24} />
-              <p className="text-lg font-medium">Agent Skills</p>
+              <p className="text-lg font-medium">抑郁症专家智能助手技能</p>
             </div>
-            {/* Default skills */}
+            {/* 默认技能 */}
             <SkillList
               skills={defaultSkills}
               selectedSkill={selectedSkill}
@@ -282,57 +281,16 @@ export default function AdminAgents() {
                 (skill) => !disabledAgentSkills.includes(skill)
               )}
             />
-            {/* Configurable skills */}
+            {/* 可配置技能 */}
             <SkillList
               skills={configurableSkills}
               selectedSkill={selectedSkill}
               handleClick={handleDefaultSkillClick}
               activeSkills={agentSkills}
             />
-
-            <div className="text-theme-text-primary flex items-center gap-x-2">
-              <Plug size={24} />
-              <p className="text-lg font-medium">Custom Skills</p>
-            </div>
-            <ImportedSkillList
-              skills={importedSkills}
-              selectedSkill={selectedSkill}
-              handleClick={handleSkillClick}
-            />
-
-            <div className="text-theme-text-primary flex items-center gap-x-2 mt-6">
-              <FlowArrow size={24} />
-              <p className="text-lg font-medium">Agent Flows</p>
-            </div>
-            <AgentFlowsList
-              flows={agentFlows}
-              selectedFlow={selectedFlow}
-              handleClick={handleFlowClick}
-            />
-            <input
-              type="hidden"
-              name="system::active_agent_flows"
-              id="active_agent_flows"
-              value={activeFlowIds.join(",")}
-            />
-            <MCPServerHeader
-              setMcpServers={setMcpServers}
-              setSelectedMcpServer={setSelectedMcpServer}
-            >
-              {({ loadingMcpServers }) => {
-                return (
-                  <MCPServersList
-                    isLoading={loadingMcpServers}
-                    servers={mcpServers}
-                    selectedServer={selectedMcpServer}
-                    handleClick={handleMCPClick}
-                  />
-                );
-              }}
-            </MCPServerHeader>
           </div>
 
-          {/* Selected agent skill modal */}
+          {/* 选中的抑郁症专家智能助手技能模态框 */}
           {showSkillModal && (
             <div className="fixed top-0 left-0 w-full h-full bg-sidebar z-30">
               <div className="flex flex-col h-full">
@@ -347,12 +305,12 @@ export default function AdminAgents() {
                   >
                     <div className="flex items-center text-sky-400">
                       <CaretLeft size={24} />
-                      <div>Back</div>
+                      <div>返回</div>
                     </div>
                   </button>
                 </div>
                 <div className="flex-1 overflow-y-auto p-4">
-                  <div className=" bg-theme-bg-secondary text-white rounded-xl p-4 overflow-y-scroll no-scroll">
+                  <div className="bg-theme-bg-secondary text-white rounded-xl p-5 overflow-y-scroll no-scroll shadow-md">
                     {SelectedSkillComponent ? (
                       <>
                         {selectedMcpServer ? (
@@ -377,7 +335,7 @@ export default function AdminAgents() {
                         ) : (
                           <>
                             {defaultSkills?.[selectedSkill] ? (
-                              // The selected skill is a default skill - show the default skill panel
+                              // 选中的是默认技能 - 显示默认技能面板
                               <SelectedSkillComponent
                                 skill={defaultSkills[selectedSkill]?.skill}
                                 settings={settings}
@@ -391,7 +349,7 @@ export default function AdminAgents() {
                                 {...defaultSkills[selectedSkill]}
                               />
                             ) : (
-                              // The selected skill is a configurable skill - show the configurable skill panel
+                              // 选中的是可配置技能 - 显示可配置技能面板
                               <SelectedSkillComponent
                                 skill={configurableSkills[selectedSkill]?.skill}
                                 settings={settings}
@@ -408,9 +366,9 @@ export default function AdminAgents() {
                       </>
                     ) : (
                       <div className="flex flex-col items-center justify-center h-full text-theme-text-secondary">
-                        <Robot size={40} />
+                        <Robot size={40} className="mb-2" />
                         <p className="font-medium">
-                          Select an Agent Skill, Agent Flow, or MCP Server
+                          请选择一个抑郁症专家智能助手技能
                         </p>
                       </div>
                     )}
@@ -436,7 +394,7 @@ export default function AdminAgents() {
           !selectedSkill?.imported && !selectedFlow && setHasChanges(true)
         }
         ref={formEl}
-        className="flex-1 flex gap-x-6 p-4 mt-10"
+        className="flex-1 flex gap-x-8 p-6 mt-10"
       >
         <input
           name="system::default_agent_skills"
@@ -455,18 +413,18 @@ export default function AdminAgents() {
           value={activeFlowIds.join(",")}
         />
 
-        {/* Skill settings nav - Make this section scrollable */}
+        {/* 技能设置导航 - 使此部分可滚动 */}
         <div className="flex flex-col min-w-[360px] h-[calc(100vh-90px)]">
-          <div className="flex-none mb-4">
-            <div className="text-theme-text-primary flex items-center gap-x-2">
+          <div className="flex-none mb-5">
+            <div className="text-theme-text-primary flex items-center gap-x-3">
               <Robot size={24} />
-              <p className="text-lg font-medium">Agent Skills</p>
+              <p className="text-xl font-medium">抑郁症专家智能助手技能</p>
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto pr-2 pb-4">
-            <div className="space-y-4">
-              {/* Default skills list */}
+          <div className="flex-1 overflow-y-auto pr-3 pb-4 custom-scrollbar">
+            <div className="space-y-5">
+              {/* 默认技能列表 */}
               <SkillList
                 skills={defaultSkills}
                 selectedSkill={selectedSkill}
@@ -475,75 +433,20 @@ export default function AdminAgents() {
                   (skill) => !disabledAgentSkills.includes(skill)
                 )}
               />
-              {/* Configurable skills */}
+              {/* 可配置技能 */}
               <SkillList
                 skills={configurableSkills}
                 selectedSkill={selectedSkill}
                 handleClick={handleSkillClick}
                 activeSkills={agentSkills}
               />
-
-              <div className="text-theme-text-primary flex items-center gap-x-2 mt-4">
-                <Plug size={24} />
-                <p className="text-lg font-medium">Custom Skills</p>
-              </div>
-              <ImportedSkillList
-                skills={importedSkills}
-                selectedSkill={selectedSkill}
-                handleClick={handleSkillClick}
-              />
-
-              <div className="text-theme-text-primary flex items-center justify-between gap-x-2 mt-4">
-                <div className="flex items-center gap-x-2">
-                  <FlowArrow size={24} />
-                  <p className="text-lg font-medium">Agent Flows</p>
-                </div>
-                {agentFlows.length === 0 ? (
-                  <Link
-                    to={paths.agents.builder()}
-                    className="text-cta-button flex items-center gap-x-1 hover:underline"
-                  >
-                    <Hammer size={16} />
-                    <p className="text-sm">Create Flow</p>
-                  </Link>
-                ) : (
-                  <Link
-                    to={paths.agents.builder()}
-                    className="text-theme-text-secondary hover:text-cta-button flex items-center gap-x-1"
-                  >
-                    <Hammer size={16} />
-                    <p className="text-sm">Open Builder</p>
-                  </Link>
-                )}
-              </div>
-              <AgentFlowsList
-                flows={agentFlows}
-                selectedFlow={selectedFlow}
-                handleClick={handleFlowClick}
-              />
-
-              <MCPServerHeader
-                setMcpServers={setMcpServers}
-                setSelectedMcpServer={setSelectedMcpServer}
-              >
-                {({ loadingMcpServers }) => {
-                  return (
-                    <MCPServersList
-                      isLoading={loadingMcpServers}
-                      servers={mcpServers}
-                      selectedServer={selectedMcpServer}
-                      handleClick={handleMCPClick}
-                    />
-                  );
-                }}
-              </MCPServerHeader>
             </div>
           </div>
         </div>
 
-        {/* Selected agent skill setting panel */}
+        {/* 选中的抑郁症专家智能助手技能设置面板 */}
         <div className="flex-[2] flex flex-col gap-y-[18px] mt-10">
-          <div className="bg-theme-bg-secondary text-white rounded-xl flex-1 p-4 overflow-y-scroll no-scroll">
+          <div className="bg-theme-bg-secondary text-white rounded-xl flex-1 p-6 overflow-y-scroll custom-scrollbar shadow-lg transition-all duration-300">
             {SelectedSkillComponent ? (
               <>
                 {selectedMcpServer ? (
@@ -568,7 +471,7 @@ export default function AdminAgents() {
                 ) : (
                   <>
                     {defaultSkills?.[selectedSkill] ? (
-                      // The selected skill is a default skill - show the default skill panel
+                      // 选中的是默认技能 - 显示默认技能面板
                       <SelectedSkillComponent
                         skill={defaultSkills[selectedSkill]?.skill}
                         settings={settings}
@@ -582,7 +485,7 @@ export default function AdminAgents() {
                         {...defaultSkills[selectedSkill]}
                       />
                     ) : (
-                      // The selected skill is a configurable skill - show the configurable skill panel
+                      // 选中的是可配置技能 - 显示可配置技能面板
                       <SelectedSkillComponent
                         skill={configurableSkills[selectedSkill]?.skill}
                         settings={settings}
@@ -599,9 +502,9 @@ export default function AdminAgents() {
               </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-theme-text-secondary">
-                <Robot size={40} />
-                <p className="font-medium">
-                  Select an Agent Skill, Agent Flow, or MCP Server
+                <Robot size={48} className="mb-3" />
+                <p className="font-medium text-lg">
+                  请选择一个抑郁症专家智能助手技能
                 </p>
               </div>
             )}
@@ -621,7 +524,7 @@ function SkillLayout({ children, hasChanges, handleSubmit, handleCancel }) {
       <Sidebar />
       <div
         style={{ height: isMobile ? "100%" : "calc(100% - 32px)" }}
-        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] w-full h-full flex"
+        className="relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[24px] w-full h-full flex"
       >
         {children}
         <ContextualSaveBar
@@ -648,31 +551,31 @@ function SkillList({
       <div
         className={`bg-theme-bg-secondary text-white rounded-xl ${
           isMobile ? "w-full" : "min-w-[360px] w-fit"
-        }`}
+        } shadow-md hover:shadow-lg transition-all duration-300`}
       >
         {Object.entries(skills).map(([skill, settings], index) => (
           <div
             key={skill}
-            className={`py-3 px-4 flex items-center justify-between ${
+            className={`py-3.5 px-5 flex items-center justify-between ${
               index === 0 ? "rounded-t-xl" : ""
             } ${
               index === Object.keys(skills).length - 1
                 ? "rounded-b-xl"
                 : "border-b border-white/10"
-            } cursor-pointer transition-all duration-300  hover:bg-theme-bg-primary ${
+            } cursor-pointer transition-all duration-300 hover:bg-theme-bg-primary ${
               selectedSkill === skill
                 ? "bg-white/10 light:bg-theme-bg-sidebar"
                 : ""
             }`}
             onClick={() => handleClick?.(skill)}
           >
-            <div className="text-sm font-light">{settings.title}</div>
+            <div className="text-sm font-medium">{settings.title}</div>
             <div className="flex items-center gap-x-2">
               {isDefault ? (
                 <DefaultBadge title={skill} />
               ) : (
                 <div className="text-sm text-theme-text-secondary font-medium">
-                  {activeSkills.includes(skill) ? "On" : "Off"}
+                  {activeSkills.includes(skill) ? "开启" : "关闭"}
                 </div>
               )}
               <CaretRight
@@ -684,7 +587,7 @@ function SkillList({
           </div>
         ))}
       </div>
-      {/* Tooltip for default skills - only render when skill list is passed isDefault */}
+      {/* 默认技能的工具提示 - 仅当技能列表传递isDefault时才渲染 */}
       {isDefault && (
         <Tooltip
           id="default-skill"

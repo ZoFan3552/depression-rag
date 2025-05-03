@@ -88,7 +88,7 @@ async function prepareChatsForExport(format = "jsonl", chatType = "workspace") {
           ? chat.user.username
           : chat.api_session_id !== null
             ? "API"
-            : "unknown user",
+            : "default user",
         rating:
           chat.feedbackScore === null
             ? "--"
