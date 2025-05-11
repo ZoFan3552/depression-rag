@@ -41,21 +41,21 @@ export default function WorkspaceChat({ loading, workspace }) {
       <>
         {loading === false && !workspace && (
           <ModalWrapper isOpen={true}>
-            <div className="relative w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow border-2 border-theme-modal-border">
+            <div className="relative w-full max-w-2xl bg-theme-bg-secondary rounded-lg shadow-lg border-2 border-theme-modal-border">
               <div className="flex flex-col gap-y-4 w-full p-6 text-center">
                 <p className="font-semibold text-red-500 text-xl">
-                  Workspace not found!
+                  未找到工作区！
                 </p>
                 <p className="text-sm mt-4 text-white">
-                  It looks like a workspace by this name is not available.
+                  看起来没有找到这个名称的工作区。
                 </p>
 
                 <div className="flex w-full justify-center items-center mt-4">
                   <a
                     href={paths.home()}
-                    className="transition-all duration-300 bg-white text-black hover:opacity-60 px-4 py-2 rounded-lg text-sm flex items-center gap-x-2"
+                    className="transition-all duration-300 bg-white text-black hover:bg-gray-100 hover:shadow-md px-4 py-2 rounded-lg text-sm flex items-center gap-x-2"
                   >
-                    Go back to homepage
+                    返回首页
                   </a>
                 </div>
               </div>
@@ -77,9 +77,8 @@ export default function WorkspaceChat({ loading, workspace }) {
   );
 }
 
-// Enables us to safely markdown and sanitize all responses without risk of injection
-// but still be able to attach a handler to copy code snippets on all elements
-// that are code snippets.
+// 使我们能够安全地标记和净化所有响应，而不会有注入风险，
+// 但仍然能够为所有代码片段的元素添加复制代码片段的处理程序。
 function copyCodeSnippet(uuid) {
   const target = document.querySelector(`[data-code="${uuid}"]`);
   if (!target) return false;
@@ -92,7 +91,7 @@ function copyCodeSnippet(uuid) {
   window.navigator.clipboard.writeText(markdown);
   target.classList.add("text-green-500");
   const originalText = target.innerHTML;
-  target.innerText = "Copied!";
+  target.innerText = "已复制！";
   target.setAttribute("disabled", true);
 
   setTimeout(() => {
@@ -102,7 +101,7 @@ function copyCodeSnippet(uuid) {
   }, 2500);
 }
 
-// Listens and hunts for all data-code-snippet clicks.
+// 监听并寻找所有data-code-snippet点击事件
 export function setEventDelegatorForCodeSnippets() {
   document?.addEventListener("click", function (e) {
     const target = e.target.closest("[data-code-snippet]");

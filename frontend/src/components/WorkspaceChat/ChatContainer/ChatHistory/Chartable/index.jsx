@@ -37,6 +37,11 @@ import { saveAs } from "file-saver";
 import { useGenerateImage } from "recharts-to-png";
 import { CircleNotch, DownloadSimple } from "@phosphor-icons/react";
 
+/**
+ * 数字格式化函数
+ * @param {number} number - 需要格式化的数字
+ * @returns {string} - 格式化后的字符串
+ */
 const dataFormatter = (number) => {
   return Intl.NumberFormat("us").format(number).toString();
 };
@@ -50,9 +55,11 @@ export function Chartable({ props, workspace }) {
       padding: 20,
     },
   });
+  
+  // 处理图表下载
   const handleDownload = useCallback(async () => {
     const jpeg = await getDivJpeg();
-    if (jpeg) saveAs(jpeg, `chart-${v4().split("-")[0]}.jpg`);
+    if (jpeg) saveAs(jpeg, `图表-${v4().split("-")[0]}.jpg`);
   }, []);
 
   const color = null;
@@ -71,12 +78,13 @@ export function Chartable({ props, workspace }) {
   const value = data.length > 0 ? Object.keys(data[0])[1] : "value";
   const title = content?.title;
 
+  // 根据图表类型渲染不同的图表
   const renderChart = () => {
     switch (chartType) {
       case "area":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             <AreaChart
@@ -92,8 +100,8 @@ export function Chartable({ props, workspace }) {
         );
       case "bar":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             <BarChart
@@ -111,8 +119,8 @@ export function Chartable({ props, workspace }) {
         );
       case "line":
         return (
-          <div className="bg-theme-bg-primary p-8 pb-12 rounded-xl text-white h-[500px] w-full light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 pb-12 rounded-xl text-white h-[500px] w-full light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             <LineChart
@@ -128,8 +136,8 @@ export function Chartable({ props, workspace }) {
         );
       case "composed":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -186,8 +194,8 @@ export function Chartable({ props, workspace }) {
         );
       case "scatter":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -234,8 +242,8 @@ export function Chartable({ props, workspace }) {
         );
       case "pie":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             <DonutChart
@@ -251,7 +259,7 @@ export function Chartable({ props, workspace }) {
                 "teal",
                 "fuchsia",
               ]}
-              // No actual legend for pie chart, but this will toggle the central text
+              // 饼图没有实际的图例，但这会切换中央文本
               showLabel={showLegend}
               valueFormatter={dataFormatter}
               customTooltip={customTooltip}
@@ -260,8 +268,8 @@ export function Chartable({ props, workspace }) {
         );
       case "radar":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -296,8 +304,8 @@ export function Chartable({ props, workspace }) {
         );
       case "radialbar":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -333,8 +341,8 @@ export function Chartable({ props, workspace }) {
         );
       case "treemap":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -361,8 +369,8 @@ export function Chartable({ props, workspace }) {
         );
       case "funnel":
         return (
-          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary">
-            <h3 className="text-lg text-theme-text-primary font-medium">
+          <div className="bg-theme-bg-primary p-8 rounded-xl text-white light:border light:border-theme-border-primary shadow-md hover:shadow-lg transition-shadow duration-300">
+            <h3 className="text-lg text-theme-text-primary font-medium mb-4">
               {title}
             </h3>
             {showLegend && (
@@ -381,7 +389,7 @@ export function Chartable({ props, workspace }) {
           </div>
         );
       default:
-        return <p>Unsupported chart type.</p>;
+        return <p>不支持的图表类型。</p>;
     }
   };
 
@@ -427,13 +435,16 @@ export function Chartable({ props, workspace }) {
   );
 }
 
+/**
+ * 自定义提示组件，显示图表的详细信息
+ */
 const customTooltip = (props) => {
   const { payload, active } = props;
   if (!active || !payload) return null;
   const categoryPayload = payload?.[0];
   if (!categoryPayload) return null;
   return (
-    <div className="w-56 bg-theme-bg-primary rounded-lg border p-2 text-white">
+    <div className="w-56 bg-theme-bg-primary rounded-lg border p-2 text-white shadow-lg">
       <div className="flex flex-1 space-x-2.5">
         <div
           className={`flex w-1.5 flex-col bg-${categoryPayload?.color}-500 rounded`}
@@ -453,6 +464,11 @@ const customTooltip = (props) => {
   );
 };
 
+/**
+ * 图表下载按钮组件
+ * @param {Object} props - 组件属性
+ * @param {Function} props.onClick - 点击事件处理函数
+ */
 function DownloadGraph({ onClick }) {
   const [loading, setLoading] = useState(false);
   const handleClick = async () => {
@@ -464,18 +480,18 @@ function DownloadGraph({ onClick }) {
   return (
     <div className="absolute top-3 right-3 z-50 cursor-pointer">
       <div className="flex flex-col items-center">
-        <div className="p-1 rounded-full border-none">
+        <div className="p-1.5 rounded-full border-none bg-theme-bg-secondary hover:bg-theme-bg-hover transition-colors duration-200">
           {loading ? (
             <CircleNotch
               className="text-theme-text-primary w-5 h-5 animate-spin"
-              aria-label="Downloading image..."
+              aria-label="正在下载图片..."
             />
           ) : (
             <DownloadSimple
               weight="bold"
               className="text-theme-text-primary w-5 h-5 hover:text-theme-text-primary"
               onClick={handleClick}
-              aria-label="Download graph image"
+              aria-label="下载图表图片"
             />
           )}
         </div>

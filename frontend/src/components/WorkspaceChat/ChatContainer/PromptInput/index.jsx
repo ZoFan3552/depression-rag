@@ -41,9 +41,8 @@ export default function PromptInput({
   const { textSizeClass } = useTextSize();
 
   /**
-   * To prevent too many re-renders we remotely listen for updates from the parent
-   * via an event cycle. Otherwise, using message as a prop leads to a re-render every
-   * change on the input.
+   * 为防止过多重新渲染，我们通过事件循环远程监听来自父组件的更新
+   * 否则，将消息用作prop会导致输入框的每次更改都重新渲染
    * @param {Event} e
    */
   function handlePromptUpdate(e) {
@@ -63,7 +62,7 @@ export default function PromptInput({
   }, [isStreaming]);
 
   /**
-   * Save the current state before changes
+   * 在更改前保存当前状态
    * @param {number} adjustment
    */
   function saveCurrentState(adjustment = 0) {
@@ -103,19 +102,19 @@ export default function PromptInput({
   const watchForAt = debounce(checkForAt, 300);
 
   /**
-   * Capture enter key press to handle submission, redo, or undo
-   * via keyboard shortcuts
+   * 捕获回车键按下以处理提交、重做或撤销
+   * 通过键盘快捷键
    * @param {KeyboardEvent} event
    */
   function captureEnterOrUndo(event) {
-    // Is simple enter key press w/o shift key
+    // 是简单的回车键按下而没有shift键
     if (event.keyCode === 13 && !event.shiftKey) {
       event.preventDefault();
       if (isStreaming) return;
       return submit(event);
     }
 
-    // Is undo with Ctrl+Z or Cmd+Z + Shift key = Redo
+    // 是使用Ctrl+Z或Cmd+Z+Shift键=重做
     if (
       (event.ctrlKey || event.metaKey) &&
       event.key === "z" &&
@@ -141,7 +140,7 @@ export default function PromptInput({
       }, 0);
     }
 
-    // Undo with Ctrl+Z or Cmd+Z
+    // 使用Ctrl+Z或Cmd+Z撤销
     if (
       (event.ctrlKey || event.metaKey) &&
       event.key === "z" &&
@@ -176,7 +175,7 @@ export default function PromptInput({
     e.preventDefault();
     if (e.clipboardData.items.length === 0) return false;
 
-    // paste any clipboard items that are images.
+    // 粘贴剪贴板中的图片项目
     for (const item of e.clipboardData.items) {
       if (item.type.startsWith("image/")) {
         const file = item.getAsFile();
@@ -188,7 +187,7 @@ export default function PromptInput({
         continue;
       }
 
-      // handle files specifically that are not images as uploads
+      // 特别处理非图像文件作为上传
       if (item.kind === "file") {
         const file = item.getAsFile();
         window.dispatchEvent(
@@ -212,8 +211,8 @@ export default function PromptInput({
       setPromptInput(newPromptInput);
       onChange({ target: { value: newPromptInput } });
 
-      // Set the cursor position after the pasted text
-      // we need to use setTimeout to prevent the cursor from being set to the end of the text
+      // 设置光标位置在粘贴的文本之后
+      // 我们需要使用setTimeout防止光标被设置到文本末尾
       setTimeout(() => {
         textarea.selectionStart = textarea.selectionEnd =
           start + pasteText.length;
@@ -250,7 +249,7 @@ export default function PromptInput({
         className="flex flex-col gap-y-1 rounded-t-lg md:w-3/4 w-full mx-auto max-w-xl items-center"
       >
         <div className="flex items-center rounded-lg md:mb-4">
-          <div className="w-[95vw] md:w-[635px] bg-theme-bg-chat-input light:bg-white light:border-solid light:border-[1px] light:border-theme-chat-input-border shadow-sm rounded-2xl flex flex-col px-4 overflow-hidden">
+          <div className="w-[95vw] md:w-[635px] bg-theme-bg-chat-input light:bg-white light:border-solid light:border-[1px] light:border-theme-chat-input-border shadow-lg rounded-2xl flex flex-col px-4 overflow-hidden transition-all duration-300 hover:shadow-xl">
             <AttachmentManager attachments={attachments} />
             <div className="flex items-center w-full border-b-2 border-theme-chat-input-border">
               <textarea
@@ -269,7 +268,7 @@ export default function PromptInput({
                 }}
                 value={promptInput}
                 className={`border-none cursor-text max-h-[50vh] md:max-h-[350px] md:min-h-[40px] mx-2 md:mx-0 pt-[12px] w-full leading-5 md:text-md text-white bg-transparent placeholder:text-white/60 light:placeholder:text-theme-text-primary resize-none active:outline-none focus:outline-none flex-grow ${textSizeClass}`}
-                placeholder={t("chat_window.send_message")}
+                placeholder={t("chat_window.send_message") || "输入您的问题..."}
               />
               {isStreaming ? (
                 <StopGenerationButton />
@@ -278,17 +277,17 @@ export default function PromptInput({
                   <button
                     ref={formRef}
                     type="submit"
-                    className="border-none inline-flex justify-center rounded-2xl cursor-pointer opacity-60 hover:opacity-100 light:opacity-100 light:hover:opacity-60 ml-4"
+                    className="border-none inline-flex justify-center rounded-2xl cursor-pointer opacity-60 hover:opacity-100 light:opacity-100 light:hover:opacity-60 ml-4 transition-opacity duration-200"
                     data-tooltip-id="send-prompt"
-                    data-tooltip-content={t("chat_window.send")}
-                    aria-label={t("chat_window.send")}
+                    data-tooltip-content={t("chat_window.send") || "发送"}
+                    aria-label={t("chat_window.send") || "发送"}
                   >
                     <PaperPlaneRight
                       color="var(--theme-sidebar-footer-icon-fill)"
                       className="w-[22px] h-[22px] pointer-events-none text-theme-text-primary"
                       weight="fill"
                     />
-                    <span className="sr-only">Send message</span>
+                    <span className="sr-only">发送消息</span>
                   </button>
                   <Tooltip
                     id="send-prompt"

@@ -15,6 +15,7 @@ import { REMOVE_ATTACHMENT_EVENT } from "../../DnDWrapper";
 import { Tooltip } from "react-tooltip";
 
 /**
+ * 附件管理器组件，显示上传的文件
  * @param {{attachments: import("../../DnDWrapper").Attachment[]}}
  * @returns
  */
@@ -30,6 +31,7 @@ export default function AttachmentManager({ attachments }) {
 }
 
 /**
+ * 单个附件项组件
  * @param {{attachment: import("../../DnDWrapper").Attachment}}
  */
 function AttachmentItem({ attachment }) {
@@ -46,7 +48,7 @@ function AttachmentItem({ attachment }) {
   if (status === "in_progress") {
     return (
       <div
-        className={`h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px]`}
+        className={`h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px] transition-all duration-300`}
       >
         <div
           className={`${iconBgColor} rounded-lg flex items-center justify-center flex-shrink-0 p-1`}
@@ -72,13 +74,13 @@ function AttachmentItem({ attachment }) {
         <div
           data-tooltip-id={`attachment-uid-${uid}-error`}
           data-tooltip-content={error}
-          className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-error/40 light:bg-error/30 border border-transparent w-[200px] group`}
+          className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-error/40 light:bg-error/30 border border-transparent w-[200px] group transition-all duration-300 hover:bg-error/50`}
         >
           <div className="invisible group-hover:visible absolute -top-[5px] -right-[5px] w-fit h-fit z-[10]">
             <button
               onClick={removeFileFromQueue}
               type="button"
-              className="light:bg-white bg-zinc-700 hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40"
+              className="light:bg-white bg-zinc-700 hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40 transition-colors duration-200"
             >
               <X size={10} className="flex-shrink-0" />
             </button>
@@ -93,8 +95,7 @@ function AttachmentItem({ attachment }) {
               {file.name}
             </p>
             <p className="text-red-100 light:text-red-600 text-xs truncate">
-              {error ?? "this file failed to upload"}. It will not be available
-              in the workspace.
+              {error ?? "此文件上传失败"}。它将不会在工作区中可用。
             </p>
           </div>
         </div>
@@ -113,14 +114,14 @@ function AttachmentItem({ attachment }) {
       <>
         <div
           data-tooltip-id={`attachment-uid-${uid}-success`}
-          data-tooltip-content={`${file.name} will be attached to this prompt. It will not be embedded into the workspace permanently.`}
-          className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px] group`}
+          data-tooltip-content={`${file.name} 将作为附件添加到此提示中。它不会被永久嵌入到工作区中。`}
+          className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px] group transition-all duration-300 hover:border-white/40`}
         >
           <div className="invisible group-hover:visible absolute -top-[5px] -right-[5px] w-fit h-fit z-[10]">
             <button
               onClick={removeFileFromQueue}
               type="button"
-              className="bg-zinc-700 light:bg-white hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40"
+              className="bg-zinc-700 light:bg-white hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40 transition-colors duration-200"
             >
               <X size={10} className="flex-shrink-0" />
             </button>
@@ -128,7 +129,7 @@ function AttachmentItem({ attachment }) {
           {contentString ? (
             <img
               src={contentString}
-              className={`${iconBgColor} w-[30px] h-[30px] rounded-lg flex items-center justify-center`}
+              className={`${iconBgColor} w-[30px] h-[30px] rounded-lg flex items-center justify-center object-cover`}
             />
           ) : (
             <div
@@ -142,7 +143,7 @@ function AttachmentItem({ attachment }) {
               {file.name}
             </p>
             <p className="text-white/80 light:text-black/80 text-xs font-medium">
-              Image attached!
+              图片已附加！
             </p>
           </div>
         </div>
@@ -160,14 +161,14 @@ function AttachmentItem({ attachment }) {
     <>
       <div
         data-tooltip-id={`attachment-uid-${uid}-success`}
-        data-tooltip-content={`${file.name} was uploaded and embedded into this workspace. It will be available for RAG chat now.`}
-        className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px] group`}
+        data-tooltip-content={`${file.name} 已上传并嵌入到此工作区中。现在可以用于RAG聊天。`}
+        className={`relative h-14 px-2 py-2 flex items-center gap-x-4 rounded-lg bg-zinc-800 light:bg-theme-bg-sidebar border border-white/20 w-[200px] group transition-all duration-300 hover:border-white/40`}
       >
         <div className="invisible group-hover:visible absolute -top-[5px] -right-[5px] w-fit h-fit z-[10]">
           <button
             onClick={removeFileFromQueue}
             type="button"
-            className="bg-zinc-700 light:bg-white hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40"
+            className="bg-zinc-700 light:bg-white hover:light:text-white hover:light:bg-red-400 hover:bg-red-400 rounded-full p-1 flex items-center justify-center hover:border-transparent border border-white/40 transition-colors duration-200"
           >
             <X size={10} className="flex-shrink-0" />
           </button>
@@ -180,7 +181,7 @@ function AttachmentItem({ attachment }) {
         <div className="flex flex-col w-[130px]">
           <p className="text-white text-xs font-medium truncate">{file.name}</p>
           <p className="text-white/80 light:text-black/80 text-xs font-medium">
-            File embedded!
+            文件已嵌入！
           </p>
         </div>
       </div>
@@ -195,6 +196,7 @@ function AttachmentItem({ attachment }) {
 }
 
 /**
+ * 根据文件类型返回相应的图标和背景颜色
  * @param {File} file
  * @returns {{iconBgColor:string, Icon: React.Component}}
  */

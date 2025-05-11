@@ -52,7 +52,7 @@ export function DeleteMessage({ chatId, isEditing, role }) {
       role="menuitem"
     >
       <Trash size={21} weight="fill" />
-      <p>Delete</p>
+      <p>删除</p>
     </button>
   );
 }

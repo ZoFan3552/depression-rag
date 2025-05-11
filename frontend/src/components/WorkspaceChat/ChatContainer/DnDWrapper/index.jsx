@@ -12,15 +12,15 @@ export const CLEAR_ATTACHMENTS_EVENT = "ATTACHMENT_CLEAR";
 export const PASTE_ATTACHMENT_EVENT = "ATTACHMENT_PASTED";
 
 /**
- * File Attachment for automatic upload on the chat container page.
+ * 聊天容器页面上自动上传的文件附件
  * @typedef Attachment
- * @property {string} uid - unique file id.
- * @property {File} file - native File object
- * @property {string|null} contentString - base64 encoded string of file
- * @property {('in_progress'|'failed'|'success')} status - the automatic upload status.
- * @property {string|null} error - Error message
- * @property {{id:string, location:string}|null} document - uploaded document details
- * @property {('attachment'|'upload')} type - The type of upload. Attachments are chat-specific, uploads go to the workspace.
+ * @property {string} uid - 唯一文件ID
+ * @property {File} file - 原生File对象
+ * @property {string|null} contentString - 文件的base64编码字符串
+ * @property {('in_progress'|'failed'|'success')} status - 自动上传状态
+ * @property {string|null} error - 错误信息
+ * @property {{id:string, location:string}|null} document - 上传文档详情
+ * @property {('attachment'|'upload')} type - 上传类型。附件是聊天特定的，上传会存储到工作区
  */
 
 export function DnDFileUploaderProvider({ workspace, children }) {
@@ -49,7 +49,7 @@ export function DnDFileUploaderProvider({ workspace, children }) {
   }, []);
 
   /**
-   * Remove file from uploader queue.
+   * 从上传队列中移除文件
    * @param {CustomEvent<{uid: string}>} event
    */
   async function handleRemove(event) {
@@ -61,15 +61,14 @@ export function DnDFileUploaderProvider({ workspace, children }) {
   }
 
   /**
-   * Clear queue of attached files currently in prompt box
+   * 清除当前在提示框中的已附加文件队列
    */
   function resetAttachments() {
     setFiles([]);
   }
 
   /**
-   * Turns files into attachments we can send as body request to backend
-   * for a chat.
+   * 将文件转换为我们可以作为请求体发送到后端的附件
    * @returns {{name:string,mime:string,contentString:string}[]}
    */
   function parseAttachments() {
@@ -92,7 +91,7 @@ export function DnDFileUploaderProvider({ workspace, children }) {
   }
 
   /**
-   * Handle pasted attachments.
+   * 处理粘贴的附件
    * @param {CustomEvent<{files: File[]}>} event
    */
   async function handlePastedAttachment(event) {
@@ -110,7 +109,7 @@ export function DnDFileUploaderProvider({ workspace, children }) {
           type: "attachment",
         });
       } else {
-        // If the user is a default user, we do not want to allow them to upload files.
+        // 如果用户是默认用户，我们不允许他们上传文件
         if (!!user && user.role === "default") continue;
         newAccepted.push({
           uid: v4(),
@@ -127,7 +126,7 @@ export function DnDFileUploaderProvider({ workspace, children }) {
   }
 
   /**
-   * Handle dropped files.
+   * 处理拖放的文件
    * @param {Attachment[]} acceptedFiles
    * @param {any[]} _rejections
    */
@@ -147,7 +146,7 @@ export function DnDFileUploaderProvider({ workspace, children }) {
           type: "attachment",
         });
       } else {
-        // If the user is a default user, we do not want to allow them to upload files.
+        // 如果用户是默认用户，我们不允许他们上传文件
         if (!!user && user.role === "default") continue;
         newAccepted.push({
           uid: v4(),
@@ -165,12 +164,12 @@ export function DnDFileUploaderProvider({ workspace, children }) {
   }
 
   /**
-   * Embeds attachments that are eligible for embedding - basically files that are not images.
+   * 嵌入符合条件的附件 - 基本上是非图像的文件
    * @param {Attachment[]} newAttachments
    */
   function embedEligibleAttachments(newAttachments = []) {
     for (const attachment of newAttachments) {
-      // Images/attachments are chat specific.
+      // 图像/附件是聊天特定的
       if (attachment.type === "attachment") continue;
 
       const formData = new FormData();
@@ -229,24 +228,30 @@ export default function DnDFileUploaderWrapper({ children }) {
     >
       <div
         hidden={!dragging}
-        className="absolute top-0 w-full h-full bg-dark-text/90 light:bg-[#C2E7FE]/90 rounded-2xl border-[4px] border-white z-[9999]"
+        className="absolute top-0 w-full h-full bg-dark-text/90 light:bg-[#C2E7FE]/90 rounded-2xl border-[4px] border-white z-[9999] transition-opacity duration-300"
       >
         <div className="w-full h-full flex justify-center items-center rounded-xl">
           <div className="flex flex-col gap-y-[14px] justify-center items-center">
-            <img src={DndIcon} width={69} height={69} />
+            <img 
+              src={DndIcon} 
+              width={69} 
+              height={69} 
+              alt="拖放图标"
+              className="animate-pulse" 
+            />
             <p className="text-white text-[24px] font-semibold">
-              Add {canUploadAll ? "anything" : "an image"}
+              添加{canUploadAll ? "任何文件" : "图片"}
             </p>
             <p className="text-white text-[16px] text-center">
               {canUploadAll ? (
                 <>
-                  Drop your file here to embed it into your <br />
-                  workspace auto-magically.
+                  将您的文件拖放到这里，自动<br />
+                  嵌入到您的工作区中
                 </>
               ) : (
                 <>
-                  Drop your image here to chat with it <br />
-                  auto-magically.
+                  将您的图片拖放到这里，<br />
+                  即可立即开始聊天
                 </>
               )}
             </p>
@@ -260,7 +265,7 @@ export default function DnDFileUploaderWrapper({ children }) {
 }
 
 /**
- * Convert image types into Base64 strings for requests.
+ * 将图像类型转换为Base64字符串用于请求
  * @param {File} file
  * @returns {Promise<string>}
  */

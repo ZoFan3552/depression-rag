@@ -10,13 +10,13 @@ import { useTranslation } from "react-i18next";
 import Appearance from "@/models/appearance";
 
 let timeout;
-const SILENCE_INTERVAL = 3_200; // wait in seconds of silence before closing.
+const SILENCE_INTERVAL = 3_200; // 沉默几秒后关闭的等待时间
 
 /**
- * Speech-to-text input component for the chat window.
- * @param {Object} props - The component props
- * @param {(textToAppend: string, autoSubmit: boolean) => void} props.sendCommand - The function to send the command
- * @returns {React.ReactElement} The SpeechToText component
+ * 聊天窗口的语音转文字输入组件
+ * @param {Object} props - 组件属性
+ * @param {(textToAppend: string, autoSubmit: boolean) => void} props.sendCommand - 发送指令的函数
+ * @returns {React.ReactElement} SpeechToText组件
  */
 export default function SpeechToText({ sendCommand }) {
   const {
@@ -33,7 +33,7 @@ export default function SpeechToText({ sendCommand }) {
   function startSTTSession() {
     if (!isMicrophoneAvailable) {
       alert(
-        "AnythingLLM does not have access to microphone. Please enable for this site to use this feature."
+        "抑郁症专家知识库系统无法访问麦克风。请为此网站启用麦克风权限以使用此功能。"
       );
       return;
     }
@@ -41,7 +41,7 @@ export default function SpeechToText({ sendCommand }) {
     resetTranscript();
     SpeechRecognition.startListening({
       continuous: browserSupportsContinuousListening,
-      language: window?.navigator?.language ?? "en-US",
+      language: window?.navigator?.language ?? "zh-CN",
     });
   }
 
@@ -57,7 +57,7 @@ export default function SpeechToText({ sendCommand }) {
 
   const handleKeyPress = useCallback(
     (event) => {
-      // CTRL + m on Mac and Windows to toggle STT listening
+      // Mac和Windows上的CTRL + m切换STT监听
       if (event.ctrlKey && event.keyCode === 77) {
         if (listening) {
           endSTTSession();
@@ -105,11 +105,11 @@ export default function SpeechToText({ sendCommand }) {
     <div
       id="text-size-btn"
       data-tooltip-id="tooltip-text-size-btn"
-      data-tooltip-content={`${t("chat_window.microphone")} (CTRL + M)`}
-      aria-label={t("chat_window.microphone")}
+      data-tooltip-content={`${t("chat_window.microphone") || "麦克风"} (CTRL + M)`}
+      aria-label={t("chat_window.microphone") || "麦克风"}
       onClick={listening ? endSTTSession : startSTTSession}
-      className={`border-none relative flex justify-center items-center opacity-60 hover:opacity-100 light:opacity-100 light:hover:opacity-60 cursor-pointer ${
-        !!listening ? "!opacity-100" : ""
+      className={`border-none relative flex justify-center items-center opacity-60 hover:opacity-100 light:opacity-100 light:hover:opacity-60 cursor-pointer transition-opacity duration-200 rounded-full p-1.5 hover:bg-theme-bg-hover ${
+        !!listening ? "!opacity-100 bg-theme-bg-active" : ""
       }`}
     >
       <Microphone

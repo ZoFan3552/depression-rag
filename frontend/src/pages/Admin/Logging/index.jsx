@@ -53,7 +53,7 @@ export default function AdminLogs() {
     setOffset(offset + 1);
   };
 
-  rreturn (
+  return (
     <div className="w-screen h-screen overflow-hidden bg-theme-bg-container flex">
       <Sidebar />
       <div

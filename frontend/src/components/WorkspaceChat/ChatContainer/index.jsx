@@ -20,6 +20,8 @@ import SpeechRecognition, {
 import { ChatTooltips } from "./ChatTooltips";
 import { MetricsProvider } from "./ChatHistory/HistoricalMessage/Actions/RenderMetrics";
 
+// ... existing code ...
+
 export default function ChatContainer({ workspace, knownHistory = [] }) {
   const { threadSlug = null } = useParams();
   const [message, setMessage] = useState("");
@@ -29,7 +31,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
   const [websocket, setWebsocket] = useState(null);
   const { files, parseAttachments } = useContext(DndUploaderContext);
 
-  // Maintain state of message from whatever is in PromptInput
+  // 保持来自PromptInput的消息状态
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };
@@ -38,8 +40,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
     clearTranscriptOnListen: true,
   });
 
-  // Emit an update to the state of the prompt input without directly
-  // passing a prop in so that it does not re-render constantly.
+  // 发出更新提示输入状态的事件，而不直接传递prop，以避免不断重新渲染
   function setMessageEmit(messageContent = "") {
     setMessage(messageContent);
     window.dispatchEvent(
@@ -67,7 +68,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
     ];
 
     if (listening) {
-      // Stop the mic if the send button is clicked
+      // 如果点击发送按钮则停止麦克风
       endSTTSession();
     }
     setChatHistory(prevChatHistory);
@@ -96,12 +97,12 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
   };
 
   /**
-   * Send a command to the LLM prompt input.
-   * @param {string} command - The command to send to the LLM
-   * @param {boolean} submit - Whether the command was submitted (default: false)
-   * @param {Object[]} history - The history of the chat
-   * @param {Object[]} attachments - The attachments to send to the LLM
-   * @returns {boolean} - Whether the command was sent successfully
+   * 向LLM提示输入发送命令
+   * @param {string} command - 发送给LLM的命令
+   * @param {boolean} submit - 命令是否已提交（默认：false）
+   * @param {Object[]} history - 聊天历史记录
+   * @param {Object[]} attachments - 发送给LLM的附件
+   * @returns {boolean} - 命令是否成功发送
    */
   const sendCommand = async (
     command,
@@ -117,7 +118,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
 
     let prevChatHistory;
     if (history.length > 0) {
-      // use pre-determined history chain.
+      // 使用预先确定的历史链
       prevChatHistory = [
         ...history,
         {
@@ -152,6 +153,8 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
     setLoadingResponse(true);
   };
 
+  // ... existing code ...
+
   useEffect(() => {
     async function fetchReply() {
       const promptMessage =
@@ -159,7 +162,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
       const remHistory = chatHistory.length > 0 ? chatHistory.slice(0, -1) : [];
       var _chatHistory = [...remHistory];
 
-      // Override hook for new messages to now go to agents until the connection closes
+      // 新消息现在转到代理，直到连接关闭的重写钩子
       if (!!websocket) {
         if (!promptMessage || !promptMessage?.userMessage) return false;
         websocket.send(
@@ -173,8 +176,8 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
 
       if (!promptMessage || !promptMessage?.userMessage) return false;
 
-      // If running and edit or regeneration, this history will already have attachments
-      // so no need to parse the current state.
+      // 如果运行并编辑或重新生成，此历史记录已经有附件
+      // 因此无需解析当前状态
       const attachments = promptMessage?.attachments ?? parseAttachments();
       window.dispatchEvent(new CustomEvent(CLEAR_ATTACHMENTS_EVENT));
 
@@ -198,7 +201,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
     loadingResponse === true && fetchReply();
   }, [loadingResponse, chatHistory, workspace]);
 
-  // TODO: Simplify this WSS stuff
+  // TODO: 简化这个WSS相关代码
   useEffect(() => {
     function handleWSS() {
       try {
@@ -217,7 +220,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
           try {
             handleSocketResponse(event, setChatHistory);
           } catch (e) {
-            console.error("Failed to parse data");
+            console.error("解析数据失败");
             window.dispatchEvent(new CustomEvent(AGENT_SESSION_END));
             socket.close();
           }
@@ -231,7 +234,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
             {
               uuid: v4(),
               type: "statusResponse",
-              content: "Agent session complete.",
+              content: "代理会话已完成。",
               role: "assistant",
               sources: [],
               closed: true,
@@ -273,7 +276,7 @@ export default function ChatContainer({ workspace, knownHistory = [] }) {
   return (
     <div
       style={{ height: isMobile ? "100%" : "calc(100% - 32px)" }}
-      className="transition-all duration-500 relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] bg-theme-bg-secondary w-full h-full overflow-y-scroll no-scroll z-[2]"
+      className="transition-all duration-500 relative md:ml-[2px] md:mr-[16px] md:my-[16px] md:rounded-[16px] bg-theme-bg-secondary w-full h-full overflow-y-scroll no-scroll z-[2] shadow-md"
     >
       {isMobile && <SidebarMobileHeader />}
       <DnDFileUploaderWrapper>
