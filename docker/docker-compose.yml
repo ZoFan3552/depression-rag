@@ -1,12 +1,12 @@
-name: anythingllm
+name: depression-rag
 
 networks:
-  anything-llm:
+  depression-rag:
     driver: bridge
 
 services:
-  anything-llm:
-    container_name: anythingllm
+  depression-rag:
+    container_name: depression-rag
     build:
       context: ../.
       dockerfile: ./docker/Dockerfile
@@ -26,6 +26,6 @@ services:
     env_file:
       - .env
     networks:
-      - anything-llm
+      - depression-rag
     extra_hosts:
       - "host.docker.internal:host-gateway"
